@@ -2583,7 +2583,7 @@ fields:
 	* \english
 	* Immediately stops the engine, moves it to the STOP state, and sets switches to BREAK mode (windings are short-circuited). The holding regime is deactivated for DC motors, keeping current in the windings for stepper motors (to control it, see Power management settings).
 	*
-        * When this command is called, the ALARM flag is reset.
+    * When this command is called, the ALARM flag is reset.
 	* @param id An identifier of a device
 	* \endenglish
 	* \russian
@@ -2763,17 +2763,17 @@ fields:
 	* \english
 	* Moving to home position.
 	*
-        * Moving algorithm:
+    * Moving algorithm:
 	*
-        * 1) Moves the motor according to the speed FastHome, uFastHome and flag HOME_DIR_FAST until the limit switch if the HOME_STOP_ENDS flag is set. Or moves the motor until the input synchronization signal occurs if the flag HOME_STOP_SYNC is set. Or moves until the revolution sensor signal occurs if the flag HOME_STOP_REV_SN is set.
+    * 1) Moves the motor according to the speed FastHome, uFastHome and flag HOME_DIR_FAST until the limit switch if the HOME_STOP_ENDS flag is set. Or moves the motor until the input synchronization signal occurs if the flag HOME_STOP_SYNC is set. Or moves until the revolution sensor signal occurs if the flag HOME_STOP_REV_SN is set.
 	*
-        * 2) Then moves according to the speed SlowHome, uSlowHome and flag HOME_DIR_SLOW until the input clock signal occurs if the flag HOME_MV_SEC is set. If the flag HOME_MV_SEC is reset, skip this step.
+    * 2) Then moves according to the speed SlowHome, uSlowHome and flag HOME_DIR_SLOW until the input clock signal occurs if the flag HOME_MV_SEC is set. If the flag HOME_MV_SEC is reset, skip this step.
 	*
-        * 3) Then shifts the motor according to the speed FastHome, uFastHome and the flag HOME_DIR_SLOW by HomeDelta distance, uHomeDelta.
+    * 3) Then shifts the motor according to the speed FastHome, uFastHome and the flag HOME_DIR_SLOW by HomeDelta distance, uHomeDelta.
     * 
     * See GHOM/SHOM commands' description for details on home flags.
 	*
-        * Moving settings can be set by set_home_settings/set_home_settings_calb.
+    * Moving settings can be set by set_home_settings/set_home_settings_calb.
 	* @param id An identifier of a device
 	* \endenglish
 	* \russian
@@ -3174,40 +3174,40 @@ fields:
 	reserved 4
 
 /** $XIW
-  * \english
-  * Start measurements and buffering of speed and the speed error (target speed minus real speed).
-  * @param id An identifier of a device
-  * \endenglish
-  * \russian
-  * Начать измерения и буферизацию скорости, ошибки следования.
-  * @param id идентификатор устройства
-  * \endrussian
-  */
+	* \english
+	* Start measurements and buffering of speed and the speed error (target speed minus real speed).
+	* @param id An identifier of a device
+	* \endenglish
+	* \russian
+	* Начать измерения и буферизацию скорости, ошибки следования.
+	* @param id идентификатор устройства
+	* \endrussian
+	*/
 command "start_measurements" writer "stms" (4)
 
 /** $XIR
-  * \english
-  * A command to read the data buffer to build a speed graph and a speed error graph. Filling the buffer starts with the command "start_measurements". The buffer holds 25 points; the points are taken with a period of 1 ms. To create a robust system, read data every 20 ms. If the buffer is full, it is recommended to repeat the readings every 5 ms until the buffer again becomes filled with 20 points.
-  * @see measurements_t
-  * @param id An identifier of a device
-  * @param[out] measurements structure with buffer and its length.
-  * \endenglish
-  * \russian
-  * Команда чтения буфера данных для построения графиков скорости и ошибки следования. Заполнение буфера начинается по команде "start_measurements". Буфер вмещает 25 точек, точки снимаются с периодом 1 мс. Для создания устойчивой системы следует считывать данные каждые 20 мс, если буфер полностью заполнен, то рекомендуется повторять считывания каждые 5 мс до момента пока буфер вновь не станет заполнен 20-ю точками.
-  * @see measurements_t
-  * @param id идентификатор устройства
-  * @param[out] measurements структура с буфером и его длинной.
-  * \endrussian
-  */
+	* \english
+	* A command to read the data buffer to build a speed graph and a speed error graph. Filling the buffer starts with the command "start_measurements". The buffer holds 25 points; the points are taken with a period of 1 ms. To create a robust system, read data every 20 ms. If the buffer is full, it is recommended to repeat the readings every 5 ms until the buffer again becomes filled with 20 points.
+	* @see measurements_t
+	* @param id An identifier of a device
+	* @param[out] measurements structure with buffer and its length.
+	* \endenglish
+	* \russian
+	* Команда чтения буфера данных для построения графиков скорости и ошибки следования. Заполнение буфера начинается по команде "start_measurements". Буфер вмещает 25 точек, точки снимаются с периодом 1 мс. Для создания устойчивой системы следует считывать данные каждые 20 мс, если буфер полностью заполнен, то рекомендуется повторять считывания каждые 5 мс до момента пока буфер вновь не станет заполнен 20-ю точками.
+	* @see measurements_t
+	* @param id идентификатор устройства
+	* @param[out] measurements структура с буфером и его длинной.
+	* \endrussian
+	*/
 /** $XIS
-  * \english
-  * The buffer holds no more than 25 points. The exact length of the received buffer is stored in the Length field.
-  * \endenglish
-  * \russian
-  * Буфер вмещает не более 25и точек. Точная длина полученного буфера отражена в поле Length.
-  * \endrussian
-  * @see measurements
-  */
+	* \english
+	* The buffer holds no more than 25 points. The exact length of the received buffer is stored in the Length field.
+	* \endenglish
+	* \russian
+	* Буфер вмещает не более 25и точек. Точная длина полученного буфера отражена в поле Length.
+	* \endrussian
+	* @see measurements
+	*/
 command "measurements" reader "getm" (216)
 fields:
   int32s Speed [25]   /**< \english Current speed in microsteps per second (whole steps are recalculated considering the current step division mode) or encoder counts per second. \endenglish \russian Текущая скорость в микрошагах в секунду (целые шаги пересчитываются с учетом текущего режима деления шага) или отсчетах энкодера в секунду. \endrussian */
