@@ -2279,7 +2279,7 @@ fields:
 	*/
 command "password_settings" universal "pwd" (36)
 fields:
-	int8u UserPassword[20]		/**< \english Password for the web-page that the user can change with a USB command or via web-page. \endenglish \russian Строчка-пароль для доступа к веб-странице, который пользователь может поменять с помощью USB команды или на веб-странице. \endrussian */
+	char UserPassword[20]		/**< \english Password for the web-page that the user can change with a USB command or via web-page. \endenglish \russian Строчка-пароль для доступа к веб-странице, который пользователь может поменять с помощью USB команды или на веб-странице. \endrussian */
 	reserved 10
 
 /** $XIR
@@ -2736,7 +2736,7 @@ fields:
 	* @param user unit calibration settings 
 	*
 	* \note
-	* The final coordinate is calculated using DeltaPosition and adjusted by the correction table. To calculate coordinates correctly, when using a correction table, you don't need to execute movr commands in batches.
+	* The final coordinate is calculated using DeltaPosition and adjusted by the correction table. However, the correction cannot be done if the motor moves. movr sets the target position equal to the current target position, shifted by delta. But the library can't determine the current target position while moving. So there is no possibility of calculating the final position and correcting it with the correction table.
 	*
 	* \endenglish
 	* \russian
@@ -2747,7 +2747,7 @@ fields:
 	* @param calibration настройки пользовательских единиц
 	*
 	* \note
-	* Конечная координата вычисляемая с помощью DeltaPosition, корректируется таблицей коррекции. Для корректного расчета координат, при использовании корректирующей таблицы, не нужно выполнять команды movr пакетами.
+	* Конечная координата вычисляемая с помощью DeltaPosition, корректируется таблицей коррекции. Однако корректировка не может быть применена в случае поступления команды movr во время движения. Команда movr устанавливает целевую позицию равной текущей целевой плюс дельта. Но точно определить текущую целевую координату во время движения библиотека не может. Поэтому она не может рассчитать конечную позицию и соответсвующую ей коррекцию.
 	*
 	* \endrussian
 	*/
@@ -2985,11 +2985,11 @@ fields:
 
 /** $XIW
 	* \english
-	* Sets the current position and the position in which the traffic moves by the move command and movr zero for all cases, except for movement to the target position. In the latter case, set the zero current position and the target position counted so that the absolute position of the destination is the same. That is, if we were at 400 and moved to 500, then the command Zero makes the current position of 0, and the position of the destination - 100. Does not change the mode of movement that is if the motion is carried, it continues, and if the engine is in the "hold", the type of retention remains.
+	* Sets the current position to 0. Sets the target position of the move command and the movr command to zero for all cases except for movement to the target position. In the latter case, the target position is calculated so that the absolute position of the destination stays the same. For example, if we were at 400 and moved to 500, then the command Zero makes the current position 0 and the position of the destination 100. It does not change the mode of movement. If the motion is carried, it continues, and if the engine is in the "hold", the type of retention remains.
 	* @param id An identifier of a device
 	* \endenglish
 	* \russian
-	* Устанавливает текущую позицию и позицию, в которую осуществляется движение по командам move и movr, равными нулю для всех случаев, кроме движения к позиции назначения. В последнем случае установить нулём текущую позицию, а позицию назначения пересчитать так, что в абсолютном положении точка назначения не меняется. То есть если мы находились в точке 400 и двигались к 500, то команда Zero делает текущую позицию 0, а позицию назначения - 100. Не изменяет режим движения т.е. если движение осуществлялось, то оно продолжается; если мотор находился в режиме "удержания", то тип удержания сохраняется.
+	* Устанавливает текущую позицию равной 0. Устанавливает позицию, в которую осуществляется движение по командам move и movr, равной нулю во всех случаев, кроме движения к позиции назначения. В последнем случае позиция назначения пересчитывается так, что в абсолютном положении точка назначения не меняется. То есть если мы находились в точке 400 и двигались к 500, то команда Zero делает текущую позицию 0, а позицию назначения - 100. Не изменяет режим движения т.е. если движение осуществлялось, то оно продолжается; если мотор находился в режиме "удержания", то тип удержания сохраняется.
 	* @param id идентификатор устройства
 	* \endrussian
 	*/
@@ -3589,25 +3589,25 @@ fields:
 
 /** $XIR
 	* \english
-	* Read stage information from the EEPROM.
+	* Deprecated. Read stage information from the EEPROM.
 	* @param id An identifier of a device
 	* @param[out] stage_information structure contains stage information
 	* \endenglish
 	* \russian
-	* Чтение информации о позиционере из EEPROM.
+	* Чтение информации о позиционере из EEPROM. Не поддерживается.
 	* @param id идентификатор устройства
 	* @param[out] stage_information структура, содержащая информацию о позиционере
 	* \endrussian
 	*/
 /** $XIW
 	* \english
-	* Set stage information to the EEPROM.
+	* Deprecated. Set stage information to the EEPROM.
 	* Can be used by the manufacturer only.
 	* @param id An identifier of a device
 	* @param[in] stage_information structure contains stage information
 	* \endenglish
 	* \russian
-	* Запись информации о позиционере в EEPROM.
+	* Запись информации о позиционере в EEPROM. Не поддерживается.
 	* Функция должна использоваться только производителем.
 	* @param id идентификатор устройства
 	* @param[in] stage_information структура, содержащая информацию о позиционере
@@ -3615,7 +3615,7 @@ fields:
 	*/
 /** $XIS
 	* \english
-	* Stage information.
+	* Deprecated. Stage information. Deprecated.
 	* \endenglish
 	* \russian
 	* Информация о позиционере.
@@ -3631,7 +3631,7 @@ fields:
 
 /** $XIR 
 	* \english
-	* Read stage settings from the EEPROM.
+	* Deprecated. Read stage settings from the EEPROM.
 	* @param id An identifier of a device
 	* @param[out] stage_settings structure contains stage settings
 	* \endenglish
@@ -3643,7 +3643,7 @@ fields:
 	*/
 /** $XIW
 	* \english
-	* Set stage settings to the EEPROM.
+	* Deprecated. Set stage settings to the EEPROM.
 	* Can be used by the manufacturer only
 	* @param id An identifier of a device
 	* @param[in] stage_settings structure contains stage settings
@@ -3657,7 +3657,7 @@ fields:
 	*/
 /** $XIS
 	* \english
-	* Stage settings.
+	* Deprecated. Stage settings.
 	* \endenglish
 	* \russian
 	* Настройки позиционера.
@@ -3669,18 +3669,18 @@ command "stage_settings" universal "sts" (70)
 fields:
 	float LeadScrewPitch			/**< \english Lead screw pitch (mm). Data type: float. \endenglish \russian Шаг ходового винта в мм. Тип данных: float. \endrussian */	
 	char Units[8]					/**< \english Units for MaxSpeed and TravelRange fields of the structure (steps, degrees, mm, ...). Max string length: 8 chars. \endenglish \russian Единицы измерения расстояния, используемые в полях MaxSpeed и TravelRange (шаги, градусы, мм, ...), Максимальная длина строки: 8 символов. \endrussian */	
-	float MaxSpeed					/**< \english Max speed (Units/c). Data type: float. \endenglish \russian Максимальная скорость (Units/с). Тип данных: float. \endrussian */	
+	float MaxSpeed					/**< \english Maximum speed (Units/c). Data type: float. \endenglish \russian Максимальная скорость (Units/с). Тип данных: float. \endrussian */	
 	float TravelRange				/**< \english Travel range (Units). Data type: float. \endenglish \russian Диапазон перемещения (Units). Тип данных: float. \endrussian */	
 	float SupplyVoltageMin			/**< \english Minimum supply voltage (V). Data type: float. \endenglish \russian Минимальное напряжение питания (В). Тип данных: float. \endrussian */	
 	float SupplyVoltageMax			/**< \english Maximum supply voltage (V). Data type: float. \endenglish \russian Максимальное напряжение питания (В). Тип данных: float. \endrussian */	
-	float MaxCurrentConsumption		/**< \english Max current consumption (A). Data type: float. \endenglish \russian Максимальный ток потребления (А). Тип данных: float. \endrussian */	
+	float MaxCurrentConsumption		/**< \english Maximum current consumption (A). Data type: float. \endenglish \russian Максимальный ток потребления (А). Тип данных: float. \endrussian */	
 	float HorizontalLoadCapacity	/**< \english Horizontal load capacity (kg). Data type: float. \endenglish \russian Горизонтальная грузоподъемность (кг). Тип данных: float. \endrussian */	
 	float VerticalLoadCapacity		/**< \english Vertical load capacity (kg). Data type: float. \endenglish \russian Вертикальная грузоподъемность (кг). Тип данных: float. \endrussian */	
 	reserved 24	
 	
 /** $XIR 
 	* \english
-	* Read motor information from the EEPROM.
+	* Deprecated. Read motor information from the EEPROM.
 	* @param id An identifier of a device
 	* @param[out] motor_information structure contains motor information
 	* \endenglish
@@ -3692,7 +3692,7 @@ fields:
 	*/
 /** $XIW
 	* \english
-	* Set motor information to the EEPROM.
+	* Deprecated. Set motor information to the EEPROM.
 	* Can be used by the manufacturer only.
 	* @param id An identifier of a device
 	* @param[in] motor_information structure contains motor information
@@ -3706,7 +3706,7 @@ fields:
 	*/
 /** $XIS
 	* \english
-	* motor information.
+	* Deprecated. motor information.
 	* \endenglish
 	* \russian
 	* Информация о двигателе.
@@ -3722,7 +3722,7 @@ fields:
 
 /** $XIR 
 	* \english
-	* Read motor settings from the EEPROM.
+	* Deprecated. Read motor settings from the EEPROM.
 	* @param id An identifier of a device
 	* @param[out] motor_settings structure contains motor settings
 	* \endenglish
@@ -3734,7 +3734,7 @@ fields:
 	*/
 /** $XIW
 	* \english
-	* Set motor settings to the EEPROM.
+	* Deprecated. Set motor settings to the EEPROM.
 	* Can be used by the manufacturer only.
 	* @param id An identifier of a device
 	* @param[in] motor_settings structure contains motor information
@@ -3748,7 +3748,7 @@ fields:
 	*/
 /** $XIS
 	* \english
-	* Physical characteristics and limitations of the motor.
+	* Deprecated. Physical characteristics and limitations of the motor.
 	* \endenglish
 	* \russian
 	* Физический характеристики и ограничения мотора.
@@ -3785,7 +3785,7 @@ fields:
 
 /** $XIR
 	* \english
-	* Read encoder information from the EEPROM.
+	* Deprecated. Read encoder information from the EEPROM.
 	* @param id An identifier of a device
 	* @param[out] encoder_information structure contains information about encoder
 	* \endenglish
@@ -3797,7 +3797,7 @@ fields:
 	*/
 /** $XIW
 	* \english
-	* Set encoder information to the EEPROM.
+	* Deprecated. Set encoder information to the EEPROM.
 	* Can be used by the manufacturer only.
 	* @param id An identifier of a device
 	* @param[in] encoder_information structure contains information about encoder
@@ -3811,7 +3811,7 @@ fields:
 	*/
 /** $XIS
 	* \english
-	* Encoder information.
+	* Deprecated. Encoder information.
 	* \endenglish
 	* \russian
 	* Информация об энкодере.
@@ -3827,7 +3827,7 @@ fields:
 
 /** $XIR
 	* \english
-	* Read encoder settings from the EEPROM.
+	* Deprecated. Read encoder settings from the EEPROM.
 	* @param id An identifier of a device
 	* @param[out] encoder_settings structure contains encoder settings
 	* \endenglish
@@ -3839,7 +3839,7 @@ fields:
 	*/
 /** $XIW
 	* \english
-	* Set encoder settings to the EEPROM.
+	* Deprecated. Set encoder settings to the EEPROM.
 	* Can be used by the manufacturer only.
 	* @param id An identifier of a device
 	* @param[in] encoder_settings structure contains encoder settings
@@ -3853,7 +3853,7 @@ fields:
 	*/
 /** $XIS
 	* \english
-	* Encoder settings.
+	* Deprecated. Encoder settings.
 	* \endenglish
 	* \russian
 	* Настройки энкодера.
@@ -3863,7 +3863,7 @@ fields:
 	*/
 command "encoder_settings" universal "ens" (54)
 fields:
-	float MaxOperatingFrequency		/**< \english Max operation frequency (kHz). Data type: float. \endenglish \russian Максимальная частота (кГц). Тип данных: float. \endrussian */
+	float MaxOperatingFrequency		/**< \english Maximum operation frequency (kHz). Data type: float. \endenglish \russian Максимальная частота (кГц). Тип данных: float. \endrussian */
 	float SupplyVoltageMin			/**< \english Minimum supply voltage (V). Data type: float. \endenglish \russian Минимальное напряжение питания (В). Тип данных: float. \endrussian */
 	float SupplyVoltageMax			/**< \english Maximum supply voltage (V). Data type: float. \endenglish \russian Максимальное напряжение питания (В). Тип данных: float. \endrussian */
 	float MaxCurrentConsumption		/**< \english Max current consumption (mA). Data type: float. \endenglish \russian Максимальное потребление тока (мА). Тип данных: float. \endrussian */
@@ -3873,7 +3873,7 @@ fields:
 
 /** $XIR
 	* \english
-	* Read hall sensor information from the EEPROM.
+	* Deprecated. Read hall sensor information from the EEPROM.
 	* @param id An identifier of a device
 	* @param[out] hallsensor_information structure contains information about hall sensor
 	* \endenglish
@@ -3885,7 +3885,7 @@ fields:
 	*/
 /** $XIW
 	* \english
-	* Set hall sensor information to the EEPROM.
+	* Deprecated. Set hall sensor information to the EEPROM.
 	* Can be used by the manufacturer only.
 	* @param id An identifier of a device
 	* @param[in] hallsensor_information structure contains information about hall sensor
@@ -3899,7 +3899,7 @@ fields:
 	*/
 /** $XIS
 	* \english
-	* Hall sensor information.
+	* Deprecated. Hall sensor information.
 	* \endenglish
 	* \russian
 	* Информация о датчиках Холла.
@@ -3915,7 +3915,7 @@ fields:
 
 /** $XIR
 	* \english
-	* Read hall sensor settings from the EEPROM.
+	* Deprecated. Read hall sensor settings from the EEPROM.
 	* @param id An identifier of a device
 	* @param[out] hallsensor_settings structure contains hall sensor settings
 	* \endenglish
@@ -3927,7 +3927,7 @@ fields:
 	*/
 /** $XIW
 	* \english
-	* Set hall sensor settings to the EEPROM.
+	* Deprecated. Set hall sensor settings to the EEPROM.
 	* Can be used by the manufacturer only.
 	* @param id An identifier of a device
 	* @param[in] hallsensor_settings structure contains hall sensor settings
@@ -3941,7 +3941,7 @@ fields:
 	*/
 /** $XIS
 	* \english
-	* Hall sensor settings.
+	* Deprecated. Hall sensor settings.
 	* \endenglish
 	* \russian
 	* Настройки датчиков Холла.
@@ -3960,7 +3960,7 @@ fields:
 	
 /** $XIR
 	* \english
-	* Read gear information from the EEPROM.
+	* Deprecated. Read gear information from the EEPROM.
 	* @param id An identifier of a device
 	* @param[out] gear_information structure contains information about step gearhead
 	* \endenglish
@@ -3972,7 +3972,7 @@ fields:
 	*/
 /** $XIW
 	* \english
-	* Set gear information to the EEPROM.
+	* Deprecated. Set gear information to the EEPROM.
 	* Can be used by the manufacturer only.
 	* @param id An identifier of a device
 	* @param[in] gear_information structure contains information about step gearhead
@@ -3986,7 +3986,7 @@ fields:
 	*/
 /** $XIS
 	* \english
-	* Gear information.
+	* Deprecated. Gear information.
 	* \endenglish
 	* \russian
 	* Информация о редукторе.
@@ -4002,7 +4002,7 @@ fields:
 
 /** $XIR
 	* \english
-	* Read gear settings from the EEPROM.
+	* Deprecated. Read gear settings from the EEPROM.
 	* @param id An identifier of a device
 	* @param[out] gear_settings structure contains step gearhead settings
 	* \endenglish
@@ -4014,7 +4014,7 @@ fields:
 	*/
 /** $XIW
 	* \english
-	* Set gear settings to the EEPROM.
+	* Deprecated. Set gear settings to the EEPROM.
 	* Can be used by the manufacturer only.
 	* @param id An identifier of a device
 	* @param[in] gear_settings structure contains step gearhead settings
@@ -4028,7 +4028,7 @@ fields:
 	*/
 /** $XIS
 	* \english
-	* Gear settings.
+	* Deprecated. Gear settings.
 	* \endenglish
 	* \russian
 	* Настройки редуктора.
@@ -4040,8 +4040,8 @@ command "gear_settings" universal "grs" (58)
 fields:
 	float ReductionIn			/**< \english Input reduction coefficient. (Output = (ReductionOut / ReductionIn) * Input) Data type: float. \endenglish \russian Входной коэффициент редуктора. (Выход = (ReductionOut/ReductionIn) * вход) Тип данных: float. \endrussian */
 	float ReductionOut			/**< \english Output reduction coefficient. (Output = (ReductionOut / ReductionIn) * Input) Data type: float. \endenglish \russian Выходной коэффициент редуктора. (Выход = (ReductionOut/ReductionIn) * вход) Тип данных: float. \endrussian */
-	float RatedInputTorque		/**< \english Max continuous torque (N * m). Data type: float. \endenglish \russian Максимальный крутящий момент (Н * м). Тип данных: float. \endrussian */
-	float RatedInputSpeed		/**< \english Max speed on the input shaft (rpm). Data type: float. \endenglish \russian Максимальная скорость на входном валу редуктора (об/мин). Тип данных: float. \endrussian */
+	float RatedInputTorque		/**< \english Maximum continuous torque (N * m). Data type: float. \endenglish \russian Максимальный крутящий момент (Н * м). Тип данных: float. \endrussian */
+	float RatedInputSpeed		/**< \english Maximum speed on the input shaft (rpm). Data type: float. \endenglish \russian Максимальная скорость на входном валу редуктора (об/мин). Тип данных: float. \endrussian */
 	float MaxOutputBacklash		/**< \english Output backlash of the reduction gear (degree). Data type: float. \endenglish \russian Выходной люфт редуктора (градус). Тип данных: float.\endrussian */
 	float InputInertia			/**< \english Equivalent input gear inertia (g * cm2). Data type: float. \endenglish \russian Эквивалентная входная инерция редуктора(г * см2). Тип данных: float. \endrussian */
 	float Efficiency			/**< \english Reduction gear efficiency (%). Data type: float. \endenglish \russian КПД редуктора (%). Тип данных: float. \endrussian */
@@ -4049,7 +4049,7 @@ fields:
 
 /** $XIR
 	* \english
-	* Read additional accessory information from the EEPROM.
+	* Deprecated. Read additional accessory information from the EEPROM.
 	* @param id An identifier of a device
 	* @param[out] accessories_settings structure contains information about additional accessories
 	* \endenglish
@@ -4061,7 +4061,7 @@ fields:
 	*/
 /** $XIW
 	* \english
-	* Set additional accessories' information to the EEPROM.
+	* Deprecated. Set additional accessories' information to the EEPROM.
 	* Can be used by the manufacturer only.
 	* @param id An identifier of a device
 	* @param[in] accessories_settings structure contains information about additional accessories
@@ -4075,7 +4075,7 @@ fields:
 	*/
 /** $XIS
 	* \english
-	* Additional accessories' information.
+	* Deprecated. Additional accessories' information.
 	* \endenglish
 	* \russian
 	* Информация о дополнительных аксессуарах.
