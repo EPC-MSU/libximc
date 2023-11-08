@@ -856,7 +856,7 @@ fields:
 /** $XIR
 	* \english
 	* Read home settings.
-	* This function fill structure with settings of calibrating position.
+	* This function reads the structure with home position settings.
 	* @see home_settings_t
 	* @param id An identifier of a device
 	* @param[out] home_settings calibrating position settings
@@ -872,7 +872,7 @@ fields:
 /** $XIW
 	* \english
 	* Set home settings.
-	* This function send structure with calibrating position settings to controller's memory.
+	* This function sends home position structure to the controller's memory.
 	* @see home_settings_t
 	* @param id An identifier of a device
 	* @param[in] home_settings calibrating position settings
@@ -888,8 +888,7 @@ fields:
 /** $XIS
 	* \english
 	* Position calibration settings.
-	* This structure contains settings used in position calibrating.
-	* It specify behavior of calibrating position.
+	* This structure contains settings used in position calibration. It specify behavior of calibration procedure.
 	* \endenglish
 	* \russian
 	* Настройки калибровки позиции.
@@ -901,8 +900,8 @@ fields:
 	*/
 /** $XIRC
 	* \english
-	* Read home settings which use user units.
-	* This function fill structure with settings of calibrating position.
+	* Read user unit home settings.
+	* This function reads the structure with home position settings.
 	* @see home_settings_calb_t
 	* @param id An identifier of a device
 	* @param[out] home_settings_calb calibrating position settings
@@ -919,8 +918,8 @@ fields:
 	*/
 /** $XIWC
 	* \english
-	* Set home settings which use user units.
-	* This function send structure with calibrating position settings to controller's memory.
+	* Set user unit home settings.
+	* This function sends home position structure to the controller's memory.
 	* @see home_settings_calb_t
 	* @param id An identifier of a device
 	* @param[in] home_settings_calb calibrating position settings
@@ -959,8 +958,8 @@ fields:
 	normal int8u uSlowHome				/**< \english Part of the speed for second motion, microsteps. The microstep size and the range of valid values for this field depend on the selected step division mode (see the MicrostepMode field in engine_settings). \endenglish \russian Дробная часть скорости второго движения в микрошагах (используется только с шаговым двигателем). Величина микрошага и диапазон допустимых значений для данного поля зависят от выбранного режима деления шага (см. поле MicrostepMode в engine_settings). \endrussian */
 	calb float HomeDelta				/**< \english Distance from break point. \endenglish \russian Расстояние отхода от точки останова. \endrussian */
 	normal int32s HomeDelta				/**< \english Distance from break point (full steps). \endenglish \russian Расстояние отхода от точки останова (в полных шагах). \endrussian */
-	normal int16s uHomeDelta			/**< \english Part of the delta distance, microsteps. The microstep size and the range of valid values for this field depend on the selected step division mode (see the MicrostepMode field in engine_settings). \endenglish \russian Дробная часть расстояния отхода от точки останова в микрошагах (используется только с шаговым двигателем). Величина микрошага и диапазон допустимых значений для данного поля зависят от выбранного режима деления шага (см. поле MicrostepMode в engine_settings). \endrussian */
-	int16u flag HomeFlags of HomeFlags	/**< \english Set of flags specify direction and stopping conditions. This is a bit mask for bitwise operations. \endenglish \russian Набор флагов, определяющие такие параметры, как направление и условия останова. Это битовая маска для побитовых операций. \endrussian */
+	normal int16s uHomeDelta			/**< \english Fractional part of the delta distance, microsteps. The microstep size and the range of valid values for this field depend on the selected step division mode (see the MicrostepMode field in engine_settings). \endenglish \russian Дробная часть расстояния отхода от точки останова в микрошагах (используется только с шаговым двигателем). Величина микрошага и диапазон допустимых значений для данного поля зависят от выбранного режима деления шага (см. поле MicrostepMode в engine_settings). \endrussian */
+	int16u flag HomeFlags of HomeFlags	/**< \english Set of flags specifies the direction and stopping conditions. This is a bit mask for bitwise operations. \endenglish \russian Набор флагов, определяющие такие параметры, как направление и условия останова. Это битовая маска для побитовых операций. \endrussian */
 	reserved 9
 
 /** $XIR
@@ -999,7 +998,7 @@ fields:
 	*/
 /** $XIRC
 	* \english
-	* Movement settings read command that uses user units (speed, acceleration, threshold, etc.).
+	* User unit movement settings read command (speed, acceleration, threshold, etc.).
 	* @param id An identifier of a device
 	* @param[out] move_settings_calb structure contains move settings: speed, acceleration, deceleration etc.
 	* @param calibration user unit settings
@@ -1013,7 +1012,7 @@ fields:
 	*/
 /** $XIWC
 	* \english
-	* Movement settings set command that uses user units (speed, acceleration, threshold, etc.).
+	* User unit movement settings set command (speed, acceleration, threshold, etc.).
 	* @param id An identifier of a device
 	* @param[in] move_settings_calb structure contains move settings: speed, acceleration, deceleration etc.
 	* @param calibration user unit settings
@@ -1037,24 +1036,23 @@ fields:
 	*/
 command "move_settings" universal "mov" (30)
 fields:
-	calb float Speed			/**< \english Target speed. \endenglish \russian Заданная скорость. \endrussian */
-	normal int32u Speed			/**< \english Target speed (for stepper motor: steps/s, for DC: rpm). Range: 0..100000. \endenglish \russian Заданная скорость (для ШД: шагов/c, для DC: rpm). Диапазон: 0..100000. \endrussian */
-	normal int8u uSpeed			/**< \english Target speed in microstep fractions/s. The microstep size and the range of valid values for this field depend on the selected step division mode (see the MicrostepMode field in engine_settings). Used with a stepper motor only. \endenglish \russian Заданная скорость в единицах деления микрошага в секунду. Величина микрошага и диапазон допустимых значений для данного поля зависят от выбранного режима деления шага (см. поле MicrostepMode в engine_settings). Используется только с шаговым мотором. \endrussian */
-	calb float Accel			/**< \english Motor shaft acceleration, steps/s^2 (stepper motor) or RPM/s (DC). \endenglish \russian Ускорение, заданное в шагах в секунду^2 (ШД) или в оборотах в минуту за секунду (DC). \endrussian */
-	normal int16u Accel			/**< \english Motor shaft acceleration, steps/s^2 (stepper motor) or RPM/s (DC). Range: 1..65535. \endenglish \russian Ускорение, заданное в шагах в секунду^2 (ШД) или в оборотах в минуту за секунду (DC). Диапазон: 1..65535. \endrussian */
-	calb float Decel			/**< \english Motor shaft deceleration, steps/s^2 (stepper motor) or RPM/s (DC). \endenglish \russian Торможение, заданное в шагах в секунду^2 (ШД) или в оборотах в минуту за секунду(DC). \endrussian */
-	normal int16u Decel			/**< \english Motor shaft deceleration, steps/s^2 (stepper motor) or RPM/s (DC). Range: 1..65535. \endenglish \russian Торможение, заданное в шагах в секунду^2 (ШД) или в оборотах в минуту за секунду (DC). Диапазон: 1..65535. \endrussian */
-	calb float AntiplaySpeed	/**< \english Speed in antiplay mode. \endenglish \russian Скорость в режиме антилюфта. \endrussian */
-	normal int32u AntiplaySpeed	/**< \english Speed in antiplay mode, full steps/s (stepper motor) or RPM (DC). Range: 0..100000. \endenglish \russian Скорость в режиме антилюфта, заданная в целых шагах/c (ШД) или в оборотах/с(DC). Диапазон: 0..100000. \endrussian */
-	normal int8u uAntiplaySpeed	/**< \english Speed in antiplay mode, microsteps/s. The microstep size and the range of valid values for this field depend on the selected step division mode (see the MicrostepMode field in engine_settings). Used with a stepper motor only. \endenglish \russian Скорость в режиме антилюфта, выраженная в микрошагах в секунду. Величина микрошага и диапазон допустимых значений для данного поля зависят от выбранного режима деления шага (см. поле MicrostepMode в engine_settings). Используется только с шаговым мотором. \endrussian */
+	calb float Speed					/**< \english Target speed. \endenglish \russian Заданная скорость. \endrussian */
+	normal int32u Speed					/**< \english Target speed (for stepper motor: steps/s, for DC: rpm). Range: 0..100000. \endenglish \russian Заданная скорость (для ШД: шагов/c, для DC: rpm). Диапазон: 0..100000. \endrussian */
+	normal int8u uSpeed					/**< \english Target speed in microstep fractions/s. The microstep size and the range of valid values for this field depend on the selected step division mode (see the MicrostepMode field in engine_settings). Used with a stepper motor only. \endenglish \russian Заданная скорость в единицах деления микрошага в секунду. Величина микрошага и диапазон допустимых значений для данного поля зависят от выбранного режима деления шага (см. поле MicrostepMode в engine_settings). Используется только с шаговым мотором. \endrussian */
+	calb float Accel					/**< \english Motor shaft acceleration, steps/s^2 (stepper motor) or RPM/s (DC). \endenglish \russian Ускорение, заданное в шагах в секунду^2 (ШД) или в оборотах в минуту за секунду (DC). \endrussian */
+	normal int16u Accel					/**< \english Motor shaft acceleration, steps/s^2 (stepper motor) or RPM/s (DC). Range: 1..65535. \endenglish \russian Ускорение, заданное в шагах в секунду^2 (ШД) или в оборотах в минуту за секунду (DC). Диапазон: 1..65535. \endrussian */
+	calb float Decel					/**< \english Motor shaft deceleration, steps/s^2 (stepper motor) or RPM/s (DC). \endenglish \russian Торможение, заданное в шагах в секунду^2 (ШД) или в оборотах в минуту за секунду(DC). \endrussian */
+	normal int16u Decel					/**< \english Motor shaft deceleration, steps/s^2 (stepper motor) or RPM/s (DC). Range: 1..65535. \endenglish \russian Торможение, заданное в шагах в секунду^2 (ШД) или в оборотах в минуту за секунду (DC). Диапазон: 1..65535. \endrussian */
+	calb float AntiplaySpeed			/**< \english Speed in antiplay mode. \endenglish \russian Скорость в режиме антилюфта. \endrussian */
+	normal int32u AntiplaySpeed			/**< \english Speed in antiplay mode, full steps/s (stepper motor) or RPM (DC). Range: 0..100000. \endenglish \russian Скорость в режиме антилюфта, заданная в целых шагах/c (ШД) или в оборотах/с(DC). Диапазон: 0..100000. \endrussian */
+	normal int8u uAntiplaySpeed			/**< \english Speed in antiplay mode, microsteps/s. The microstep size and the range of valid values for this field depend on the selected step division mode (see the MicrostepMode field in engine_settings). Used with a stepper motor only. \endenglish \russian Скорость в режиме антилюфта, выраженная в микрошагах в секунду. Величина микрошага и диапазон допустимых значений для данного поля зависят от выбранного режима деления шага (см. поле MicrostepMode в engine_settings). Используется только с шаговым мотором. \endrussian */
 	int8u flag MoveFlags of MoveFlags	/**< \english Flags that control movement settings. This is a bit mask for bitwise operations. \endenglish \russian Флаги, управляющие настройкой движения. Это битовая маска для побитовых операций. \endrussian */
 	reserved 9
 
 /** $XIR
 	* \english
 	* Read engine settings.
-	* This function fills the structure with a set of useful motor settings stored in the controller's memory.
-	* These settings specify motor shaft movement algorithm, list of limitations and rated characteristics.
+	* This function reads the structure containing a set of useful motor settings stored in the controller's memory. These settings specify motor shaft movement algorithm, list of limitations and rated characteristics.
 	* @see set_engine_settings
 	* @param id An identifier of a device
 	* @param[out] engine_settings engine settings
@@ -1072,10 +1070,7 @@ fields:
 /** $XIW
 	* \english
 	* Set engine settings.
-	* This function sends a structure with a set of engine settings to the controller's memory.
-	* These settings specify the motor shaft movement algorithm, list of limitations and rated characteristics.
-	* Use it when you change the motor, encoder, positioner, etc.
-	* Please note that wrong engine settings may lead to device malfunction, which can lead to irreversible damage to the board.
+	* This function sends a structure with a set of engine settings to the controller's memory. These settings specify the motor shaft movement algorithm, list of limitations and rated characteristics. Use it when you change the motor, encoder, positioner, etc. Please note that wrong engine settings may lead to device malfunction, which can cause irreversible damage to the board.
 	* @see get_engine_settings
 	* @param id An identifier of a device
 	* @param[in] engine_settings engine settings
@@ -1093,11 +1088,7 @@ fields:
 /** $XIS
 	* \english
 	* Movement limitations and settings related to the motor.
-	* This structure contains useful motor settings.
-	* These settings specify the motor shaft movement algorithm, list of limitations and rated characteristics.
-	* All boards are supplied with the standard set of engine settings on the controller's flash memory.
-	* Please load new engine settings when you change the motor, encoder, positioner, etc.
-	* Please note that wrong engine settings may lead to device malfunction, which can lead to irreversible damage to the board.
+	* This structure contains useful motor settings. These settings specify the motor shaft movement algorithm, list of limitations and rated characteristics. All boards are supplied with the standard set of engine settings on the controller's flash memory. Please load new engine settings when you change the motor, encoder, positioner, etc. Please note that wrong engine settings may lead to device malfunction, which can lead to irreversible damage to the board.
 	* \endenglish
 	* \russian
 	* Ограничения и настройки движения, связанные с двигателем.
@@ -1111,9 +1102,8 @@ fields:
 	*/
 /** $XIRC
 	* \english
-	* Read the user unit engine settings.
-	* This function fills the structure with a set of useful motor settings stored in  the controller's memory.
-	* These settings specify the motor shaft movement algorithm, list of limitations and rated characteristics.
+	* Read user unit engine settings.
+	* This function reads the structure containing a set of useful motor settings stored in  the controller's memory. These settings specify the motor shaft movement algorithm, list of limitations and rated characteristics.
 	* @see set_engine_settings
 	* @param id An identifier of a device
 	* @param[out] engine_settings_calb engine settings
@@ -1132,11 +1122,8 @@ fields:
 	*/
 /** $XIWC
 	* \english
-	* Set engine settings which use user units.
-	* This function sends a structure with a set of engine settings to the controller's memory.
-	* These settings specify the motor shaft movement algorithm, list of limitations and rated characteristics.
-	* Use it when you change the motor, encoder, positioner etc.
-	* Please note that wrong engine settings may lead to device malfunction, which can lead to irreversible damage to the board.
+	* Set user unit engine settings.
+	* This function sends a structure with a set of engine settings to the controller's memory. These settings specify the motor shaft movement algorithm, list of limitations and rated characteristics. Use it when you change the motor, encoder, positioner etc. Please note that wrong engine settings may lead to device malfunction, which can cause irreversible damage to the board.
 	* @see get_engine_settings
 	* @param id An identifier of a device
 	* @param[in] engine_settings_calb engine settings
@@ -1182,15 +1169,15 @@ fields:
 	int16u flag EngineFlags of EngineFlags		/**< \english Set of flags specify motor shaft movement algorithm and list of limitations. This is a bit mask for bitwise operations. \endenglish \russian Флаги, управляющие работой мотора. Это битовая маска для побитовых операций. \endrussian */
 	calb float Antiplay							/**< \english Number of pulses or steps for backlash (play) compensation procedure. Used if ENGINE_ANTIPLAY flag is set. \endenglish \russian Количество шагов двигателя или импульсов энкодера, на которое позиционер будет отъезжать от заданной позиции для подхода к ней с одной и той же стороны. Используется, если установлен флаг ENGINE_ANTIPLAY. \endrussian */
 	normal int16s Antiplay						/**< \english Number of pulses or steps for backlash (play) compensation procedure. Used if ENGINE_ANTIPLAY flag is set. \endenglish \russian Количество шагов двигателя или импульсов энкодера, на которое позиционер будет отъезжать от заданной позиции для подхода к ней с одной и той же стороны. Используется, если установлен флаг ENGINE_ANTIPLAY. \endrussian */
-	int8u flag MicrostepMode of MicrostepMode	/**< \english Settings of microstep mode(Used with stepper motor only). Microstep size and the range of valid values for this field depend on selected step division mode (see MicrostepMode field in engine_settings). This is a bit mask for bitwise operations. \endenglish \russian Настройки микрошагового режима(используется только с шаговым двигателем). Величина микрошага и диапазон допустимых значений для данного поля зависят от выбранного режима деления шага (см. поле MicrostepMode в engine_settings). Это битовая маска для побитовых операций. \endrussian */
-	int16u StepsPerRev							/**< \english Number of full steps per revolution(Used with stepper motor only). Range: 1..65535. \endenglish \russian Количество полных шагов на оборот(используется только с шаговым двигателем). Диапазон: 1..65535. \endrussian */
+	int8u flag MicrostepMode of MicrostepMode	/**< \english Settings of microstep mode (Used with stepper motor only). Microstep size and the range of valid values for this field depend on selected step division mode (see MicrostepMode field in engine_settings). This is a bit mask for bitwise operations. \endenglish \russian Настройки микрошагового режима(используется только с шаговым двигателем). Величина микрошага и диапазон допустимых значений для данного поля зависят от выбранного режима деления шага (см. поле MicrostepMode в engine_settings). Это битовая маска для побитовых операций. \endrussian */
+	int16u StepsPerRev							/**< \english Number of full steps per revolution (Used with stepper motor only). Range: 1..65535. \endenglish \russian Количество полных шагов на оборот(используется только с шаговым двигателем). Диапазон: 1..65535. \endrussian */
 	reserved 12
 
 /** $XIR
 	* \english
 	* Return engine type and driver type.
 	* @param id An identifier of a device
-	* @param[out] entype_settings structure contains settings motor type and power driver type
+	* @param[out] entype_settings structure contains motor type and power driver type settings
 	* \endenglish
 	* \russian
 	* Возвращает информацию о типе мотора и силового драйвера.
@@ -1202,7 +1189,7 @@ fields:
 	* \english
 	* Set engine type and driver type.
 	* @param id An identifier of a device
-	* @param[in] entype_settings structure contains settings motor type and power driver type
+	* @param[in] entype_settings structure contains motor type and power driver type settings
 	* \endenglish
 	* \russian
 	* Запись информации о типе мотора и типе силового драйвера.
@@ -1332,7 +1319,7 @@ fields:
 	* Read border and limit switches settings.
 	* @see set_edges_settings
 	* @param id An identifier of a device
-	* @param[out] edges_settings edges settings, specify types of borders, motor behavior and electrical behavior of limit switches
+	* @param[out] edges_settings edges settings, types of borders, motor behavior and electrical behavior of limit switches
 	* \endenglish
 	* \russian
 	* Чтение настроек границ и концевых выключателей.
@@ -1373,10 +1360,10 @@ fields:
 	*/
 /**  $XIRC
 	* \english
-	* Read border and limit switches settings which use user units.
+	* Read border and limit switches settings in user units.
 	* @see set_edges_settings_calb
 	* @param id An identifier of a device
-	* @param[out] edges_settings_calb edges settings, specify types of borders, motor behavior and electrical behavior of limit switches
+	* @param[out] edges_settings_calb edges settings, types of borders, motor behavior and electrical behavior of limit switches
 	* @param calibration user unit settings
 	* 
 	* \note
@@ -1397,7 +1384,7 @@ fields:
 	*/
 /** $XIWC
 	* \english
-	* Set border and limit switches settings which use user units.
+	* Set border and limit switches settings in user units.
 	* @see get_edges_settings_calb
 	* @param id An identifier of a device
 	* @param[in] edges_settings_calb edges settings, specify types of borders, motor behavior and electrical behavior of limit switches
@@ -1450,10 +1437,7 @@ fields:
 /**  $XIR
 	* \english
 	* Read PID settings.
-	* This function fills the structure with a set of motor PID settings stored in the controller's memory.
-	* These settings specify the behavior of the PID routine for the positioner.
-	* These factors are slightly different for different positioners.
-	* All boards are supplied with the standard set of PID settings on the controller's flash memory.
+	* This function reads the structure containing a set of motor PID settings stored in the controller's memory. These settings specify the behavior of the PID routine for the positioner. These factors are slightly different for different positioners. All boards are supplied with the standard set of PID settings in the controller's flash memory.
 	* @see set_pid_settings
 	* @param id An identifier of a device
 	* @param[out] pid_settings PID settings
@@ -1470,12 +1454,7 @@ fields:
 /**  $XIW
 	* \english
 	* Set PID settings.
-	* This function sends the structure with a set of PID factors to the controller's memory.
-	* These settings specify the behavior of the PID routine for the positioner.
-	* These factors are slightly different for different positioners.
-	* All boards are supplied with the standard set of PID settings on the controller's flash memory.
-	* Please use it for loading new PID settings when you change positioner.
-	* Please note that wrong PID settings lead to device malfunction.
+	* This function sends the structure with a set of PID factors to the controller's memory. These settings specify the behavior of the PID routine for the positioner. These factors are slightly different for different positioners. All boards are supplied with the standard set of PID settings in the controller's flash memory. Please use it for loading new PID settings when you change positioner. Please note that wrong PID settings lead to device malfunction.
 	* @see get_pid_settings
 	* @param id An identifier of a device
 	* @param[in] pid_settings PID settings
@@ -1493,12 +1472,7 @@ fields:
 /**  $XIS
 	* \english
 	* PID settings.
-	* This structure contains factors for PID routine.
-	* It specifies the behavior of the voltage PID routine.
-	* These factors are slightly different for different positioners.
-	* All boards are supplied with the standard set of PID settings on the controller's flash memory.
-	* Please load new PID settings when you change positioner.
-	* Please note that wrong PID settings lead to device malfunction.
+	* This structure contains factors for PID routine. It specifies the behavior of the voltage PID routine. These factors are slightly different for different positioners. All boards are supplied with the standard set of PID settings in the controller's flash memory. Please load new PID settings when you change positioner. Please note that wrong PID settings lead to device malfunction.
 	* \endenglish
 	* \russian
 	* Настройки ПИД.
@@ -1524,8 +1498,7 @@ fields:
 /**  $XIR
 	* \english
 	* Read input synchronization settings.
-	* This function fills the structure with a set of input synchronization settings, modes, periods and flags that specify the behavior of input synchronization.
-	* All boards are supplied with the standard set of these settings.
+	* This function reads the structure with a set of input synchronization settings, modes, periods and flags that specify the behavior of input synchronization. All boards are supplied with the standard set of these settings.
 	* @see set_sync_in_settings
 	* @param id An identifier of a device
 	* @param[out] sync_in_settings synchronization settings
@@ -1541,8 +1514,7 @@ fields:
 /**  $XIW
 	* \english
 	* Set input synchronization settings.
-	* This function sends the structure with a set of input synchronization settings that specify the behavior of input synchronization to the controller's memory.
-	* All boards are supplied with the standard set of these settings.
+	* This function sends the structure with a set of input synchronization settings that specify the behavior of input synchronization to the controller's memory. All boards are supplied with the standard set of these settings.
 	* @see get_sync_in_settings
 	* @param id An identifier of a device
 	* @param[in] sync_in_settings synchronization settings
@@ -1571,9 +1543,8 @@ fields:
 	*/
 /**  $XIRC
 	* \english
-	* Read input synchronization settings which use user units.
-	* This function fills the structure with a set of input synchronization settings, modes, periods and flags that specify the behavior of input synchronization.
-	* All boards are supplied with the standard set of these settings.
+	* Read input user unit synchronization settings.
+	* This function reads the structure with a set of input synchronization settings, modes, periods and flags that specify the behavior of input synchronization. All boards are supplied with the standard set of these settings.
 	* @see set_sync_in_settings_calb
 	* @param id An identifier of a device
 	* @param[out] sync_in_settings_calb synchronization settings
@@ -1590,9 +1561,8 @@ fields:
 	*/
 /**  $XIWC
 	* \english
-	* Set input synchronization settings which use user units.
-	* This function sends the structure with a set of input synchronization settings that specify the behavior of input synchronization to the controller's memory.
-	* All boards are supplied with the standard set of these settings.
+	* Set input user unit synchronization settings.
+	* This function sends the structure with a set of input synchronization settings that specify the behavior of input synchronization to the controller's memory. All boards are supplied with the standard set of these settings.
 	* @see get_sync_in_settings_calb
 	* @param id An identifier of a device
 	* @param[in] sync_in_settings_calb synchronization settings
@@ -1610,9 +1580,7 @@ fields:
 /** $XISC
 	* \english
 	* User unit synchronization settings.
-	* This structure contains all synchronization settings, modes, periods and flags.
-	* It specifies behavior of input synchronization.
-	* All boards are supplied with the standard set of these settings.
+	* This structure contains all synchronization settings, modes, periods and flags. It specifies behavior of input synchronization. All boards are supplied with the standard set of these settings.
 	* \endenglish
 	* \russian
 	* Настройки входной синхронизации с использованием пользовательских единиц.
@@ -1637,7 +1605,7 @@ fields:
 /** $XIR
 	* \english
 	* Read output synchronization settings.
-	* This function fills the structure with a set of output synchronization settings, modes, periods and flags that specify the behavior of output synchronization.
+	* This function reads the structure containing a set of output synchronization settings, modes, periods and flags that specify the behavior of output synchronization.
 	* All boards are supplied with the standard set of these settings.
 	* @see set_sync_out_settings
 	* @param id An identifier of a device
@@ -1651,8 +1619,7 @@ fields:
 /** $XIW
 	* \english
 	* Set output synchronization settings.
-	* This function sends the structure with a set of output synchronization settings that specify the behavior of output synchronization to the controller's memory.
-	* All boards are supplied with the standard set of these settings.
+	* This function sends the structure with a set of output synchronization settings that specify the behavior of output synchronization to the controller's memory. All boards are supplied with the standard set of these settings.
 	* @see get_sync_out_settings
 	* @param id An identifier of a device
 	* @param[in] sync_out_settings synchronization settings
@@ -1681,9 +1648,8 @@ fields:
 	*/
 /** $XIRC
 	* \english
-	* Read output synchronization settings which use user units.
-	* This function fills the structure with a set of output synchronization settings, modes, periods and flags that specify the behavior of output synchronization.
-	* All boards are supplied with the standard set of these settings.
+	* Read output user unit synchronization settings.
+	* This function reads the structure containing a set of output synchronization settings, modes, periods and flags that specify the behavior of output synchronization. All boards are supplied with the standard set of these settings.
 	* @see set_sync_in_settings_calb
 	* @param id An identifier of a device
 	* @param[out] sync_out_settings_calb synchronization settings
@@ -1700,9 +1666,8 @@ fields:
 	*/
 /** $XIWC
 	* \english
-	* Set output synchronization settings which use user units.
-	* This function sends the structure with a set of output synchronization settings that specify the behavior of output synchronization to the controller's memory.
-	* All boards are supplied with the standard set of these settings.
+	* Set output user unit synchronization settings.
+	* This function sends the structure with a set of output synchronization settings that specify the behavior of output synchronization to the controller's memory. All boards are supplied with the standard set of these settings.
 	* @see get_sync_in_settings_calb
 	* @param id An identifier of a device
 	* @param[in] sync_out_settings_calb synchronization settings
@@ -1759,8 +1724,7 @@ fields:
 /** $XIW
 	* \english
 	* Set EXTIO settings.
-	* This function writes a structure with a set of EXTIO settings to the controller's memory.
-	* By default, input events are signaled through a rising front, and output states are signaled by a high logic state.
+	* This function sends the structure with a set of EXTIO settings to the controller's memory. By default, input events are signaled through a rising front, and output states are signaled by a high logic state.
 	* @see get_extio_settings
 	* @param id An identifier of a device
 	* @param[in] extio_settings EXTIO settings
@@ -1798,7 +1762,7 @@ fields:
 
 /** $XIR
 	* \english
-	* Read settings of brake control.
+	* Read break control settings.
 	* @param id An identifier of a device
 	* @param[out] brake_settings structure contains settings of brake control
 	* \endenglish
@@ -1810,9 +1774,9 @@ fields:
 	*/
 /** $XIW
 	* \english
-	* Set settings of brake control.
+	* Set brake control settings.
 	* @param id An identifier of a device
-	* @param[in] brake_settings structure contains settings of brake control
+	* @param[in] brake_settings structure contains brake control settings
 	* \endenglish
 	* \russian
 	* Запись настроек управления тормозом.
@@ -1873,7 +1837,7 @@ fields:
 	*
     * In case of CTL_MODE=2, the motor is controlled by the left/right buttons. When you click on the button, the motor starts moving in the appropriate direction at a speed MaxSpeed[0]. After Timeout[i], motor moves at speed MaxSpeed[i+1]. At the transition between MaxSpeed[i] and MaxSpeed[i+1] the motor just accelerates/decelerates as usual.
 	* @param id An identifier of a device
-	* @param[in] control_settings structure contains settings motor control by joystick or buttons left/right.
+	* @param[in] control_settings structure contains motor control settings.
 	* \endenglish
 	* \russian
 	* Запись настроек управления мотором.
@@ -1919,7 +1883,7 @@ fields:
 	*
     * In case of CTL_MODE=2, the motor is controlled by the left/right buttons. When you click on the button, the motor starts moving in the appropriate direction at a speed MaxSpeed[0]. After Timeout[i], motor moves at speed MaxSpeed[i+1]. At the transition between MaxSpeed[i] and MaxSpeed[i+1] the motor just accelerates/decelerates as usual.
 	* @param id An identifier of a device
-	* @param[out] control_settings_calb structure contains settings of the motor control by joystick or left/right buttons.
+	* @param[out] control_settings_calb structure contains user unit motor control settings.
 	* @param calibration user unit settings
 	* \endenglish
 	* \russian
@@ -1945,7 +1909,7 @@ fields:
 	*
     * In case of CTL_MODE=2, the motor is controlled by the left/right buttons. When you click on the button, the motor starts moving in the appropriate direction at a speed MaxSpeed[0]. After Timeout[i], motor moves at speed MaxSpeed[i+1]. At the transition between MaxSpeed[i] and MaxSpeed[i+1] the motor just accelerates/decelerates as usual.
 	* @param id An identifier of a device
-	* @param[in] control_settings_calb structure contains settings of the motor control by joystick or buttons left/right.
+	* @param[in] control_settings_calb structure contains motor control settings.
 	* @param calibration user unit settings
 	* \endenglish
 	* \russian
@@ -1987,11 +1951,11 @@ fields:
 	*/
 command "control_settings" universal "ctl"(93)
 fields:
-	calb float MaxSpeed [10]	/**< \english Array of speeds used with the joystick and the button control. \endenglish \russian Массив скоростей, использующийся при управлении джойстиком или кнопками влево/вправо. \endrussian */
-	normal int32u MaxSpeed [10]	/**< \english Array of speeds (full step) used with the joystick and the button control. Range: 0..100000. \endenglish \russian Массив скоростей (в полных шагах), использующийся при управлении джойстиком или кнопками влево/вправо. Диапазон: 0..100000. \endrussian */
-	normal int8u uMaxSpeed [10]	/**< \english Array of speeds (in microsteps) used with the joystick and the button control. The microstep size and the range of valid values for this field depend on the selected step division mode (see the MicrostepMode field in engine_settings). \endenglish \russian Массив скоростей (в микрошагах), использующийся при управлении джойстиком или кнопками влево/вправо. Величина микрошага и диапазон допустимых значений для данного поля зависят от выбранного режима деления шага (см. поле MicrostepMode в engine_settings). \endrussian */
-	int16u Timeout [9]			/**< \english timeout[i] is timeout in ms. After that, max_speed[i+1] is applied. It's used with the button control only. \endenglish \russian timeout[i] - время в мс, по истечении которого устанавливается скорость max_speed[i+1] (используется только при управлении кнопками). \endrussian */
-	int16u MaxClickTime			/**< \english Maximum click time (in ms). Until the expiration of this time, the first speed isn't applied. \endenglish \russian Максимальное время клика (в мс). До истечения этого времени первая скорость не включается. \endrussian */
+	calb float MaxSpeed [10]			/**< \english Array of speeds used with the joystick and the button control. \endenglish \russian Массив скоростей, использующийся при управлении джойстиком или кнопками влево/вправо. \endrussian */
+	normal int32u MaxSpeed [10]			/**< \english Array of speeds (full step) used with the joystick and the button control. Range: 0..100000. \endenglish \russian Массив скоростей (в полных шагах), использующийся при управлении джойстиком или кнопками влево/вправо. Диапазон: 0..100000. \endrussian */
+	normal int8u uMaxSpeed [10]			/**< \english Array of speeds (in microsteps) used with the joystick and the button control. The microstep size and the range of valid values for this field depend on the selected step division mode (see the MicrostepMode field in engine_settings). \endenglish \russian Массив скоростей (в микрошагах), использующийся при управлении джойстиком или кнопками влево/вправо. Величина микрошага и диапазон допустимых значений для данного поля зависят от выбранного режима деления шага (см. поле MicrostepMode в engine_settings). \endrussian */
+	int16u Timeout [9]					/**< \english timeout[i] is timeout in ms. After that, max_speed[i+1] is applied. It's used with the button control only. \endenglish \russian timeout[i] - время в мс, по истечении которого устанавливается скорость max_speed[i+1] (используется только при управлении кнопками). \endrussian */
+	int16u MaxClickTime					/**< \english Maximum click time (in ms). Until the expiration of this time, the first speed isn't applied. \endenglish \russian Максимальное время клика (в мс). До истечения этого времени первая скорость не включается. \endrussian */
 	int16u flag Flags of ControlFlags	/**< \english Flags. This is a bit mask for bitwise operations. \endenglish \russian Флаги. Это битовая маска для побитовых операций. \endrussian */
 	calb float DeltaPosition			/**< \english Shift (delta) of position \endenglish \russian Смещение (дельта) позиции \endrussian */
 	normal int32s DeltaPosition			/**< \english Shift (delta) of position (full step) \endenglish \russian Смещение (дельта) позиции (в полных шагах) \endrussian */
@@ -2001,7 +1965,7 @@ fields:
 /** $XIR
 	* \english
 	* Read joystick settings.
-	* If the joystick position falls outside DeadZone limits, a movement begins. The speed is defined by the joystick  position in the range of the DeadZone limit to the maximum deviation. Joystick positions inside DeadZone limits correspond to zero speed (a soft stop of the motion), and positions beyond Low and High limits correspond to MaxSpeed[i] or -MaxSpeed[i] (see command SCTL), where i = 0 by default and can be changed with the left/right buttons (see command SCTL). If the next speed in the list is zero (both integer and microstep parts), the button press is ignored. The first speed in the list shouldn't be zero. See the Joystick control section on https://doc.xisupport.com for more information.
+	* If joystick position falls outside DeadZone limits, a movement begins. The speed is defined by the joystick's position in the range of the DeadZone limit to the maximum deviation. Joystick positions inside DeadZone limits correspond to zero speed (a soft stop of the motion), and positions beyond Low and High limits correspond to MaxSpeed[i] or -MaxSpeed[i] (see command SCTL), where i = 0 by default and can be changed with the left/right buttons (see command SCTL). If the next speed in the list is zero (both integer and microstep parts), the button press is ignored. The first speed in the list shouldn't be zero. See the Joystick control section on https://doc.xisupport.com for more information.
 	* @param id An identifier of a device
 	* @param[out] joystick_settings structure contains joystick settings
 	* \endenglish
@@ -2022,7 +1986,7 @@ fields:
 /** $XIW
 	* \english
 	* Set joystick position.
-	* If joystick position falls outside DeadZone limits, a movement begins. The speed is defined by the joystick's position in the range of the DeadZone limit to maximum deviation. Joystick positions inside DeadZone limits correspond to zero speed (a soft stop of motion), and positions beyond Low and High limits correspond to MaxSpeed[i] or -MaxSpeed[i] (see command SCTL), where i = 0 by default and can be changed with left/right buttons (see command SCTL). If the next speed in the list is zero (both integer and microstep parts), the button press is ignored. The first speed in the list shouldn't be zero. See the Joystick control section on https://doc.xisupport.com for more information.
+	* If joystick position falls outside DeadZone limits, a movement begins. The speed is defined by the joystick's position in the range of the DeadZone limit to the maximum deviation. Joystick positions inside DeadZone limits correspond to zero speed (a soft stop of motion), and positions beyond Low and High limits correspond to MaxSpeed[i] or -MaxSpeed[i] (see command SCTL), where i = 0 by default and can be changed with the left/right buttons (see command SCTL). If the next speed in the list is zero (both integer and microstep parts), the button press is ignored. The first speed in the list shouldn't be zero. See the Joystick control section on https://doc.xisupport.com for more information.
 	* @param id An identifier of a device
 	* @param[in] joystick_settings structure contains joystick settings
 	* \endenglish
@@ -2075,7 +2039,7 @@ fields:
 
 /** $XIR
 	* \english
-	* Read settings of control position (used with stepper motor only).
+	* Read control position settings (used with stepper motor only).
 	* When controlling the step motor with an encoder (CTP_BASE=0), it is possible to detect the loss of steps. The controller knows the number of steps per revolution (GENG::StepsPerRev) and the encoder resolution (GFBS::IPT). When the control is enabled (CTP_ENABLED is set), the controller stores the current position in the steps of SM and the current position of the encoder. Next, the encoder position is converted into steps at each step, and if the difference between the current position in steps and the encoder position is greater than CTPMinError, the flag STATE_CTP_ERROR is set.
     *
     * Alternatively, the stepper motor may be controlled with the speed sensor (CTP_BASE 1). In this mode, at the active edges of the input clock, the controller stores the current value of steps. Then, at each revolution, the controller checks how many steps have been passed. When the difference is over the CTPMinError, the STATE_CTP_ERROR flag is set.
@@ -2134,7 +2098,7 @@ fields:
 /** $XIR
 	* \english
 	* Read UART settings.
-	* This function fills the structure with UART settings.
+	* This function reads the structure containing UART settings.
 	* @see uart_settings_t
 	* @param Speed UART speed
 	* @param[out] uart_settings UART settings
@@ -2285,7 +2249,7 @@ fields:
 /** $XIR
 	* \english
 	* Read calibration settings.
-	* This function fills the structure with calibration settings.
+	* This function reads the structure with calibration settings.
 	* @see calibration_settings_t
 	* @param id An identifier of a device
 	* @param[out] calibration_settings calibration settings
@@ -2338,7 +2302,7 @@ fields:
 
 /** $XIR
 	* \english
-	* Read user controller name and flags of setting from FRAM.
+	* Read user's controller name and internal settings from the FRAM.
 	* @param id An identifier of a device
 	* @param[out] controller_name structure contains previously set user controller name
 	* \endenglish
@@ -2350,9 +2314,9 @@ fields:
 	*/
 /** $XIW
 	* \english
-	* Write the user controller name and settings to FRAM.
+	* Write user's controller name and internal settings to the FRAM.
 	* @param id An identifier of a device
-	* @param[in] controller_name structure contains previously set user controller name
+	* @param[in] controller_name structure contains the previously set user's controller name
 	* \endenglish
 	* \russian
 	* Запись пользовательского имени контроллера и настроек в FRAM.
@@ -2388,9 +2352,9 @@ fields:
 	*/
 /** $XIW
 	* \english
-	* Write user data into FRAM.
+	* Write user data into the FRAM.
 	* @param id An identifier of a device
-	* @param[in] nonvolatile_memory structure contains previously set user data.
+	* @param[in] nonvolatile_memory user data.
 	* \endenglish
 	* \russian
 	* Запись пользовательских данных во FRAM.
@@ -2400,7 +2364,7 @@ fields:
 	*/
 /** $XIS
 	* \english
-	* Structure contains user data to save into FRAM.
+	* Structure contains user data to save into the FRAM.
 	* \endenglish
 	* \russian
 	* Пользовательские данные для сохранения во FRAM.
@@ -2430,8 +2394,7 @@ fields:
 /**  $XIW
 	* \english
 	* Set electromechanical coefficients.
-	* The settings are different for different stepper motors.
-	* Please set new settings when you change the motor.
+	* The settings are different for different stepper motors. Please set new settings when you change the motor.
 	* @see get_emf_settings
 	* @param id An identifier of a device
 	* @param[in] emf_settings EMF settings
@@ -2648,7 +2611,9 @@ fields:
 
 /** $XIW
 	* \english
-	* Immediately power off the motor regardless its state. Shouldn't be used during motion as the motor could be powered on again automatically to continue movement. The command is designed to manually power off the motor. When automatic power off after stop is required, use the power management system.
+	* Immediately power off the motor regardless its state.
+	*
+	* Shouldn't be used during motion as the motor could be powered on again automatically to continue movement. The command is designed to manually power off the motor. When automatic power off after stop is required, use the power management system.
 	* @param id An identifier of a device
 	* \endenglish
 	* \russian
@@ -2662,6 +2627,7 @@ command "command_power_off" writer "pwof" (4)
 
 /** $XIW
 	* \english
+	* Move to position.
 	* Upon receiving the command "move" the engine starts to move with pre-set parameters (speed, acceleration, retention), to the point specified by  Position and uPosition. uPosition sets the microstep position of a stepper motor. In the case of DC motor, this field is ignored.
 	* @param id An identifier of a device
 	* @param Position position to move.
@@ -2716,7 +2682,7 @@ fields:
 	* Shift by a set offset.
 	* Upon receiving the command "movr", the engine starts to move with preset parameters (speed, acceleration, hold) left or right (depending on the sign of DeltaPosition). It moves by the number of steps specified in the fields DeltaPosition and uDeltaPosition. uDeltaPosition sets the microstep offset for a stepper motor. In the case of a DC motor, this field is ignored.
 	* @param DeltaPosition shift from initial position.
-	* @param uDeltaPosition fractional part of the offset shift, in microsteps. The microstep size and the range of valid values for this field depend on the selected step division mode (see the MicrostepMode field in engine_settings).
+	* @param uDeltaPosition the fractional part of the offset shift, in microsteps. The microstep size and the range of valid values for this field depend on the selected step division mode (see the MicrostepMode field in engine_settings).
 	* @param id An identifier of a device
 	* \endenglish
 	* \russian
@@ -2920,7 +2886,7 @@ command "command_sstp" writer "sstp" (4)
 	*/
 command "get_position" reader "gpos" (26)
 fields:
-	calb cfloat Position					/**< \english The position in the engine. Corrected by the table. \endenglish \russian Позиция двигателя. Корректируется таблицей. \endrussian */
+	calb cfloat Position				/**< \english The position in the engine. Corrected by the table. \endenglish \russian Позиция двигателя. Корректируется таблицей. \endrussian */
 	normal int32s Position				/**< \english The position of the whole steps in the engine \endenglish \russian Позиция в основных шагах двигателя \endrussian */
 	normal int16s uPosition				/**< \english Microstep position is only used with stepper motors. Microstep size and the range of valid values for this field depend on the selected step division mode (see MicrostepMode field in engine_settings). \endenglish \russian Позиция в микрошагах (используется только с шаговыми двигателями). Величина микрошага и диапазон допустимых значений для данного поля зависят от выбранного режима деления шага (см. поле MicrostepMode в engine_settings). \endrussian */
 	int64s EncPosition					/**< \english Encoder position.  \endenglish \russian Позиция энкодера. \endrussian */
@@ -2952,7 +2918,7 @@ fields:
 	*/
 /** $XIWC
 	* \english
-	* Sets any position value and encoder value of all engines which use user units.
+	* Sets any position value and encoder value of all engines. In user units.
 	* @param id An identifier of a device
 	* @param[out] set_position_calb structure contains motor position.
 	* @param calibration user unit settings
@@ -3187,7 +3153,11 @@ command "start_measurements" writer "stms" (4)
 
 /** $XIR
 	* \english
-	* A command to read the data buffer to build a speed graph and a speed error graph. Filling the buffer starts with the command "start_measurements". The buffer holds 25 points; the points are taken with a period of 1 ms. To create a robust system, read data every 20 ms. If the buffer is full, it is recommended to repeat the readings every 5 ms until the buffer again becomes filled with 20 points.
+	* A command to read the data buffer to build a speed graph and a speed error graph.
+	* 
+	* Filling the buffer starts with the command "start_measurements". The buffer holds 25 points; the points are taken with a period of 1 ms. To create a robust system, read data every 20 ms. If the buffer is full, it is recommended to repeat the readings every 5 ms until the buffer again becomes filled with 20 points.
+	*
+	* To stop measurements just stop reading data. After buffer overflow measurements will stop automatically.
 	* @see measurements_t
 	* @param id An identifier of a device
 	* @param[out] measurements structure with buffer and its length.
@@ -3218,6 +3188,7 @@ fields:
 /** $XIR
 	* \english
 	* Return device electrical parameters, useful for charts.
+	*
 	* A useful function that fills the structure with a snapshot of the controller voltages and currents.
 	* @see chart_data_t
 	* @param id An identifier of a device
@@ -4115,14 +4086,14 @@ fields:
 
 /** $XIR
 	* \english
-	* Read the controller's firmware version.
+	* Read the controller's bootloader version.
 	* @param id An identifier of a device
 	* @param[out] Major major version
 	* @param[out] Minor minor version
 	* @param[out] Release release version
 	* \endenglish
 	* \russian
-	* Чтение номера версии прошивки контроллера.
+	* Чтение номера версии загрузчика контроллера.
 	* @param id идентификатор устройства
 	* @param[out] Major номер основной версии
 	* @param[out] Minor номер дополнительной версии
