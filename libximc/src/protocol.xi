@@ -89,7 +89,7 @@ STATE_ERRC						= 0x00000001	/**< \english Command error encountered. The comman
 STATE_ERRD						= 0x00000002	/**< \english Data integrity error encountered. The data inside the command and its CRC code do not correspond. Therefore, the data can't be considered valid. This error may be caused by EMI in the UART/RS232 interface. \endenglish \russian Обнаружена ошибка целостности данных. Данные внутри команды и ее CRC-код не соответствуют, поэтому данные не могут считаться действительными. Эта ошибка может быть вызвана электромагнитными помехами в интерфейсе UART/RS232. \endrussian */
 STATE_ERRV						= 0x00000004	/**< \english Value error encountered. The values in the command can't be applied without correction because they fall outside the valid range. Corrected values were used instead of the original ones. \endenglish \russian Недопустимое значение данных. Обнаружена ошибка в значении. Значения в команде не могут быть применены без коррекции, поскольку они выходят за допустимый диапазон. Вместо исходных значений были использованы исправленные значения. \endrussian */
 STATE_EEPROM_CONNECTED  		= 0x00000010	/**< \english EEPROM with settings is connected. The built-in stage profile is uploaded from the EEPROM memory chip if the EEPROM_PRECEDENCE flag is set, allowing you to connect various stages to the controller with automatic setup. \endenglish \russian Подключена память EEPROM с настройками. Встроенный профиль подвижки загружается из микросхемы памяти EEPROM, что позволяет подключать различные подвижки к контроллеру с автоматической настройкой. \endrussian */
-STATE_IS_HOMED          		= 0x00000020  	/**< \english Calibration performed. This means that the relative position scale is calibrated against a hardware absolute position sensor, like a limit switch. Drops after loss of calibration, like harsh stops and possibly skipped steps. \endenglish \russian Калибровка выполнена. Это означает, что шкала относительного положения откалибрована с помощью аппаратного датчика абсолютного положения, такого как концевой выключатель. \endrussian */
+STATE_IS_HOMED          		= 0x00000020  	/**< \english Calibration performed. This means that the relative position scale is calibrated against a hardware absolute position sensor, like a limit switch. Drops after loss of calibration, like harsh stops and possibly skipped steps. \endenglish \russian Калибровка выполнена. Это означает, что шкала относительного положения откалибрована с помощью аппаратного датчика абсолютного положения, такого как концевой переключатель. \endrussian */
 STATE_SECUR						= 0x01B3FFC0	/**< \english Security flags. \endenglish \russian Флаги опасности. \endrussian */
 STATE_ALARM						= 0x00000040	/**< \english The controller is in an alarm state, indicating that something dangerous has happened. Most commands are ignored in this state. To reset the flag, a STOP command must be issued. \endenglish \russian Контроллер находится в состоянии ALARM, показывая, что случилась какая-то опасная ситуация. В состоянии ALARM все команды игнорируются пока не будет послана команда STOP и состояние ALARM деактивируется. \endrussian */
 STATE_CTP_ERROR					= 0x00000080	/**< \english Control position error (is only used with stepper motor). The flag is set when the encoder position and step position are too far apart. \endenglish \russian Контроль позиции нарушен(используется только с шаговым двигателем). Флаг устанавливается, когда положение энкодера и положение шага слишком далеки друг от друга. \endrussian */
@@ -371,7 +371,7 @@ flagset SecureFlags:
 ALARM_ON_DRIVER_OVERHEATING	= 0x01	/**< \english If this flag is set, enter the alarm state on the driver overheat signal. \endenglish \russian Если флаг установлен, то войти в состояние Alarm при получении сигнала подступающего перегрева с драйвера. Иначе - игнорировать подступающий перегрев с драйвера. \endrussian */
 LOW_UPWR_PROTECTION			= 0x02	/**< \english If this flag is set, turn off the motor when the voltage is lower than LowUpwrOff. \endenglish \russian Если установлен, то выключать силовую часть при напряжении меньшем LowUpwrOff. \endrussian */
 H_BRIDGE_ALERT				= 0x04	/**< \english If this flag is set then turn off the power unit with a signal problem in one of the transistor bridge. \endenglish \russian Если установлен, то выключать силовую часть при сигнале неполадки в одном из транзисторных мостов.\endrussian */
-ALARM_ON_BORDERS_SWAP_MISSET= 0x08	/**< \english If this flag is set, enter Alarm state on borders swap misset \endenglish \russian Если флаг установлен, то войти в состояние Alarm при получении сигнала c противоположного концевика.\endrussian */
+ALARM_ON_BORDERS_SWAP_MISSET= 0x08	/**< \english If this flag is set, enter Alarm state on borders swap misset \endenglish \russian Если флаг установлен, то войти в состояние Alarm при получении сигнала c противоположного концевого выключателя.\endrussian */
 ALARM_FLAGS_STICKING		= 0x10	/**< \english If this flag is set, only a STOP command can turn all alarms to 0 \endenglish \russian Если флаг установлен, то только по команде STOP возможен сброс всех флагов ALARM.\endrussian */
 USB_BREAK_RECONNECT			= 0x20 /**< \english If this flag is set, the USB brake reconnect module will be enabled \endenglish \russian Если флаг установлен, то будет включен блок перезагрузки USB при поломке связи.\endrussian */
 ALARM_WINDING_MISMATCH		= 0x40 /**< \english If this flag is set, enter Alarm state when windings mismatch \endenglish \russian Если флаг установлен, то войти в состояние Alarm при получении сигнала рассогласования обмоток \endrussian */
@@ -550,8 +550,8 @@ BORDERS_SWAP_MISSET_DETECTION	= 0x08	/**< \english Motor should stop on both bor
 	*/
 flagset EnderFlags:
 ENDER_SWAP				= 0x01	/**< \english First limit switch on the right side, if set; otherwise on the left side. \endenglish \russian Если флаг установлен, первый концевой выключатель находится справа; иначе - слева. \endrussian */
-ENDER_SW1_ACTIVE_LOW	= 0x02	/**< \english 1 - Limit switch connected to pin SW1 is triggered by a low level on pin. \endenglish \russian 1 - Концевик, подключенный к ножке SW1, считается сработавшим по низкому уровню на контакте. \endrussian */
-ENDER_SW2_ACTIVE_LOW	= 0x04	/**< \english 1 - Limit switch connected to pin SW2 is triggered by a low level on pin. \endenglish \russian 1 - Концевик, подключенный к ножке SW2, считается сработавшим по низкому уровню на контакте. \endrussian */
+ENDER_SW1_ACTIVE_LOW	= 0x02	/**< \english 1 - Limit switch connected to pin SW1 is triggered by a low level on pin. \endenglish \russian 1 - Концевой переключатель, подключенный к ножке SW1, считается сработавшим по низкому уровню на контакте. \endrussian */
+ENDER_SW2_ACTIVE_LOW	= 0x04	/**< \english 1 - Limit switch connected to pin SW2 is triggered by a low level on pin. \endenglish \russian 1 - Концевой переключатель, подключенный к ножке SW2, считается сработавшим по низкому уровню на контакте. \endrussian */
 
 /**
 	* \english
@@ -662,11 +662,11 @@ HOME_HALF_MV			= 0x0008	/**< \english If the flag is set, the stop signals are i
 HOME_STOP_FIRST_BITS	= 0x0030	/**< \english Bits of the first stop selector. \endenglish \russian Биты, отвечающие за выбор сигнала завершения первого движения. \endrussian */
 HOME_STOP_FIRST_REV		= 0x0010	/**< \english First motion stops by  revolution sensor. \endenglish \russian Первое движение завершается по сигналу с Revolution sensor. \endrussian */
 HOME_STOP_FIRST_SYN		= 0x0020	/**< \english First motion stops by synchronization input. \endenglish \russian Первое движение завершается по сигналу со входа синхронизации. \endrussian */
-HOME_STOP_FIRST_LIM		= 0x0030	/**< \english First motion stops by limit switch. \endenglish \russian Первое движение завершается по сигналу с концевика. \endrussian */
+HOME_STOP_FIRST_LIM		= 0x0030	/**< \english First motion stops by limit switch. \endenglish \russian Первое движение завершается по сигналу с концевого переключателя. \endrussian */
 HOME_STOP_SECOND_BITS	= 0x00C0	/**< \english Bits of the second stop selector. \endenglish \russian Биты, отвечающие за выбор сигнала завершения второго движения. \endrussian */
 HOME_STOP_SECOND_REV	= 0x0040	/**< \english Second motion stops by  revolution sensor. \endenglish \russian Второе движение завершается по сигналу с Revolution sensor. \endrussian */
 HOME_STOP_SECOND_SYN	= 0x0080	/**< \english Second motion stops by synchronization input. \endenglish \russian Второе движение завершается по сигналу со входа синхронизации. \endrussian */
-HOME_STOP_SECOND_LIM	= 0x00C0	/**< \english Second motion stops by limit switch. \endenglish \russian Второе движение завершается по сигналу с концевика. \endrussian */
+HOME_STOP_SECOND_LIM	= 0x00C0	/**< \english Second motion stops by limit switch. \endenglish \russian Второе движение завершается по сигналу с концевого переключателя. \endrussian */
 HOME_USE_FAST           = 0x0100	/**< \english Use the fast algorithm of calibration to the home position, if set; otherwise the traditional algorithm. \endenglish \russian Если флаг установлен, используется быстрый поиск домашней позиции; иначе - традиционный. \endrussian */
 
 /**
@@ -763,11 +763,11 @@ TS_AVAILABLE					= 0x08	/**< \english If the flag is set, the temperature sensor
 	* \endrussian
 	*/
 flagset LSFlags:
-LS_ON_SW1_AVAILABLE				= 0x01	/**< \english If the flag is set, the limit switch connected to pin SW1 is available \endenglish \russian Если флаг установлен, то концевик, подключенный к ножке SW1, доступен \endrussian */
-LS_ON_SW2_AVAILABLE				= 0x02	/**< \english If the flag is set, the limit switch connected to pin SW2 is available \endenglish \russian Если флаг установлен, то концевик, подключенный к ножке SW2, доступен \endrussian */
-LS_SW1_ACTIVE_LOW				= 0x04	/**< \english If the flag is set, the limit switch connected to pin SW1 is triggered by a low level on the pin \endenglish \russian Если флаг установлен, то концевик, подключенный к ножке SW1, считается сработавшим по низкому уровню на контакте \endrussian */
-LS_SW2_ACTIVE_LOW				= 0x08	/**< \english If the flag is set, the limit switch connected to pin SW2 is triggered by a low level on pin \endenglish \russian Если флаг установлен, то концевик, подключенный к ножке SW2, считается сработавшим по низкому уровню на контакте \endrussian */
-LS_SHORTED						= 0x10	/**< \english If the flag is set, the limit switches are shorted \endenglish \russian Если флаг установлен, то концевики замкнуты. \endrussian */
+LS_ON_SW1_AVAILABLE				= 0x01	/**< \english If the flag is set, the limit switch connected to pin SW1 is available \endenglish \russian Если флаг установлен, то концевой переключатель, подключенный к ножке SW1, доступен \endrussian */
+LS_ON_SW2_AVAILABLE				= 0x02	/**< \english If the flag is set, the limit switch connected to pin SW2 is available \endenglish \russian Если флаг установлен, то концевой переключатель, подключенный к ножке SW2, доступен \endrussian */
+LS_SW1_ACTIVE_LOW				= 0x04	/**< \english If the flag is set, the limit switch connected to pin SW1 is triggered by a low level on the pin \endenglish \russian Если флаг установлен, то концевой переключатель, подключенный к ножке SW1, считается сработавшим по низкому уровню на контакте \endrussian */
+LS_SW2_ACTIVE_LOW				= 0x08	/**< \english If the flag is set, the limit switch connected to pin SW2 is triggered by a low level on pin \endenglish \russian Если флаг установлен, то концевой переключатель, подключенный к ножке SW2, считается сработавшим по низкому уровню на контакте \endrussian */
+LS_SHORTED						= 0x10	/**< \english If the flag is set, the limit switches are shorted \endenglish \russian Если флаг установлен, то концевые переключатели замкнуты. \endrussian */
 
 /**
 	* \english
@@ -1142,12 +1142,9 @@ fields:
 	*/
 /** $XISC
 	* \english
-	* Movement limitations and settings, related to the motor, which use user units.
-	* This structure contains useful motor settings.
-	* These settings specify the motor shaft movement algorithm, list of limitations and rated characteristics.
-	* All boards are supplied with the standard set of engine settings on the controller's flash memory.
-	* Please load new engine settings when you change the motor, encoder, positioner etc.
-	* Please note that wrong engine settings lead to device malfunction, can lead to irreversible damage of board.
+	* Movement limitations and settings, related to the motor. In user units.
+	*
+	* This structure contains useful motor settings. These settings specify the motor shaft movement algorithm, list of limitations and rated characteristics. All boards are supplied with the standard set of engine settings on the controller's flash memory. Please load new engine settings when you change the motor, encoder, positioner, etc. Please note that wrong engine settings may lead to the device malfunction, that may cause irreversible damage to the board.
 	* \endenglish
 	* \russian
 	* Ограничения и настройки движения, связанные с двигателем, с использованием пользовательских единиц.
@@ -1166,10 +1163,10 @@ fields:
 	calb float NomSpeed							/**< \english Nominal speed. Controller will keep motor speed below this value if ENGINE_LIMIT_RPM flag is set. \endenglish \russian Номинальная скорость. Контроллер будет сохранять скорость мотора не выше номинальной, если установлен флаг ENGINE_LIMIT_RPM. \endrussian */
 	normal int32u NomSpeed						/**< \english Nominal (maximum) speed (in whole steps/s or rpm for DC and stepper motor as a master encoder). Controller will keep motor shaft RPM below this value if ENGINE_LIMIT_RPM flag is set. Range: 1..100000. \endenglish \russian Номинальная (максимальная) скорость (в целых шагах/с или rpm для DC и шагового двигателя в режиме ведущего энкодера). Контроллер будет сохранять скорость мотора не выше номинальной, если установлен флаг ENGINE_LIMIT_RPM. Диапазон: 1..100000. \endrussian */
 	normal int8u uNomSpeed						/**< \english The fractional part of a nominal speed in microsteps (is only used with stepper motor). Microstep size and the range of valid values for this field depend on selected step division mode (see MicrostepMode field in engine_settings). \endenglish \russian Микрошаговая часть номинальной скорости мотора (используется только с шаговым двигателем). Величина микрошага и диапазон допустимых значений для данного поля зависят от выбранного режима деления шага (см. поле MicrostepMode в engine_settings). \endrussian */
-	int16u flag EngineFlags of EngineFlags		/**< \english Set of flags specify motor shaft movement algorithm and list of limitations. This is a bit mask for bitwise operations. \endenglish \russian Флаги, управляющие работой мотора. Это битовая маска для побитовых операций. \endrussian */
+	int16u flag EngineFlags of EngineFlags		/**< \english Set of flags specify motor shaft movement algorithm and a list of limitations. This is a bit mask for bitwise operations. \endenglish \russian Флаги, управляющие работой мотора. Это битовая маска для побитовых операций. \endrussian */
 	calb float Antiplay							/**< \english Number of pulses or steps for backlash (play) compensation procedure. Used if ENGINE_ANTIPLAY flag is set. \endenglish \russian Количество шагов двигателя или импульсов энкодера, на которое позиционер будет отъезжать от заданной позиции для подхода к ней с одной и той же стороны. Используется, если установлен флаг ENGINE_ANTIPLAY. \endrussian */
 	normal int16s Antiplay						/**< \english Number of pulses or steps for backlash (play) compensation procedure. Used if ENGINE_ANTIPLAY flag is set. \endenglish \russian Количество шагов двигателя или импульсов энкодера, на которое позиционер будет отъезжать от заданной позиции для подхода к ней с одной и той же стороны. Используется, если установлен флаг ENGINE_ANTIPLAY. \endrussian */
-	int8u flag MicrostepMode of MicrostepMode	/**< \english Settings of microstep mode (Used with stepper motor only). Microstep size and the range of valid values for this field depend on selected step division mode (see MicrostepMode field in engine_settings). This is a bit mask for bitwise operations. \endenglish \russian Настройки микрошагового режима(используется только с шаговым двигателем). Величина микрошага и диапазон допустимых значений для данного поля зависят от выбранного режима деления шага (см. поле MicrostepMode в engine_settings). Это битовая маска для побитовых операций. \endrussian */
+	int8u flag MicrostepMode of MicrostepMode	/**< \english Settings of microstep mode (Used with stepper motor only). the microstep size and the range of valid values for this field depend on the selected step division mode (see MicrostepMode field in engine_settings). This is a bit mask for bitwise operations. \endenglish \russian Настройки микрошагового режима(используется только с шаговым двигателем). Величина микрошага и диапазон допустимых значений для данного поля зависят от выбранного режима деления шага (см. поле MicrostepMode в engine_settings). Это битовая маска для побитовых операций. \endrussian */
 	int16u StepsPerRev							/**< \english Number of full steps per revolution (Used with stepper motor only). Range: 1..65535. \endenglish \russian Количество полных шагов на оборот(используется только с шаговым двигателем). Диапазон: 1..65535. \endrussian */
 	reserved 12
 
@@ -1257,10 +1254,10 @@ fields:
 	*/
 command "power_settings" universal "pwr" (20)
 fields:
-	int8u HoldCurrent						/**< \english Current in holding regime, percent of nominal. Range: 0..100. \endenglish \russian Ток мотора в режиме удержания, в процентах от номинального. Диапазон: 0..100. \endrussian */
-	int16u CurrReductDelay					/**< \english Time in ms from going to STOP state to reducting current. \endenglish \russian Время в мс от перехода в состояние STOP до уменьшения тока. \endrussian */
+	int8u HoldCurrent						/**< \english Holding current, as percent of the nominal current. Range: 0..100. \endenglish \russian Ток мотора в режиме удержания, в процентах от номинального. Диапазон: 0..100. \endrussian */
+	int16u CurrReductDelay					/**< \english Time in ms from going to STOP state to the end of current reduction. \endenglish \russian Время в мс от перехода в состояние STOP до уменьшения тока. \endrussian */
 	int16u PowerOffDelay					/**< \english Time in s from going to STOP state to turning power off. \endenglish \russian Время в с от перехода в состояние STOP до отключения питания мотора. \endrussian */
-	int16u CurrentSetTime					/**< \english Time in ms to reach nominal current. \endenglish \russian Время в мс, требуемое для набора номинального тока от 0% до 100%. \endrussian */
+	int16u CurrentSetTime					/**< \english Time in ms to reach the nominal current. \endenglish \russian Время в мс, требуемое для набора номинального тока от 0% до 100%. \endrussian */
 	int8u flag PowerFlags of PowerFlags		/**< \english Flags with parameters of power control. This is a bit mask for bitwise operations. \endenglish \russian Флаги параметров управления питанием. Это битовая маска для побитовых операций. \endrussian */
 	reserved 6
 
@@ -1304,13 +1301,13 @@ fields:
 	*/
 command "secure_settings" universal "sec" (28)
 fields:
-	int16u LowUpwrOff					/**< \english Lower voltage limit to turn off the motor, tens of mV. \endenglish \russian Нижний порог напряжения на силовой части для выключения, десятки мВ. \endrussian */
+	int16u LowUpwrOff					/**< \english Lower voltage limit to turn off the motor, in tens of mV. \endenglish \russian Нижний порог напряжения на силовой части для выключения, десятки мВ. \endrussian */
 	int16u CriticalIpwr					/**< \english Maximum motor current which triggers ALARM state, in mA. \endenglish \russian Максимальный ток силовой части, вызывающий состояние ALARM, в мА. \endrussian */
-	int16u CriticalUpwr					/**< \english Maximum motor voltage which triggers ALARM state, tens of mV. \endenglish \russian Максимальное напряжение на силовой части, вызывающее состояние ALARM, десятки мВ. \endrussian */
+	int16u CriticalUpwr					/**< \english Maximum motor voltage which triggers ALARM state, in tens of mV. \endenglish \russian Максимальное напряжение на силовой части, вызывающее состояние ALARM, десятки мВ. \endrussian */
 	int16u CriticalT					/**< \english Maximum temperature, which triggers ALARM state, in tenths of degrees Celsius. \endenglish \russian Максимальная температура контроллера, вызывающая состояние ALARM, в десятых долях градуса Цельсия.\endrussian */
 	int16u CriticalIusb					/**< \english Maximum USB current which triggers ALARM state, in mA. \endenglish \russian Максимальный ток USB, вызывающий состояние ALARM, в мА. \endrussian */
-	int16u CriticalUusb					/**< \english Maximum USB voltage which triggers ALARM state, tens of mV. \endenglish \russian Максимальное напряжение на USB, вызывающее состояние ALARM, десятки мВ. \endrussian */
-	int16u MinimumUusb					/**< \english Minimum USB voltage which triggers ALARM state, tens of mV. \endenglish \russian Минимальное напряжение на USB, вызывающее состояние ALARM, десятки мВ. \endrussian */
+	int16u CriticalUusb					/**< \english Maximum USB voltage which triggers ALARM state, in tens of mV. \endenglish \russian Максимальное напряжение на USB, вызывающее состояние ALARM, десятки мВ. \endrussian */
+	int16u MinimumUusb					/**< \english Minimum USB voltage which triggers ALARM state, in tens of mV. \endenglish \russian Минимальное напряжение на USB, вызывающее состояние ALARM, десятки мВ. \endrussian */
 	int8u flag Flags of SecureFlags		/**< \english Critical parameter flags. This is a bit mask for bitwise operations. \endenglish \russian Флаги критических параметров. Это битовая маска для побитовых операций. \endrussian */
 	reserved 7
 
@@ -1345,9 +1342,7 @@ fields:
 /**  $XIS
 	* \english
 	* Edges settings.
-	* This structure contains border and limit switches settings.
-	* Please load new engine settings when you change positioner etc.
-	* Please note that wrong engine settings may lead to device malfunction, which can lead to irreversible damage to the board.
+	* This structure contains border and limit switches settings. Please load new engine settings when you change positioner, etc. Please note that wrong engine settings may lead to device malfunction, which can cause irreversible damage to the board.
 	* \endenglish
 	* \russian
 	* Настройки границ.
@@ -1408,10 +1403,8 @@ fields:
 	*/
 /**  $XISC
 	* \english
-	* Edges settings which use user units.
-	* This structure contains border and limit switches settings.
-	* Please load new engine settings when you change positioner etc.
-	* Please note that wrong engine settings may lead to device malfunction, which can lead to irreversible damage to the board.
+	* User unit edges settings.
+	* This structure contains border and limit switches settings. Please load new engine settings when you change positioner, etc. Please note that wrong engine settings may lead to device malfunction, which can cause irreversible damage to the board.
 	* \endenglish
 	* \russian
 	* Настройки границ с использованием пользовательских единиц.
@@ -1424,8 +1417,8 @@ fields:
 	*/
 command "edges_settings" universal "eds" (26)
 fields:
-	int8u flag BorderFlags	of BorderFlags	/**< \english Border flags, specify types of borders and motor behavior on borders. This is a bit mask for bitwise operations. \endenglish \russian Флаги, определяющие тип границ и поведение мотора при их достижении. Это битовая маска для побитовых операций. \endrussian */
-	int8u flag EnderFlags of EnderFlags		/**< \english Ender flags, specify electrical behavior of limit switches like order and pulled positions. This is a bit mask for bitwise operations. \endenglish \russian Флаги, определяющие настройки концевых выключателей. Это битовая маска для побитовых операций. \endrussian */
+	int8u flag BorderFlags of BorderFlags	/**< \english Border flags, specify types of borders and motor behavior at borders. This is a bit mask for bitwise operations. \endenglish \russian Флаги, определяющие тип границ и поведение мотора при их достижении. Это битовая маска для побитовых операций. \endrussian */
+	int8u flag EnderFlags of EnderFlags		/**< \english Flags specify electrical behavior of limit switches like order and pulled positions. This is a bit mask for bitwise operations. \endenglish \russian Флаги, определяющие настройки концевых выключателей. Это битовая маска для побитовых операций. \endrussian */
 	calb cfloat LeftBorder					/**< \english Left border position, used if BORDER_IS_ENCODER flag is set. Corrected by the table. \endenglish \russian Позиция левой границы, используется если установлен флаг BORDER_IS_ENCODER. Корректируется таблицей. \endrussian */
 	normal int32s LeftBorder				/**< \english Left border position, used if BORDER_IS_ENCODER flag is set. \endenglish \russian Позиция левой границы, используется если установлен флаг BORDER_IS_ENCODER. \endrussian */
 	normal int16s uLeftBorder				/**< \english Left border position in microsteps (used with stepper motor only). The microstep size and the range of valid values for this field depend on the selected step division mode (see the MicrostepMode field in engine_settings). \endenglish \russian Позиция левой границы в микрошагах (используется только с шаговым двигателем). Величина микрошага и диапазон допустимых значений для данного поля зависят от выбранного режима деления шага (см. поле MicrostepMode в engine_settings). \endrussian */
@@ -1530,9 +1523,8 @@ fields:
 /** $XIS
 	* \english
 	* Synchronization settings.
-	* This structure contains all synchronization settings, modes, periods and flags.
-	* It specifies the behavior of input synchronization.
-	* All boards are supplied with the standard set of these settings.
+	*
+	* This structure contains all synchronization settings, modes, periods and flags. It specifies the behavior of the input synchronization. All boards are supplied with the standard set of these settings.
 	* \endenglish
 	* \russian
 	* Настройки входной синхронизации.
@@ -1593,7 +1585,7 @@ fields:
 command "sync_in_settings" universal "sni" (28)
 fields:
 	int8u flag SyncInFlags of SyncInFlags		/**< \english Input synchronization flags. This is a bit mask for bitwise operations. \endenglish \russian Флаги синхронизации входа. Это битовая маска для побитовых операций. \endrussian */
-	int16u ClutterTime							/**< \english Input synchronization pulse dead time (mks). \endenglish \russian Минимальная длительность входного импульса синхронизации для защиты от дребезга (мкс). \endrussian */
+	int16u ClutterTime							/**< \english Input synchronization pulse dead time (us). \endenglish \russian Минимальная длительность входного импульса синхронизации для защиты от дребезга (мкс). \endrussian */
 	calb float Position							/**< \english Desired position or shift. \endenglish \russian Желаемая позиция или смещение. \endrussian */
 	normal int32s Position						/**< \english Desired position or shift (full steps) \endenglish \russian Желаемая позиция или смещение (в полных шагах) \endrussian */
 	normal int16s uPosition						/**< \english The fractional part of a position or shift in microsteps. It is used with a stepper motor. The microstep size and the range of valid values for this field depend on the selected step division mode (see the MicrostepMode field in engine_settings). \endenglish \russian Дробная часть позиции или смещения в микрошагах. Используется только с шаговым двигателем. Величина микрошага и диапазон допустимых значений для данного поля зависят от выбранного режима деления шага (см. поле MicrostepMode в engine_settings). \endrussian */
@@ -1635,9 +1627,7 @@ fields:
 /** $XIS
 	* \english
 	* Synchronization settings.
-	* This structure contains all synchronization settings, modes, periods and flags.
-	* It specifies the behavior of output synchronization.
-	* All boards are supplied with the standard set of these settings.
+	* This structure contains all synchronization settings, modes, periods and flags. It specifies the behavior of the output synchronization. All boards are supplied with the standard set of these settings.
 	* \endenglish
 	* \russian
 	* Настройки выходной синхронизации.
@@ -1685,9 +1675,8 @@ fields:
 /** $XISC
 	* \english
 	* Synchronization settings which use user units.
-	* This structure contains all synchronization settings, modes, periods and flags.
-	* It specifies the behavior of output synchronization.
-	* All boards are supplied with the standard set of these settings.
+	*
+	* This structure contains all synchronization settings, modes, periods and flags. It specifies the behavior of the output synchronization. All boards are supplied with the standard set of these settings.
 	* \endenglish
 	* \russian
 	* Настройки выходной синхронизации с использованием пользовательских единиц.
@@ -1702,8 +1691,8 @@ fields:
 	int8u flag SyncOutFlags of SyncOutFlags	/**< \english Output synchronization flags. This is a bit mask for bitwise operations. \endenglish \russian Флаги синхронизации выхода. Это битовая маска для побитовых операций. \endrussian */
 	int16u SyncOutPulseSteps				/**< \english This value specifies the duration of output pulse. It is measured microseconds when SYNCOUT_IN_STEPS flag is cleared or in encoder pulses or motor steps when SYNCOUT_IN_STEPS is set. \endenglish \russian Определяет длительность выходных импульсов в шагах/импульсах энкодера, когда установлен флаг SYNCOUT_IN_STEPS, или в микросекундах если флаг сброшен. \endrussian */
 	int16u SyncOutPeriod					/**< \english This value specifies the number of encoder pulses or steps between two output synchronization pulses when SYNCOUT_ONPERIOD is set. \endenglish \russian Период генерации импульсов (в шагах/отсчетах энкодера), используется при установленном флаге SYNCOUT_ONPERIOD. \endrussian */
-	calb float Accuracy						/**< \english This is the neighborhood around the target coordinates (in encoder pulses or motor steps), which is getting hit in the target position and the momentum generated by the stop. \endenglish \russian Это окрестность вокруг целевой координаты (в шагах/отсчетах энкодера), попадание в которую считается попаданием в целевую позицию и генерируется импульс по остановке. \endrussian */
-	normal int32u Accuracy					/**< \english This is the neighborhood around the target coordinates, which is getting hit in the target position and the momentum generated by the stop. \endenglish \russian Это окрестность вокруг целевой координаты, попадание в которую считается попаданием в целевую позицию и генерируется импульс по остановке. \endrussian */
+	calb float Accuracy						/**< \english This is the neighborhood around the target coordinates, every point in which is treated as the target position. Getting in these points cause the stop impulse. \endenglish \russian Это окрестность вокруг целевой координаты (в шагах/отсчетах энкодера), попадание в которую считается попаданием в целевую позицию и генерируется импульс по остановке. \endrussian */
+	normal int32u Accuracy					/**< \english This is the neighborhood around the target coordinates, every point in which is treated as the target position. Getting in these points cause the stop impulse. \endenglish \russian Это окрестность вокруг целевой координаты, попадание в которую считается попаданием в целевую позицию и генерируется импульс по остановке. \endrussian */
 	normal int8u uAccuracy					/**< \english This is the neighborhood around the target coordinates in microsteps (used with a stepper motor only). The microstep size and the range of valid values for this field depend on the selected step division mode (see the MicrostepMode field in engine_settings). \endenglish \russian Это окрестность вокруг целевой координаты в микрошагах (используется только с шаговым двигателем). Величина микрошага и диапазон допустимых значений для данного поля зависят от выбранного режима деления шага (см. поле MicrostepMode в engine_settings). \endrussian */
 
 /** $XIR
@@ -1741,8 +1730,8 @@ fields:
 /** $XIS
 	* \english
 	* EXTIO settings.
-	* This structure contains all EXTIO settings.
-	* By default, input events are signaled through a rising front, and output states are signaled by a high logic state.
+	*
+	* This structure contains all EXTIO settings. By default, input events are signaled through a rising front, and output states are signaled by a high logic state.
 	* \endenglish
 	* \russian
 	* Настройки EXTIO.
@@ -1787,7 +1776,8 @@ fields:
 /** $XIS
 	* \english
 	* Brake settings.
-	* This structure contains parameters of brake control.
+	*
+	* This structure contains brake control parameters.
 	* \endenglish
 	* \russian
 	* Настройки тормоза.
@@ -1856,7 +1846,9 @@ fields:
 /** $XIS
 	* \english
 	* Control settings.
+	*
 	* This structure contains control parameters.
+	*
     * In case of CTL_MODE=1, the joystick motor control is enabled. In this mode, while the joystick is maximally displaced, the engine tends to move at MaxSpeed[i]. i=0 if another value hasn't been set at the previous usage. To change the speed index "i", use the buttons.
 	*
     * In case of CTL_MODE=2, the motor is controlled by the left/right buttons. When you click on the button, the motor starts moving in the appropriate direction at a speed MaxSpeed[0]. After Timeout[i], motor moves at speed MaxSpeed[i+1]. At the transition between MaxSpeed[i] and MaxSpeed[i+1] the motor just accelerates/decelerates as usual.
@@ -1930,7 +1922,9 @@ fields:
 /** $XISC
 	* \english
 	* User unit control settings.
+	*
 	* This structure contains control parameters.
+	*
     * In case of CTL_MODE=1, the joystick motor control is enabled. In this mode, while the joystick is maximally displaced, the engine tends to move at MaxSpeed[i]. i=0 if another value hasn't been set at the previous usage. To change the speed index "i", use the buttons.
 	*
     * In case of CTL_MODE=2, the motor is controlled by the left/right buttons. When you click on the button, the motor starts moving in the appropriate direction at a speed MaxSpeed[0]. After Timeout[i], the motor moves at speed MaxSpeed[i+1]. At the transition between MaxSpeed[i] and MaxSpeed[i+1] the motor just accelerates/decelerates as usual.
@@ -1954,11 +1948,11 @@ fields:
 	calb float MaxSpeed [10]			/**< \english Array of speeds used with the joystick and the button control. \endenglish \russian Массив скоростей, использующийся при управлении джойстиком или кнопками влево/вправо. \endrussian */
 	normal int32u MaxSpeed [10]			/**< \english Array of speeds (full step) used with the joystick and the button control. Range: 0..100000. \endenglish \russian Массив скоростей (в полных шагах), использующийся при управлении джойстиком или кнопками влево/вправо. Диапазон: 0..100000. \endrussian */
 	normal int8u uMaxSpeed [10]			/**< \english Array of speeds (in microsteps) used with the joystick and the button control. The microstep size and the range of valid values for this field depend on the selected step division mode (see the MicrostepMode field in engine_settings). \endenglish \russian Массив скоростей (в микрошагах), использующийся при управлении джойстиком или кнопками влево/вправо. Величина микрошага и диапазон допустимых значений для данного поля зависят от выбранного режима деления шага (см. поле MicrostepMode в engine_settings). \endrussian */
-	int16u Timeout [9]					/**< \english timeout[i] is timeout in ms. After that, max_speed[i+1] is applied. It's used with the button control only. \endenglish \russian timeout[i] - время в мс, по истечении которого устанавливается скорость max_speed[i+1] (используется только при управлении кнопками). \endrussian */
+	int16u Timeout [9]					/**< \english Timeout[i] is timeout in ms. After that, max_speed[i+1] is applied. It's used with the button control only. \endenglish \russian timeout[i] - время в мс, по истечении которого устанавливается скорость max_speed[i+1] (используется только при управлении кнопками). \endrussian */
 	int16u MaxClickTime					/**< \english Maximum click time (in ms). Until the expiration of this time, the first speed isn't applied. \endenglish \russian Максимальное время клика (в мс). До истечения этого времени первая скорость не включается. \endrussian */
-	int16u flag Flags of ControlFlags	/**< \english Flags. This is a bit mask for bitwise operations. \endenglish \russian Флаги. Это битовая маска для побитовых операций. \endrussian */
-	calb float DeltaPosition			/**< \english Shift (delta) of position \endenglish \russian Смещение (дельта) позиции \endrussian */
-	normal int32s DeltaPosition			/**< \english Shift (delta) of position (full step) \endenglish \russian Смещение (дельта) позиции (в полных шагах) \endrussian */
+	int16u flag Flags of ControlFlags	/**< \english Control flags. This is a bit mask for bitwise operations. \endenglish \russian Флаги. Это битовая маска для побитовых операций. \endrussian */
+	calb float DeltaPosition			/**< \english Position shift (delta) \endenglish \russian Смещение (дельта) позиции \endrussian */
+	normal int32s DeltaPosition			/**< \english Position Shift (delta) (full step) \endenglish \russian Смещение (дельта) позиции (в полных шагах) \endrussian */
 	normal int16s uDeltaPosition		/**< \english Fractional part of the shift in micro steps. It's used with a stepper motor only. The microstep size and the range of valid values for this field depend on the selected step division mode (see the MicrostepMode field in engine_settings). \endenglish \russian Дробная часть смещения в микрошагах. Используется только с шаговым двигателем. Величина микрошага и диапазон допустимых значений для данного поля зависят от выбранного режима деления шага (см. поле MicrostepMode в engine_settings). \endrussian */
 	reserved 9
 
@@ -2007,8 +2001,8 @@ fields:
 /** $XIS
 	* \english
 	* Joystick settings.
-	* This structure contains joystick parameters.
-	* If joystick position falls outside the DeadZone limits, a movement begins. Speed is defined by the joystick position in the range of the DeadZone limit to the maximum deviation. Joystick positions inside the DeadZone limits correspond to zero speed (a soft stop of the motion), and positions beyond the Low and High limits correspond to MaxSpeed[i] or -MaxSpeed[i] (see command SCTL), where i = 0 by default and can be changed with left/right buttons (see command SCTL). If the next speed in the list is zero (both integer and microstep parts), the button press is ignored. The first speed in the list shouldn't be zero.
+	*
+	* This structure contains joystick parameters. If joystick position falls outside the DeadZone limits, a movement begins. Speed is defined by the joystick position in the range of the DeadZone limit to the maximum deviation. Joystick positions inside the DeadZone limits correspond to zero speed (a soft stop of the motion), and positions beyond the Low and High limits correspond to MaxSpeed[i] or -MaxSpeed[i] (see command SCTL), where i = 0 by default and can be changed with left/right buttons (see command SCTL). If the next speed in the list is zero (both integer and microstep parts), the button press is ignored. The first speed in the list shouldn't be zero.
 	*
 	* The relationship between the deviation and the rate is exponential, which allows for high mobility and accuracy without speed mode switching.
 	* \endenglish
@@ -2076,6 +2070,7 @@ fields:
 /** $XIS
 	* \english
 	* Control position settings (used with stepper motor only)
+	*
 	* When controlling the step motor with the encoder (CTP_BASE=0), it is possible to detect the loss of steps. The controller knows the number of steps per revolution (GENG::StepsPerRev) and the encoder resolution (GFBS::IPT). When the control is enabled (CTP_ENABLED is set), the controller stores the current position in the steps of SM and the current position of the encoder. Next, the encoder position is converted into steps at each step, and if the difference between the current position in steps and the encoder position is greater than CTPMinError, the flag STATE_CTP_ERROR is set.
     *
 	* Alternatively, the stepper motor may be controlled with the speed sensor (CTP_BASE 1). In this mode, at the active edges of the input clock, the controller stores the current value of steps. Then, at each revolution, the controller checks how many steps have been passed. When the difference is over the CTPMinError, the STATE_CTP_ERROR flag is set.
@@ -2092,7 +2087,7 @@ fields:
 command "ctp_settings" universal "ctp" (18)
 fields:
 	int8u CTPMinError				/**< \english The minimum difference between the SM position in steps and the encoder position that causes the setting of the STATE_CTP_ERROR flag. Measured in steps. \endenglish \russian Минимальное отличие шагов ШД от положения энкодера, устанавливающее флаг STATE_RT_ERROR. Измеряется в шагах ШД. \endrussian */
-	int8u flag CTPFlags of CtpFlags	/**< \english Flags. This is a bit mask for bitwise operations. \endenglish \russian Флаги. Это битовая маска для побитовых операций. \endrussian */
+	int8u flag CTPFlags of CtpFlags	/**< \english This is a bit mask for bitwise operations. \endenglish \russian Флаги. Это битовая маска для побитовых операций. \endrussian */
 	reserved 10
 
 /** $XIR
@@ -2130,6 +2125,7 @@ fields:
 /** $XIS
 	* \english
 	* UART settings.
+	*
 	* This structure contains UART settings.
 	* \endenglish
 	* \russian
@@ -2281,6 +2277,7 @@ fields:
 /** $XIS
 	* \english
 	* Calibration settings.
+	*
 	* This structure contains calibration settings.
 	* \endenglish
 	* \russian
@@ -2411,6 +2408,7 @@ fields:
 /**  $XIS
 	* \english
 	* EMF settings.
+	*
 	* This structure contains the data for Electromechanical characteristics (EMF) of the motor. It determines the inductance, resistance, and Electromechanical coefficient of the motor. This data is stored in the flash memory of the controller. Please set new settings when you change the motor. Remember that improper EMF settings may damage the equipment.
 	* \endenglish
 	* \russian
@@ -2426,10 +2424,10 @@ fields:
 	*/
 command "emf_settings" universal "emf" (48)
 fields:	
-	float L		/**< \english The motor winding inductance. \endenglish \russian Индуктивность обмоток двигателя. \endrussian */
-	float R		/**< \english The motor winding resistance. \endenglish \russian Сопротивление обмоток двигателя. \endrussian */
-	float Km		/**< \english The motor electromechanical ratio. \endenglish \russian Электромеханический коэффициент двигателя. \endrussian */
-	int8u flag BackEMFFlags of BackEMFFlags	/**< \english Flags of auto-settings of stepper motor. This is a bit mask for bitwise operations. \endenglish \russian Флаги автонастроек шагового двигателя. Это битовая маска для побитовых операций. \endrussian */
+	float L									/**< \english Motor winding inductance. \endenglish \russian Индуктивность обмоток двигателя. \endrussian */
+	float R									/**< \english Motor winding resistance. \endenglish \russian Сопротивление обмоток двигателя. \endrussian */
+	float Km								/**< \english Electromechanical ratio of the motor. \endenglish \russian Электромеханический коэффициент двигателя. \endrussian */
+	int8u flag BackEMFFlags of BackEMFFlags	/**< \english Auto-settings stepper motor flags. This is a bit mask for bitwise operations. \endenglish \russian Флаги автонастроек шагового двигателя. Это битовая маска для побитовых операций. \endrussian */
 	reserved 29
 
 /**  $XIR
@@ -2463,6 +2461,7 @@ fields:
 /**  $XIS
 	* \english
 	* EAS settings.
+	*
 	* This structure is intended for setting parameters of algorithms that cannot be attributed to standard Kp, Ki, Kd, and L, R, Km.
 	* \endenglish
 	* \russian
@@ -2842,6 +2841,7 @@ command "command_sstp" writer "sstp" (4)
 /** $XIS
 	* \english
 	* Position information.
+	*
 	* A useful structure that contains position value in steps and microsteps for stepper motor and encoder steps for all engines.
 	* \endenglish
 	* \russian
@@ -2876,6 +2876,7 @@ command "command_sstp" writer "sstp" (4)
 /** $XISC
 	* \english
 	* Position information.
+	*
 	* A useful structure that contains position value in user units for stepper motor and encoder steps for all engines.
 	* \endenglish
 	* \russian
@@ -2909,6 +2910,7 @@ fields:
 /** $XIS
 	* \english
 	* Position information.
+	*
 	* A useful structure that contains position value in steps and microsteps for stepper motor and encoder steps for all engines.
 	* \endenglish
 	* \russian
@@ -2933,6 +2935,7 @@ fields:
 /** $XISC
 	* \english
 	* User unit position information.
+	*
 	* A useful structure that contains position value in steps and microsteps for stepper motor and encoder steps of all engines.
 	* \endenglish
 	* \russian
@@ -2946,7 +2949,7 @@ fields:
 	normal int32s Position					/**< \english The position of the whole steps in the engine \endenglish \russian Позиция в основных шагах двигателя \endrussian */
 	normal int16s uPosition					/**< \english Microstep position is only used with stepper motors. Microstep size and the range of valid values for this field depend on the selected step division mode (see the MicrostepMode field in engine_settings). \endenglish \russian Позиция в микрошагах (используется только с шаговыми двигателями). Величина микрошага и диапазон допустимых значений для данного поля зависят от выбранного режима деления шага (см. поле MicrostepMode в engine_settings). \endrussian */
 	int64s EncPosition						/**< \english Encoder position.  \endenglish \russian Позиция энкодера. \endrussian */
-	int8u flag PosFlags of PositionFlags	/**< \english Flags. This is a bit mask for bitwise operations. \endenglish \russian Флаги. Это битовая маска для побитовых операций. \endrussian */
+	int8u flag PosFlags of PositionFlags	/**< \english Position flags. This is a bit mask for bitwise operations. \endenglish \russian Флаги. Это битовая маска для побитовых операций. \endrussian */
 	reserved 5
 
 /** $XIW
@@ -3081,6 +3084,7 @@ command "eeread_settings" writer "eerd" (4)
 /** $XIS
 	* \english
 	* Device state.
+	*
 	* A useful structure that contains current controller state, including speed, position, and boolean flags.
 	* \endenglish
 	* \russian
@@ -3106,6 +3110,7 @@ command "eeread_settings" writer "eerd" (4)
 /** $XISC
 	* \english
 	* User unit device's state.
+	*
 	* A useful structure that contains current controller state, including speed, position, and boolean flags.
 	* \endenglish
 	* \russian
@@ -3204,6 +3209,7 @@ fields:
 /** $XIS
 	* \english
 	* Additional device state.
+	*
 	* This structure contains additional values such as winding's voltages, currents, and temperature.
 	* \endenglish
 	* \russian
@@ -3220,8 +3226,8 @@ fields:
 	int16s WindingCurrentA		/**< \english In case of a step motor, it contains the current in the winding A (in mA); in case of a brushless motor, it contains the current in the winding A; and in case of a DC motor, it contains the only winding current. \endenglish \russian В случае ШД, ток в обмотке A (в мA); в случае бесщеточного, ток в первой обмотке; в случае DC в единственной. \endrussian */
 	int16s WindingCurrentB		/**< \english In case of a step motor, it contains the current in the winding B (in mA); in case of a brushless motor, it contains the current in the winding B; and in case of a DC motor, the field is not used. \endenglish \russian В случае ШД, ток в обмотке B (в мА); в случае бесщеточного, ток в второй обмотке; в случае DC не используется. \endrussian */
 	int16s WindingCurrentC		/**< \english In case of a brushless motor, it contains the current in the winding C (in mA); in case of a step motor and a DC motor, the field is not used. \endenglish \russian В случае бесщеточного, ток в третьей обмотке (в мА); в случае ШД и DC не используется. \endrussian */
-	int16u Pot			/**< \english Analog input value, dimensionless. Range: 0..10000 \endenglish \russian Значение на аналоговом входе. Диапазон: 0..10000 \endrussian */
-	int16u Joy			/**< \english The joystick position, dimensionless. Range: 0..10000 \endenglish \russian Положение джойстика в десятитысячных долях. Диапазон: 0..10000 \endrussian */
+	int16u Pot					/**< \english Analog input value, dimensionless. Range: 0..10000 \endenglish \russian Значение на аналоговом входе. Диапазон: 0..10000 \endrussian */
+	int16u Joy					/**< \english The joystick position, dimensionless. Range: 0..10000 \endenglish \russian Положение джойстика в десятитысячных долях. Диапазон: 0..10000 \endrussian */
 	int16s DutyCycle			/**< \english PWM duty cycle. \endenglish \russian Коэффициент заполнения ШИМ. \endrussian */
 	reserved 14
 
@@ -3239,12 +3245,10 @@ fields:
 	*/
 /** $XIS
 	* \english
-	* Read controller information command.
-	* The controller responds to this command in any state. The Manufacturer field for all XI** devices should contain the string "XIMC" (validation is performed on it). The remaining fields contain information about the device.
+	* Controller information structure.
 	* \endenglish
 	* \russian
-	* Команда чтения информации о контроллере.
-	* Контроллер отвечает на эту команду в любом состоянии. Поле Manufacturer для всех XI** устройств должно содержать строку "XIMC" (по нему производится валидация). Остальные поля содержат информацию об устройстве.
+	* Информации о контроллере.
 	* \endrussian
 	* @see get_device_information
 	*/
@@ -3394,6 +3398,7 @@ fields:
 /** $XIS
 	* \english
 	* Analog data.
+	*
 	* This structure contains raw analog data from the embedded ADC. These data are used for device testing and deep recalibration by the manufacturer only.
 	* \endenglish
 	* \russian
@@ -3555,7 +3560,7 @@ without answer, public, crc
 	*/
 command "stage_name" universal "nme" (30)
 fields:
-	char PositionerName[16]			/**< \english User's positioner name. It can be set by a user. Max string length: 16 chars. \endenglish \russian Пользовательское имя подвижки. Может быть установлено пользователем для его удобства. Максимальная длина строки: 16 символов. \endrussian */
+	char PositionerName[16]			/**< \english User's positioner name. It can be set by a user. Max string length: 16 characters. \endenglish \russian Пользовательское имя подвижки. Может быть установлено пользователем для его удобства. Максимальная длина строки: 16 символов. \endrussian */
 	reserved 8
 
 /** $XIR
@@ -4147,7 +4152,8 @@ answer:
 /** $XIS
 	* \english
 	* Random key.
-	* A structure that contains a random key is used in the encryption of WKEY and SSER command contents.
+	*
+	* Structure that contains a random key. It is used in the encryption of WKEY and SSER command contents.
 	* \endenglish
 	* \russian
 	* Случайный ключ.
