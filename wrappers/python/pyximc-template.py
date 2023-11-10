@@ -1,10 +1,12 @@
 #!/usr/bin/python
-from ctypes import WinDLL, CDLL, RTLD_GLOBAL, POINTER, byref, cast
+import os
+if os.name == "nt":
+    from ctypes import WinDLL
+from ctypes import CDLL, RTLD_GLOBAL, POINTER, byref, cast
 from ctypes import (c_double, c_int, c_uint, c_uint8, c_uint32,
                     c_ulonglong, c_float, c_char, c_char_p, c_long,
                     c_longlong, c_ubyte)
 from ctypes import Structure, LittleEndianStructure
-import os
 import platform
 import struct
 import sys
