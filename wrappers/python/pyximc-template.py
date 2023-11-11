@@ -12,6 +12,9 @@ import struct
 import sys
 
 
+print("WARNING: This binding version is an experimental one! Use with caution.")
+
+
 def _load_for_win():
     if 8 * struct.calcsize("P") == 32:
         lib_dir = "." + os.sep + "win32"
