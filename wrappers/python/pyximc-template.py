@@ -1,11 +1,13 @@
 #!/usr/bin/python
-from ctypes import WinDLL, CDLL, RTLD_GLOBAL, POINTER, byref, cast
+import os
+import platform
+from ctypes import CDLL, RTLD_GLOBAL, POINTER, byref, cast
+if platform.system() == "Windows":
+    from ctypes import WinDLL
 from ctypes import (c_double, c_int, c_uint, c_uint8, c_uint32,
                     c_ulonglong, c_float, c_char, c_char_p, c_long,
                     c_longlong, c_ubyte)
 from ctypes import Structure, LittleEndianStructure
-import os
-import platform
 import struct
 import sys
 
@@ -5110,7 +5112,7 @@ def get_home_settings_calb(device_id: DeviceT,
                         " was got.".format(type(calibration)))
     home_settings = home_settings_calb_t()
     calib = calibration_t(calibration.A, calibration.MicrostepMode)
-    _check_result(lib.set_home_settings_calb(device_id,
+    _check_result(lib.get_home_settings_calb(device_id,
                                              byref(home_settings),
                                              byref(calib)))
     return HomeSettingsCalb(home_settings.FastHome,
@@ -5204,7 +5206,7 @@ def get_move_settings_calb(device_id: DeviceT,
                         " was got.".format(type(calibration)))
     move_settings = move_settings_calb_t()
     calib = calibration_t(calibration.A, calibration.MicrostepMode)
-    _check_result(lib.set_move_settings_calb(device_id,
+    _check_result(lib.get_move_settings_calb(device_id,
                                              byref(move_settings),
                                              byref(calib)))
     return MoveSettingsCalb(move_settings.Speed,
@@ -7555,7 +7557,7 @@ def get_gear_information(device_id: DeviceT) -> GearInformation:
     """
     _check_device_id(device_id)
     gear_information = gear_information_t()
-    _check_result(lib.set_gear_information(device_id, byref(gear_information)))
+    _check_result(lib.get_gear_information(device_id, byref(gear_information)))
     return GearInformation(gear_information.Manufacturer,
                            gear_information.PartNumber)
 
