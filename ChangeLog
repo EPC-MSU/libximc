@@ -1,3 +1,11 @@
+libximc (2.14.19-1)
+  * Released: Mon, 13 Nov 2023 11:54:15 +0300
+  * Version bump
+  * remove PyPI builder out of the repo, #85896
+  * complete working on APIv2 binding, #86075
+  * fix english documentation, #87709
+  * change UserPassword type to char[]
+
 libximc (2.14.18-1)
   * Released: Tue, 12 Sep 2023 11:24:00 +0300
   * Version bump

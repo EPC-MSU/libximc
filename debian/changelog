@@ -1,3 +1,14 @@
+libximc7 (2.14.19-1) unstable; urgency=low
+
+  * Version bump
+  * remove PyPI builder out of the repo, #85896
+  * complete working on APIv2 binding, #86075
+  * fix english documentation, #87709
+  * change UserPassword type to char[]
+
+
+ -- XIMC <info@ximc.ru>  Mon, 13 Nov 2023 11:54:15 +0300
+
 libximc7 (2.14.18-1) unstable; urgency=low
 
   * Version bump
