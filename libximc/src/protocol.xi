@@ -11,7 +11,7 @@ defaults with crc, answer, public
 	\endrussian
 	*/
 flagset EnumerateFlags:
-ENUMERATE_PROBE		= 0x01	/**< \english Check if a device with an OS name is an XIMC device. Be careful with this flag because it sends some data to the device. \endenglish \russian Проверять, является ли устройство XIMC-совместимым. Будьте осторожны с этим флагом, т.к. он отправляет данные в устройство.  \endrussian */
+ENUMERATE_PROBE		= 0x01	/**< \english Check if a device with an OS name is a XIMC device. Be careful with this flag because it sends some data to the device. \endenglish \russian Проверять, является ли устройство XIMC-совместимым. Будьте осторожны с этим флагом, т.к. он отправляет данные в устройство.  \endrussian */
 ENUMERATE_ALL_COM	= 0x02	/**< \english Check all COM devices \endenglish \russian Проверять все COM-устройства \endrussian */
 ENUMERATE_NETWORK	= 0x04	/**< \english Check network devices \endenglish \russian Проверять сетевые устройства \endrussian */
 
@@ -2244,15 +2244,15 @@ fields:
 
 /** $XIR
 	* \english
-	* Read calibration settings.
-	* This function reads the structure with calibration settings.
+	* Read calibration settings. Manufacturer only. 
+	* This function reads the structure with calibration settings. These settings are used to convert bare ADC values to winding currents in mA and the full current in mA. Parameters are grouped into pairs, XXX_A and XXX_B, representing linear equation coefficients. The first one is the slope, the second one is the constant term. Thus, XXX_Current[mA] = XXX_A[mA/ADC]*XXX_ADC_CODE[ADC] + XXX_B[mA].
 	* @see calibration_settings_t
 	* @param id An identifier of a device
 	* @param[out] calibration_settings calibration settings
 	* \endenglish
 	* \russian
-	* Команда чтения калибровочных коэффициентов.
-	* Эта функция заполняет структуру калибровочных коэффициентов.
+	* Команда чтения калибровочных коэффициентов. Команда только для производителя.
+	* Эта функция заполняет структуру калибровочных коэффициентов. Эти коэффициенты используются для пересчёта кодов АЦП в токи обмоток и полный ток потребления. Коэффициенты сгруппированы в пары, XXX_A и XXX_B; пары представляют собой коэффициенты линейного уравнения. Первый коэффициент - тангенс угла наклона, второй - постоянное смещение. Таким образом, XXX_Current[mA] = XXX_A[mA/ADC]*XXX_ADC_CODE[ADC] + XXX_B[mA].
 	* @see calibration_settings_t
 	* @param id идентификатор устройства
 	* @param[out] calibration_settings калибровочные коэффициенты
@@ -2260,15 +2260,15 @@ fields:
 	*/
 /** $XIW
 	* \english
-	* Set calibration settings.
-	* This function sends the structure with calibration settings to the controller's memory.
+	* Set calibration settings. Manufacturer only.
+	* This function sends the structure with calibration settings to the controller's memory. These settings are used to convert bare ADC values to winding currents in mA and the full current in mA. Parameters are grouped into pairs, XXX_A and XXX_B, representing linear equation coefficients. The first one is the slope, the second one is the constant term. Thus, XXX_Current[mA] = XXX_A[mA/ADC]*XXX_ADC_CODE[ADC] + XXX_B[mA].
 	* @see calibration_settings_t
 	* @param id An identifier of a device
 	* @param[in] calibration_settings calibration settings
 	* \endenglish
 	* \russian
-	* Команда записи калибровочных коэффициентов.
-	* Эта функция записывает структуру калибровочных коэффициентов в память контроллера.
+	* Команда записи калибровочных коэффициентов. Команда только для производителя.
+	* Эта функция записывает структуру калибровочных коэффициентов в память контроллера. Эти коэффициенты используются для пересчёта кодов АЦП в токи обмоток и полный ток потребления. Коэффициенты сгруппированы в пары, XXX_A и XXX_B; пары представляют собой коэффициенты линейного уравнения. Первый коэффициент - тангенс угла наклона, второй - постоянное смещение. Таким образом, XXX_Current[mA] = XXX_A[mA/ADC]*XXX_ADC_CODE[ADC] + XXX_B[mA].
 	* @see calibration_settings_t
 	* @param id идентификатор устройства
 	* @param[in] calibration_settings калибровочные коэффициенты
@@ -2278,11 +2278,11 @@ fields:
 	* \english
 	* Calibration settings.
 	*
-	* This structure contains calibration settings.
+	* This structure contains calibration settings. These settings are used to convert bare ADC values to winding currents in mA and the full current in mA. Parameters are grouped into pairs, XXX_A and XXX_B, representing linear equation coefficients. The first one is the slope, the second one is the constant term. Thus, XXX_Current[mA] = XXX_A[mA/ADC]*XXX_ADC_CODE[ADC] + XXX_B[mA].
 	* \endenglish
 	* \russian
 	* Калибровочные коэффициенты.
-	* Эта структура содержит калибровочные коэффициенты.
+	* Эта структура содержит калибровочные коэффициенты. Эти коэффициенты используются для пересчёта кодов АЦП в токи обмоток и полный ток потребления. Коэффициенты сгруппированы в пары, XXX_A и XXX_B; пары представляют собой коэффициенты линейного уравнения. Первый коэффициент - тангенс угла наклона, второй - постоянное смещение. Таким образом, XXX_Current[mA] = XXX_A[mA/ADC]*XXX_ADC_CODE[ADC] + XXX_B[mA].
 	* \endrussian
 	* @see get_calibration_settings
 	* @see set_calibration_settings
@@ -3442,13 +3442,13 @@ fields:
 
 /** $XIR
 	* \english
-	* Read data from firmware for debug purpose.
+	* Read data from firmware for debug purpose. Manufacturer only.
 	* Its use depends on context, firmware version and previous history.
 	* @param id An identifier of a device
 	* @param[out] debug_read Debug data.
 	* \endenglish
 	* \russian
-	* Чтение данных из прошивки для отладки и поиска неисправностей.
+	* Чтение данных из прошивки для отладки и поиска неисправностей. Команда только для производителя.
 	* Получаемые данные зависят от версии прошивки, истории и контекста использования.
 	* @param id идентификатор устройства
 	* @param[out] debug_read Данные для отладки.
@@ -3471,12 +3471,12 @@ fields:
 
 /** $XIW
 	* \english
-	* Write data to firmware for debug purpose.
+	* Write data to firmware for debug purpose. Manufacturer only.
 	* @param id An identifier of a device
 	* @param[in] debug_write Debug data.
 	* \endenglish
 	* \russian
-	* Запись данных в прошивку для отладки и поиска неисправностей.
+	* Запись данных в прошивку для отладки и поиска неисправностей. Команда только для производителя.
 	* @param id идентификатор устройства
 	* @param[in] debug_write Данные для отладки.
 	* \endrussian
