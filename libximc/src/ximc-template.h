@@ -316,14 +316,14 @@ extern "C"
 
 	/**
 		* \english
-		* Update firmware.
+		* Update firmware. Manufacturer only.
 		* Service command
 		* @param uri a uri of device
 		* @param data firmware byte stream
 		* @param data_size size of byte stream
 		* \endenglish
 		* \russian
-		* Обновление прошивки
+		* Обновление прошивки. Команда только для производителя.
 		* @param uri идентификатор устройства
 		* @param data указатель на массив байтов прошивки
 		* @param data_size размер массива в байтах
