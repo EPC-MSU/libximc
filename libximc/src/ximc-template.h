@@ -393,32 +393,29 @@ extern "C"
 
 	/**
 		* \english
-		* Open a device with OS uri \a uri and return identifier of the device which can be used in calls.
-		* @param[in] uri - a device uri.
-		* Device uri has form "xi-com:port" or "xi-net://host/serial" or "xi-emu:///abs_path_to_file". For POSIX systems one can ommit root-slash in abs_path; for example, "xi-emu://home/user/virt_controller.bin". 
-		* In case of USB-COM port the "port" is the OS device uri.
-		* For example "xi-com:\\.\COM3" (taking into account '\' must be written as '\\' - "xi-com:\\\\.\\COM3") in Windows or "xi-com:///dev/tty.s123" in Linux/Mac.
-		* In case of network device the "host" is an IPv4 address or fully qualified domain uri (FQDN), "serial" is the device serial number in hexadecimal system.
-		* For example "xi-net://192.168.0.1/00001234" or "xi-net://hostname.com/89ABCDEF".
+		* Open a device with OS \a uri and return identifier of the device which can be used in calls.
+		* @param[in] uri - a device URI.
+		* Device URI has a form of "xi-com:port" or "xi-net://host/serial" or "xi-emu:///abs_path_to_file". For POSIX systems one can ommit root-slash in abs_path_to_file; for example, "xi-emu:///home/user/virt_controller.bin". 
+		* In case of USB-COM port, the "port" is the OS device URI. For example, "xi-com:\\\\\.\\COM3" in Windows (note that double-backslash will be transformed to single-backslash) or "xi-com:///dev/ttyACM0" in Linux/Mac.
+		* In case of network device, the "host" is an IPv4 address or fully qualified domain URI (FQDN), "serial" is the device serial number in hexadecimal system.
+		* For example, "xi-net://192.168.0.1/00001234" or "xi-net://hostname.com/89ABCDEF".
 		* In case of UDP protocol, use "xi-udp://<ip/host>:<port>.
 		* For example, "xi-udp://192.168.0.1:1818".
-		* Note: to open network device you must call {@link set_bindy_key} first.
-		* In case of virtual device the "abs_file_to_file" is the full filename with device memory state, if it doesn't exist then it is initialized with default values.
-		* For example "xi-emu:///C:/dir/file.bin" in Windows or "xi-emu:///home/user/file.bin" in Linux/Mac.
+		* In case of virtual device, the "abs_file_to_file" is the full path to the virtual device's file. If it doesn't exist, then it is created and initialized with default values.
+		* For example, "xi-emu:///C:/dir/file.bin" in Windows or "xi-emu:///home/user/file.bin" in Linux/Mac.
 		* \endenglish
 		* \russian
 		* Открывает устройство по имени \a uri и возвращает идентификатор, который будет использоваться для обращения к устройству.
 		* @param[in] uri - уникальный идентификатор устройства.
-		* Uri устройства имеет вид "xi-com:port" или "xi-net://host/serial" или "xi-emu:///abs_path_to_file". На POSIX системах допускается пропуск "рутовского" слэша; например, "xi-emu://home/user/virt_controller.bin".
-		* Для USB-COM устройства "port" это uri устройства в ОС.
-		* Например "xi-com:\\.\COM3" (с учётом экранировния '\' - "xi-com:\\\\.\\COM3") в Windows или "xi-com:///dev/tty.s123" в Linux/Mac.
+		* URI устройства имеет вид "xi-com:port" или "xi-net://host/serial" или "xi-emu:///abs_path_to_file". На POSIX системах допускается пропуск "рутовского" слэша; например, "xi-emu:///home/user/virt_controller.bin".
+		* Для USB-COM устройства "port" это URI устройства в ОС.
+		* Например, "xi-com:\\\\\.\\COM3" в Windows (с учётом экранирования двойные обратные слэши преобразуются в одинарные) или "xi-com:///dev/ttyACM0" в Linux/Mac.
 		* Для сетевого устройства "host" это IPv4 адрес или полностью определённое имя домена, "serial" это серийный номер устройства в шестнадцатеричной системе.
-		* Например "xi-net://192.168.0.1/00001234" или "xi-net://hostname.com/89ABCDEF".
+		* Например, "xi-net://192.168.0.1/00001234" или "xi-net://hostname.com/89ABCDEF".
 		* Для работы по UDP протоколу используйте "xi-udp://<ip/host>:<port>.
-		* Например "xi-udp://192.168.0.1:1818".
-		* Замечание: для открытия сетевого устройства обязательно нужно сначала вызвать функцию установки сетевого ключа {@link set_bindy_key}.
+		* Например, "xi-udp://192.168.0.1:1818".
 		* Для виртуального устройства "abs_file_to_file" это путь к файлу с сохраненным состоянием устройства. Если файл не существует, он будет создан и инициализирован значениями по умолчанию.
-		* Например "xi-emu:///C:/dir/file.bin" в Windows или "xi-emu:///home/user/file.bin" в Linux/Mac.
+		* Например, "xi-emu:///C:/dir/file.bin" в Windows или "xi-emu:///home/user/file.bin" в Linux/Mac.
 		* \endrussian
 		*/
 	device_t XIMC_API open_device (const char* uri);
