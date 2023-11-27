@@ -2829,13 +2829,13 @@ command "command_sstp" writer "sstp" (4)
 	* \english
 	* Reads the value position in steps and microsteps for stepper motor and encoder steps for all engines.
 	* @param id An identifier of a device
-	* @param[out] get_position structure contains motor position.
+	* @param[out] the_get_position structure contains motor position.
 	* \endenglish
 	* \russian
 	* Считывает значение положения в шагах и микрошагах для шагового двигателя и в шагах энкодера
 	* всех двигателей.
 	* @param id идентификатор устройства
-	* @param[out] position структура, содержащая позицию мотора.
+	* @param[out] the_get_position структура, содержащая позицию мотора.
 	* \endrussian
 	*/
 /** $XIS
@@ -2855,7 +2855,7 @@ command "command_sstp" writer "sstp" (4)
 	* \english
 	* Reads position value in user units for stepper motor and encoder steps for all engines.
 	* @param id An identifier of a device
-	* @param[out] get_position_calb structure contains motor position.
+	* @param[out] the_get_position_calb structure contains motor position.
 	* @param calibration user unit settings
 	* 
 	* \note
@@ -2865,7 +2865,7 @@ command "command_sstp" writer "sstp" (4)
 	* \russian
 	* Считывает значение положения в пользовательских единицах для шагового двигателя и в шагах энкодера всех двигателей.
 	* @param id идентификатор устройства
-	* @param[out] get_position_calb структура, содержащая позицию мотора.
+	* @param[out] the_get_position_calb структура, содержащая позицию мотора.
 	* @param calibration настройки пользовательских единиц
 	*
 	* \note
@@ -2897,14 +2897,14 @@ fields:
 	* \english
 	* Sets position in steps and microsteps for stepper motor. Sets encoder position for all engines.
 	* @param id An identifier of a device
-	* @param[out] set_position structure contains motor position.
+	* @param[out] the_set_position structure contains motor position.
 	* \endenglish
 	* \russian
 	* Устанавливает произвольное значение положения в шагах и
 	* микрошагах для шагового двигателя и в шагах энкодера для всех
 	* двигателей.
 	* @param id идентификатор устройства
-	* @param[out] position структура, содержащая позицию мотора.
+	* @param[out] the_set_position структура, содержащая позицию мотора.
 	* \endrussian
 	*/
 /** $XIS
@@ -2922,13 +2922,13 @@ fields:
 	* \english
 	* Sets any position value and encoder value of all engines. In user units.
 	* @param id An identifier of a device
-	* @param[out] set_position_calb structure contains motor position.
+	* @param[out] the_set_position_calb structure contains motor position.
 	* @param calibration user unit settings
 	* \endenglish
 	* \russian
 	* Устанавливает произвольное значение положения и значение энкодера всех двигателей с использованием пользовательских единиц.
 	* @param id идентификатор устройства
-	* @param[out] set_position_calb структура, содержащая позицию мотора.
+	* @param[out] the_set_position_calb структура, содержащая позицию мотора.
 	* @param calibration настройки пользовательских единиц
 	* \endrussian
 	*/
