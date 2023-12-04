@@ -2787,12 +2787,12 @@ command "command_right" writer "rigt" (4)
 
 /** $XIW
 	* \english
-	* Upon receiving the command "loft", the engine is shifted from the current position to a distance GENG::Antiplay. Then moves to the initial position.
+	* Upon receiving the command "loft", the engine is shifted from the current position to a distance Antiplay defined in engine settings. Then moves to the initial position.
 	* @param id An identifier of a device
 	* \endenglish
 	* \russian
 	* При получении команды "loft" двигатель смещается из текущей точки на
-	* расстояние GENG::Antiplay, затем двигается в ту же точку.
+	* расстояние Antiplay, заданное в настройках мотора (engine_settings), затем двигается в ту же точку.
 	* @param id идентификатор устройства
 	* \endrussian
 	*/
