@@ -738,12 +738,10 @@ extern "C"
 	result_t XIMC_API get_enumerate_device_network_information(device_enumeration_t device_enumeration, int device_index, device_network_information_t* device_network_information);
 
 	/** \english
-		* Resets the error of incorrect data transmission. This function returns only 0 (OK). 
-		* For example, sending the libximc command ends with an incorrect data transfer (error), any subsequent command always returns -1 (relevant for Windows).
+		* Resets the error of incorrect data transmission.
 		* \endenglish
 		* \russian
-		* Сбрасывает ошибку неправильной передачи данных. Эта функция возвращает только 0 (OK). 
-		* Например, отправка команды libximc заканчивается неправильной передачей данных (ошибкой), любая последующая команда всегда возвращает -1 (актуально для Windows).
+		* Сбрасывает ошибку неправильной передачи данных.
 		* \endrussian
 	*/
 	result_t XIMC_API reset_locks ();
