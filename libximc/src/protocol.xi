@@ -2143,7 +2143,7 @@ fields:
 
 /** $XIR
 	* \english
-	* Read network settings.
+	* Read network settings. Manufacturer only.
 	* This function returns the current network settings.
 	* @see net_settings_t
 	* @param DHCPEnabled DHCP enabled (1) or not (0)
@@ -2152,7 +2152,7 @@ fields:
 	* @param DefaultGateway[4] Array[4] with a default gateway address
 	* \endenglish
 	* \russian
-	* Команда чтения сететвых настроек.
+	* Команда чтения сететвых настроек. Только для производителя.
 	* Эта функция возвращает текущие сетевые настройки.
 	* @param DHCPEnabled DHCP включен (1) или нет (0)
 	* @param IPv4Address[4] Массив[4] с IP-адресом
@@ -2162,7 +2162,7 @@ fields:
 	*/
 /** $XIW
 	* \english
-	* Set network settings.
+	* Set network settings. Manufacturer only.
 	* This function sets the desired network settings.
 	* @see net_settings_t
 	* @param DHCPEnabled DHCP enabled (1) or not (0)
@@ -2171,7 +2171,7 @@ fields:
 	* @param DefaultGateway[4] Array[4] with a default gateway address
 	* \endenglish
 	* \russian
-	* Команда записи сететвых настроек.
+	* Команда записи сететвых настроек. Только для производителя.
 	* Эта функция меняет сетевые настройки на заданные.
 	* @param DHCPEnabled DHCP включен (1) или нет (0)
 	* @param IPv4Address[4] Массив[4] с IP-адресом
@@ -2181,11 +2181,11 @@ fields:
 	*/
 /** $XIS
 	* \english
-	* Network settings.
+	* Network settings. Manufacturer only.
 	* This structure contains network settings.
 	* \endenglish
 	* \russian
-	* Настройки сети.
+	* Настройки сети. Только для производителя.
 	* Эта структура содержит настройки сети.
 	* \endrussian
 	* @see get_network_settings
@@ -2201,37 +2201,37 @@ fields:
 
 /** $XIR
 	* \english
-	* Read the password.
+	* Read the password. Manufacturer only.
 	* This function reads the user password for the device's web-page.
 	* @see pwd_settings_t
 	* @param UserPassword[20] Password for web-page
 	* \endenglish
 	* \russian
-	* Команда чтения пароля к веб-странице.
+	* Команда чтения пароля к веб-странице. Только для производителя.
 	* Эта функция пользователяет прочитать пользовательский пароль к веб-странице из памяти контроллера.
 	* @param UserPassword[20] Строчка-пароль для доступа к веб-странице
 	* \endrussian
 	*/
 /** $XIW
 	* \english
-	* Sets the password.
+	* Sets the password. Manufacturer only.
 	* This function sets the user password for the device's web-page.
 	* @see pwd_settings_t
 	* @param UserPassword[20] Password for web-page
 	* \endenglish
 	* \russian
-	* Команда записи пароля к веб-странице.
+	* Команда записи пароля к веб-странице. Только для производителя.
 	* Эта функция меняет пользовательский пароль к веб-странице.
 	* @param UserPassword[20] Строчка-пароль для доступа к веб-странице
 	* \endrussian
 	*/
 /** $XIS
 	* \english
-	* The web-page user password
+	* The web-page user password. Manufacturer only.
 	* This structure contains the user password.
 	* \endenglish
 	* \russian
-	* Пароль.
+	* Пароль. Только для производителя.
 	* Эта структура содержит пароль к веб-странице.
 	* \endrussian
 	* @see get_password_settings
@@ -3005,11 +3005,11 @@ command "read_settings" writer "read" (4)
 
 /** $XIW
 	* \english
-	* Save important settings (calibration coefficients, etc.) from the controller's RAM to the controller's flash memory, replacing previous data in the flash memory.
+	* Save important settings (calibration coefficients, etc.) from the controller's RAM to the controller's flash memory, replacing previous data in the flash memory. Manufacturer only.
 	* @param id An identifier of a device
 	* \endenglish
 	* \russian
-	* При получении команды контроллер выполняет операцию сохранения важных настроек (калибровочные коэффициенты и т.п.) во встроенную энергонезависимую память контроллера.
+	* При получении команды контроллер выполняет операцию сохранения важных настроек (калибровочные коэффициенты и т.п.) во встроенную энергонезависимую память контроллера. Только для производителя.
 	* @param id идентификатор устройства
 	* \endrussian
 	*/
@@ -3017,11 +3017,11 @@ command "save_robust_settings" writer "sars" (4)
 
 /** $XIW
 	* \english
-	* Read important settings (calibration coefficients, etc.) from the controller's flash memory to the controller's RAM, replacing previous data in the RAM.
+	* Read important settings (calibration coefficients, etc.) from the controller's flash memory to the controller's RAM, replacing previous data in the RAM. Manufacturer only.
 	* @param id An identifier of a device
 	* \endenglish
 	* \russian
-	* Чтение важных настроек (калибровочные коэффициенты и т.п.) контроллера из flash памяти в оперативную, заменяя текущие настройки.
+	* Чтение важных настроек (калибровочные коэффициенты и т.п.) контроллера из flash памяти в оперативную, заменяя текущие настройки. Только для производителя.
 	* @param id идентификатор устройства
 	* \endrussian
 	*/
@@ -3321,11 +3321,11 @@ fields:
 
 /** $XIW
 	* \english
-	* The command switches the controller to update the firmware state.
+	* The command switches the controller to update the firmware state. Manufacturer only.
 	* After receiving this command, the firmware board sets a flag (for loader), sends an echo reply, and restarts the controller.
 	* \endenglish
 	* \russian
-	* Команда переводит контроллер в режим обновления прошивки.
+	* Команда переводит контроллер в режим обновления прошивки. Только для производителя.
 	* Получив такую команду, прошивка платы устанавливает флаг (для загрузчика), отправляет эхо-ответ и перезагружает контроллер.
 	* \endrussian
 	*/
@@ -4114,7 +4114,7 @@ fields:
 
 /** $XIW
 		* \english
-		* Command initiates the transfer of control to firmware. This command is also available in the firmware for compatibility.
+		* Command initiates the transfer of control to firmware. This command is also available in the firmware for compatibility. Manufacturer only.
 		* Result = RESULT_OK, if the transition from the loader to the firmware is possible. After the response to this command, the transition is executed.
 		* Result = RESULT_NO_FIRMWARE if the firmware is not found.
 		* Result = RESULT_ALREADY_IN_FIRMWARE if this command is called from the firmware.
@@ -4122,7 +4122,7 @@ fields:
 		* @param[out] sresult command result
 		* \endenglish
 		* \russian
-		* Команда инициирует передачу управления прошивке. Эта команда так же доступна из прошивки, для совместимости.
+		* Команда инициирует передачу управления прошивке. Эта команда так же доступна из прошивки, для совместимости. Только для производителя.
 		* Result = RESULT_OK, если переход из загрузчика в прошивку возможен. После ответа на эту команду выполняется переход.
 		* Result = RESULT_NO_FIRMWARE, если прошивка не найдена.
 		* Result = RESULT_ALREADY_IN_FIRMWARE, если эта команда была вызвана из прошивки.
@@ -4139,24 +4139,24 @@ answer:
 
 /** $XIR
 	* \english
-	* Read a random number from the controller.
+	* Read a random number from the controller. Manufacturer only.
 	* @param id An identifier of a device
 	* @param[out] init_random random sequence generated by the controller
 	* \endenglish
 	* \russian
-	* Чтение случайного числа из контроллера.
+	* Чтение случайного числа из контроллера. Только для производителя.
 	* @param id идентификатор устройства
 	* @param[out] init_random случайная последовательность, сгенерированная контроллером
 	* \endrussian
 	*/
 /** $XIS
 	* \english
-	* Random key.
+	* Random key. Manufacturer only.
 	*
 	* Structure that contains a random key. It is used in the encryption of WKEY and SSER command contents.
 	* \endenglish
 	* \russian
-	* Случайный ключ.
+	* Случайный ключ. Только для производителя.
 	* Структура которая содержит случайный ключ, использующийся для шифрования содержимого команд WKEY и SSER.
 	* \endrussian
 	*/
@@ -4168,13 +4168,13 @@ fields:
 
 /** $XIR
   * \english
-  * This value is unique to each individual device, but is not a random value.
+  * This value is unique to each individual device, but is not a random value. Manufacturer only.
   * This unique device identifier can be used to initiate secure boot processes or as a serial number for USB or other end applications.
   * @param id An identifier of a device
   * @param[out] globally_unique_identifier the result of fields 0-3 concatenated defines the unique 128-bit device identifier.
   * \endenglish
   * \russian
-  * Считывает уникальный идентификатор каждого чипа, это значение не является случайным.
+  * Считывает уникальный идентификатор каждого чипа, это значение не является случайным. Только для производителя.
   * Уникальный идентификатор может быть использован в качестве инициализационного вектора
   * для операций шифрования бутлоадера или в качестве серийного номера для USB и других применений.
   * @param id идентификатор устройства
@@ -4183,10 +4183,10 @@ fields:
   */
 /** $XIS
   * \english
-  * Globally unique identifier.
+  * Globally unique identifier. Manufacturer only.
   * \endenglish
   * \russian
-  * Глобальный уникальный идентификатор.
+  * Глобальный уникальный идентификатор. Только для производителя.
   * \endrussian
   */
 command "globally_unique_identifier" reader "guid" (40)
@@ -4200,14 +4200,14 @@ fields:
 
 /** $XIR
 	* \english
-	* Check for firmware on device.
+	* Check for firmware on device. Manufacturer only.
 	* Result = RESULT_NO_FIRMWARE if the firmware is not found.
 	* Result = RESULT_HAS_FIRMWARE if the firmware has been found.
 	* @param name a name of device
 	* @param[out] ret non-zero if the firmware existed
 	* \endenglish
 	* \russian
-	* Команда определяет наличие в контроллере ПО.
+	* Команда определяет наличие в контроллере ПО. Только для производителя.
 	* Данная команда доступна так же из прошивки.
 	* Result = RESULT_NO_FIRMWARE, если прошивка не найдена.
 	* Result = RESULT_HAS_FIRMWARE, если прошивка найдена.
