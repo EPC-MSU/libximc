@@ -499,14 +499,11 @@ extern "C"
 	* The correction table is used for position correction in case of mechanical inaccuracies.
 	* It works for some parameters in _calb commands.
 	* @param id an identifier the device
-	* @param[in] namefile - the file name must be fully qualified.
-	* If the short name is used, the file must be located in the application directory.
-	* If the file name is set to NULL, the correction table will be cleared.
-	* File format: two tab-separated columns.
-	* Column headers are string.
-	* Data is real, the point is a determiter.
-	* The first column is a coordinate. The second one is the deviation caused by a mechanical error.
-	* The maximum length of a table is 100 rows.
+	* @param[in] namefile - the file name must be either a full path or a relative path. If the file name is set to NULL,
+	* the correction table will be cleared. File format: two tab-separated columns. Column headers are strings.
+	* Data is real, the dot is a delimiter. The first column is a coordinate. The second one is the deviation
+	* caused by a mechanical error. The maximum length of a table is 100 rows. Coordinate column must be sorted in
+	* ascending order.
 	* @see command_move
 	* @see get_position_calb
 	* @see get_position_calb_t
@@ -522,15 +519,13 @@ extern "C"
 	* Таблица используется для коррекции положения в случае механических неточностей.
 	* Работает для некоторых параметров в _calb командах.
 	* @param id - идентификатор устройства
-	* @param[in] namefile - имя файла должно быть полным.
-	* Если используется короткое имя, файл должен находится в директории приложения.
-	* Если имя файла равно NULL таблица коррекции будет очищена.
-	* Формат файла: два столбца разделенных табуляцией.
+	* @param[in] namefile - путь до файла должен быть полным или относительным.
+	* Если параметр равен NULL, таблица коррекции будет очищена.
+	* Формат файла: два столбца, разделенных табуляцией.
 	* Заголовки столбцов строковые.
-	* Данные действительные разделитель точка.
-	* Первый столбец координата. Второй - отклонение вызванное ошибкой механики.
-	* Между координатами отклонение расчитывается линейно. За диапазоном константа равная отклонению на границе.
-	* Максимальная длина таблицы 100 строк.
+	* Данные действительные, разделитель точка.
+	* Первый столбец - координата. Второй - отклонение, вызванное ошибкой механики.
+	* Максимальная длина таблицы 100 строк. Координаты должны быть отсортированы по возрастанию.
 	* @see command_move
 	* @see command_movr
 	* @see get_position_calb
