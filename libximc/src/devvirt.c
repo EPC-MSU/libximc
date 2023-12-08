@@ -293,6 +293,9 @@ static uint16_t GetWriteDataSize(uint32_t Command)
 	return 0;
 }
 
+// Struct used for emulationing oscilloscope functionality of ximc. Its 25-long arrays are filled with zeros.
+static measurements_t measurements = { .Length = 25 };
+
 /*
 	This function gets a command-packet structure and puts response into Array.
 	The Array size must be enough to hold any single response.
@@ -443,6 +446,9 @@ static uint16_t GetData(const uint8_t *in_buf, size_t data_size, uint8_t *out_bu
 		   all->BCDRamParams.GETS.CurSpeed = -all->BCDRamParams.GETS.CurSpeed;
 		   all->BCDRamParams.GETS.uCurSpeed = -all->BCDRamParams.GETS.uCurSpeed;
 		   break;
+		case STMS_CMD: break;
+		case GETM_CMD:
+			WRITE_STRUCTURE(measurements);
 		case RIGT_CMD:
 		   all->BCDRamParams.GETS.MvCmdSts = MVCMD_RIGHT | MVCMD_RUNNING;
 		   all->BCDRamParams.GETS.CurSpeed = all->BCDFlashParams.SMOV.Speed;
@@ -486,7 +492,6 @@ static uint16_t GetData(const uint8_t *in_buf, size_t data_size, uint8_t *out_bu
 		   WRITE_STRUCTURE(all->BCDInfo.DEVICE_INFO);
 		   break;
 	   	}
-
 		case REST_CMD: break;
 		case UPDF_CMD: break;
 		case CLFR_CMD: break;
