@@ -449,6 +449,7 @@ static uint16_t GetData(const uint8_t *in_buf, size_t data_size, uint8_t *out_bu
 		case STMS_CMD: break;
 		case GETM_CMD:
 			WRITE_STRUCTURE(measurements);
+			break;
 		case RIGT_CMD:
 		   all->BCDRamParams.GETS.MvCmdSts = MVCMD_RIGHT | MVCMD_RUNNING;
 		   all->BCDRamParams.GETS.CurSpeed = all->BCDFlashParams.SMOV.Speed;
