@@ -1,0 +1,27 @@
+[flake8]
+max-complexity = 14
+inline-quotes = double
+multiline-quotes = """ 
+builtins = _
+verbose = 2
+max-line-length = 120
+
+# Files and folders ignore list
+# -----------------------------
+# Add comments for all ignored files and folders to justify the common standard violation
+exclude = 
+          # Git internal folder
+          .git,
+          # Python temporary files
+          __pycache__,
+          # External dependencies
+          venv
+
+# Violations ignore list
+# ======================
+# Add comments for all ignored rules to justify the common standard violation
+# extend-ignore =
+    # doxygen comments are used in python files
+    # E266,
+    # @overload is used
+    # F811,

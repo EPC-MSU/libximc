@@ -12,3 +12,5 @@ __pycache__
 */.idea
 *.iml
 *.tar.gz
+wrappers/python/src/libximc/library-files/
+deps/
