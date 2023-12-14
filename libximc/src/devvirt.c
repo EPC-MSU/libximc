@@ -172,6 +172,7 @@ typedef struct
 	BCDFlashParamsStr BCDFlashParams;
 	BCDStageParamsStr BCDStageParams;
 	BCDInfoStr BCDInfo;
+	getm_cmd_str measurements;
 	/* in microseconds */
 	uint64_t last_tick;
 	uint32_t serial;
@@ -293,8 +294,6 @@ static uint16_t GetWriteDataSize(uint32_t Command)
 	return 0;
 }
 
-// Struct used for emulationing oscilloscope functionality of ximc. Its 25-long arrays are filled with zeros.
-static measurements_t measurements = { .Length = 25 };
 
 /*
 	This function gets a command-packet structure and puts response into Array.
@@ -446,9 +445,11 @@ static uint16_t GetData(const uint8_t *in_buf, size_t data_size, uint8_t *out_bu
 		   all->BCDRamParams.GETS.CurSpeed = -all->BCDRamParams.GETS.CurSpeed;
 		   all->BCDRamParams.GETS.uCurSpeed = -all->BCDRamParams.GETS.uCurSpeed;
 		   break;
-		case STMS_CMD: break;
+		case STMS_CMD:
+			all->measurements.Length = 25;
+			break;
 		case GETM_CMD:
-			WRITE_STRUCTURE(measurements);
+			WRITE_STRUCTURE(all->measurements);
 			break;
 		case RIGT_CMD:
 		   all->BCDRamParams.GETS.MvCmdSts = MVCMD_RIGHT | MVCMD_RUNNING;
