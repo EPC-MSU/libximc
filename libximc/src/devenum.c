@@ -786,7 +786,7 @@ result_t enumerate_devices_impl(device_enumeration_opaque_t** device_enumeration
 {
     device_enumeration_opaque_t* devenum;
 #ifdef HAVE_XIBRIDGE
-    result_t enumreslt;
+    result_t enumresult;
 #else
     XIMC_UNUSED(hints)
 #endif
