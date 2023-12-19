@@ -1106,6 +1106,8 @@ result_t open_port (device_metadata_t *metadata, const char* name)
 		return result_error;
 	}
 #else
+	XIMC_UNUSED(metadata);
+	XIMC_UNUSED(name);
 	log_error( L"network device support is not built" );
 	return result_error;
 #endif
@@ -1136,6 +1138,7 @@ result_t close_port (device_metadata_t *metadata)
 			return result_ok;
 	}
 #else
+	XIMC_UNUSED(metadata);
 	log_error( L"network device support is not built" );
 	return result_error;
 #endif

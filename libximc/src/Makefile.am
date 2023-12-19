@@ -14,9 +14,14 @@ else
 DEP_EXT = $(SHARED_EXT)
 endif
 
+if HAVE_XIBRIDGE
 install-exec-local:
 	mkdir -p "$(DESTDIR)$(libdir)"
 	cp -Ra $(XIBRIDGE_PATH)/libxibridge$(DEP_EXT) "$(DESTDIR)$(libdir)"
+else
+install-exec-local:
+	mkdir -p "$(DESTDIR)$(libdir)"
+endif
 
 
 uninstall-local:

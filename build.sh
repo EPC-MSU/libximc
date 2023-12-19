@@ -469,7 +469,13 @@ build_depends()
 {
 	echo Building depends with flags $*
 	mkdir -p $DEPS
-	build_dep_xibridge $*
+
+	if [ $( echo $* | grep -e "\(^\|\ \)--without-xibridge\($\|\ \)" ) ] ; then
+		echo Ommiting xibridge building
+	else
+		build_dep_xibridge $*
+	fi
+
 	build_dep_xigen $*
 	build_dep_miniupnpc $*
 }
@@ -520,7 +526,7 @@ build_rpm_package()
 build_osx_impl()
 {
 	clean
-	build_depends
+	build_depends $*
 	build_to_local --with-xcode-build $*
 	# Override JNI lib with a jni library linked to framework
 	make -C wrappers/java/src/c framework-build
@@ -558,17 +564,17 @@ depends)
 	;;
 
 lib)
-	build_depends
+	build_depends $*
 	build_to_local --with-docs $*
 	;;
 
 libfast)
-	build_depends
+	build_depends $*
 	TARGETS="all install" build_to_local --without-docs $*
 	;;
 
 onlydocs)
-	build_depends
+	build_depends $*
 	build_to_local --with-docs $*
 	mkdir -p _tmp
 	mv $DL/$DISTNAME/doc-* _tmp/
@@ -600,7 +606,7 @@ libdeb)
 	clean
 	# need to clean deps because something could be left
 
-	build_depends	-DNO_RPATH_PACKAGING=TRUE
+	build_depends	-DNO_RPATH_PACKAGING=TRUE $*
 	if uname -m | grep -q arm ; then
 		# do not call distcheck target, only dist
 		TARGETS="all dist install" build_to_local --with-docs
@@ -612,7 +618,7 @@ libdeb)
 
 librpm)
 	clean
-	build_depends	-DNO_RPATH_PACKAGING=TRUE
+	build_depends	-DNO_RPATH_PACKAGING=TRUE $*
 	build_to_local --with-docs
 	build_rpm_package
 	;;
@@ -653,7 +659,7 @@ cat <<EOF > $BASEROOT/abicc-"$DUMP_VER".xml
 <skip_constants>LIBXIMC_VERSION</skip_constants>
 </descriptor>
 EOF
-	build_depends
+	build_depends $*
 	TARGETS="all install" USE_CFLAGS=-g build_to_local --without-docs $*
 	abi-compliance-checker -lib ximc -dump abicc-"$DUMP_VER".xml -dump-path ximc_"$DUMP_VER".abi.tar.gz
 	;;

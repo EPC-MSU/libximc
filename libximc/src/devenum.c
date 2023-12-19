@@ -785,7 +785,11 @@ result_t enumerate_xinet_devices_enumerate_ssdp(
 result_t enumerate_devices_impl(device_enumeration_opaque_t** device_enumeration, int enumerate_flags, const char * hints)
 {
     device_enumeration_opaque_t* devenum;
-    result_t enumresult;
+#ifdef HAVE_XIBRIDGE
+    result_t enumreslt;
+#else
+    XIMC_UNUSED(hints)
+#endif
 
     /* ensure one-thread mutex init */
     lock_metadata();
