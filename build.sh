@@ -470,7 +470,7 @@ build_depends()
 	echo Building depends with flags $*
 	mkdir -p $DEPS
 
-	if [ $( echo $* | grep -e "\(^\|\ \)--without-xibridge\($\|\ \)" ) ] ; then
+	if [ "$(echo $* | grep -e "\(^\|\ \)--without-xibridge\($\|\ \)")" ] ; then
 		echo Ommiting xibridge building
 	else
 		build_dep_xibridge $*
