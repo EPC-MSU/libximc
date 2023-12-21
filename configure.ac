@@ -23,7 +23,6 @@ AC_CONFIG_FILES([Makefile
 								 wrappers/java/src/Makefile
 								 wrappers/java/src/c/Makefile
 								 wrappers/java/src/java/Makefile
-								 wrappers/python/Makefile
 								])
 
 AM_INIT_AUTOMAKE([-Wall -Werror])
