@@ -118,9 +118,13 @@ elif [ "$1" = "py-binding" ] ; then
 	mkdir -p wrappers/python/src/library-files/debian-i386
 	cp ximc/debian-i386/* wrappers/python/src/library-files/debian-i386
 
-	# Debian-armhf
-	mkdir -p wrappers/python/src/library-files/debian-armhf
-	cp ximc/debian-armhf/* wrappers/python/src/library-files/debian-armhf
+	# Debian-armhf (it's optional)
+	if [ -d "ximc/debian-armhf" ] ; then
+		mkdir -p wrappers/python/src/library-files/debian-armhf
+		cp ximc/debian-armhf/* wrappers/python/src/library-files/debian-armhf
+	else
+		echo ATTENTION: No ARM *.so was found. Probably the build has no WITH_ARM param.
+	fi
 
 	# Debian-amd64
 	mkdir -p wrappers/python/src/library-files/debian-amd64
