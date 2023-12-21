@@ -131,6 +131,8 @@ makedist()
 	if [ -d "$DL/crossplatform" ] ; then
 		cp -R $DL/crossplatform $DISTLIB/
 	fi
+	rm -r $DISTLIB/crossplatform/python/*
+	cp $DL/crossplatform/python/dist/* $DISTLIB/crossplatform/python/
 
 	echo Copying c-profiles
 	if [ -d "$DL/../c-profiles" ] ; then
@@ -177,9 +179,6 @@ makedist()
 		else
 			echo No archive file
 		fi
-		
-
-		
 	done
 
 	cp -R $DL/rpm/*.rpm $DISTLIB/rpm/
@@ -521,8 +520,8 @@ build_osx_impl()
 	(cd examples/test_Java && $MAKE) || false
 	cp -a examples/test_Java/test_Java.jar $DL/$DISTNAME/
 	cp -a examples/test_Java/README.txt $DL/$DISTNAME/java-README.txt
-	mkdir -p $DL/crossplatform/wrappers/python
-	cp wrappers/python/pyximc.py $DL/crossplatform/wrappers/python
+	mkdir -p $DL/crossplatform/wrappers/
+	cp -r wrappers/python $DL/crossplatform/wrappers/
 }
 
 echo XIMC build script

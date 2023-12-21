@@ -81,6 +81,36 @@ elif [ "$1" = "build" ] ; then
 		exit 1
 	fi
 	tar cf results-dist-$buildos.tar ximc
+elif [ "$1" = "py-binding" ] ; then
+	# Win32
+	mkdir wrappers/python/src/library-files/win32
+	cp ximc/win32/*.dll wrappers/python/src/library-files/win32
+	cp ximc/win32/*.lib wrappers/python/src/library-files/win32
+
+	# Win64
+	mkdir wrappers/python/src/library-files/win64
+	cp ximc/win64/*.dll wrappers/python/src/library-files/win64
+	cp ximc/win64/*.lib wrappers/python/src/library-files/win64
+
+	# Debian-i386
+	mkdir wrappers/python/src/library-files/debian-i386
+	cp ximc/debian-i386/* wrappers/python/src/library-files/debian-i386
+
+	# Debian-armhf
+	mkdir wrappers/python/src/library-files/debian-armhf
+	cp ximc/debian-armhf/* wrappers/python/src/library-files/debian-armhf
+
+	# Debian-amd64
+	mkdir wrappers/python/src/library-files/debian-amd64
+	cp ximc/amd64/* wrappers/python/src/library-files/amd64
+
+	cd wrappers/python
+	echo Building python binding with
+	echo $(python3 --version)
+	echo $(python3 -m build --version)
+	python3 -m build
+	
+	cd -
 else
 	# usual build. node labels are passed by env variable
 	for label in $NODE_LABELS
