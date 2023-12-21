@@ -54,28 +54,28 @@ if [ "$1" = "unpack-stashes" ] ; then
 	ls -lR ximc || true
 	# Unpacking debs
 	for arch in amd64 i386 armhf ; do
-		namearch=$(find deb -name "libximc7_*_$arch.deb")
-		namearch_dev=$(find deb -name "libximc7-dev_*_$arch.deb")
+		namearch=$(find ximc/deb -name "libximc7_*_$arch.deb")
+		namearch_dev=$(find ximc/deb -name "libximc7-dev_*_$arch.deb")
 		echo $namearch
 		if [ -f "$namearch" ]
 		then
-			mkdir -p deb/$arch
-			mkdir -p deb/dev-$arch
-			mkdir -p debian-$arch
+			mkdir -p ximc/deb/$arch
+			mkdir -p ximc/deb/dev-$arch
+			mkdir -p ximc/debian-$arch
 
 			ar -x $namearch data.tar.gz 
-			mv -f data.tar.gz deb/$arch
-			tar -C deb/$arch/ -zxf  deb/$arch/data.tar.gz
+			mv -f data.tar.gz ximc/deb/$arch
+			tar -C ximc/deb/$arch/ -zxf  ximc/deb/$arch/data.tar.gz
 			
 			ar -x $namearch_dev data.tar.gz
-			mv -f data.tar.gz deb/dev-$arch
-			tar -C deb/dev-$arch/ -zxf  deb/dev-$arch/data.tar.gz
+			mv -f data.tar.gz ximc/deb/dev-$arch
+			tar -C ximc/deb/dev-$arch/ -zxf  ximc/deb/dev-$arch/data.tar.gz
 		
-			cp -R deb/$arch/usr/lib/*.* debian-$arch/
-			cp -R deb/dev-$arch/usr/lib/*.* debian-$arch/
+			cp -R ximc/deb/$arch/usr/lib/*.* ximc/debian-$arch/
+			cp -R ximc/deb/dev-$arch/usr/lib/*.* ximc/debian-$arch/
 			
-			rm -rf deb/$arch
-			rm -rf deb/dev-$arch
+			rm -rf ximc/deb/$arch
+			rm -rf ximc/deb/dev-$arch
 		else
 			echo No archive file
 		fi
