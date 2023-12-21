@@ -1,5 +1,3 @@
-SUBDIRS = python
-
 if HAVE_JAVA
-SUBDIRS += java
+SUBDIRS = java
 endif
