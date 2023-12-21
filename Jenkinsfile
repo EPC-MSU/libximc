@@ -137,6 +137,7 @@ pipeline {
           }
         }
         sh "ls"
+        sh "./build-ci unpack-stashes"
         sh "./build-ci py-binding"
         sh "./build-ci dist"
         archiveArtifacts artifacts: "dist/ximc*.tar.gz"

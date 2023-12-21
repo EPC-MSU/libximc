@@ -45,24 +45,18 @@ echo git effective version:
 $GIT log -1 HEAD
 
 # dist override all other
-if [ "$1" = "dist" ] ; then
-	echo Okay, they call dist
-	if [ -d "dist" ] ; then
-		chmod -R u+rX ximc
-		rm -rf ximc
-	fi
+if [ "$1" = "unpack-stashes" ] ; then
 	ls -1 results-*.tar | xargs -L1 -t tar xfv
 	echo Before
 	ls -lR ximc || true
 	chmod -R u+rX ximc
 	echo After
 	ls -lR ximc || true
+elif [ "$1" = "dist" ] ; then
 	makedist
-
 elif [ "$1" = "docs" ] ; then
 	build_docs
 	tar cf results-dist-docs.tar ximc
-
 elif [ "$1" = "abicc-dump" ] ; then
 	./build.sh abicc-dump
 
