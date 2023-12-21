@@ -128,7 +128,7 @@ elif [ "$1" = "py-binding" ] ; then
 
 	# Debian-amd64
 	mkdir -p wrappers/python/src/library-files/debian-amd64
-	cp ximc/amd64/* wrappers/python/src/library-files/amd64
+	cp ximc/debian-amd64/* wrappers/python/src/library-files/debian-amd64
 
 	cd wrappers/python
 	echo Building python binding with
