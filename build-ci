@@ -52,6 +52,34 @@ if [ "$1" = "unpack-stashes" ] ; then
 	chmod -R u+rX ximc
 	echo After
 	ls -lR ximc || true
+	# Unpacking debs
+	for arch in amd64 i386 armhf ; do
+		namearch=$(find deb -name "libximc7_*_$arch.deb")
+		namearch_dev=$(find deb -name "libximc7-dev_*_$arch.deb")
+		echo $namearch
+		if [ -f "$namearch" ]
+		then
+			mkdir -p deb/$arch
+			mkdir -p deb/dev-$arch
+			mkdir -p debian-$arch
+
+			ar -x $namearch data.tar.gz 
+			mv -f data.tar.gz deb/$arch
+			tar -C deb/$arch/ -zxf  deb/$arch/data.tar.gz
+			
+			ar -x $namearch_dev data.tar.gz
+			mv -f data.tar.gz deb/dev-$arch
+			tar -C deb/dev-$arch/ -zxf  deb/dev-$arch/data.tar.gz
+		
+			cp -R deb/$arch/usr/lib/*.* debian-$arch/
+			cp -R deb/dev-$arch/usr/lib/*.* debian-$arch/
+			
+			rm -rf deb/$arch
+			rm -rf deb/dev-$arch
+		else
+			echo No archive file
+		fi
+	done
 elif [ "$1" = "dist" ] ; then
 	makedist
 elif [ "$1" = "docs" ] ; then

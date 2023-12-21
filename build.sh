@@ -151,33 +151,15 @@ makedist()
 
 	cp -R $DL/deb/*.deb $DISTLIB/deb/
 	ls $DL/deb/
-	for arch in amd64 i386 armhf ; do		
-		
-		namearch=$(find $DL/deb -name "libximc7_*_$arch.deb")
-		namearch_dev=$(find $DL/deb -name "libximc7-dev_*_$arch.deb")
-		echo $namearch
-		if [ -f "$namearch" ]
+	for arch in amd64 i386 armhf ; do
+		lib_dir=$(find $DL -name "debian-$arch")
+		echo $arch
+		if [ -n "$lib_dir" ]
 		then
-			mkdir -p $DL/deb/$arch
-			mkdir -p $DL/deb/dev-$arch
 			mkdir -p $DISTLIB/debian-$arch
-
-			ar -x $namearch data.tar.gz 
-			mv -f data.tar.gz $DL/deb/$arch
-			tar -C $DL/deb/$arch/ -zxf  $DL/deb/$arch/data.tar.gz
-			
-			ar -x $namearch_dev data.tar.gz
-			mv -f data.tar.gz $DL/deb/dev-$arch
-			tar -C $DL/deb/dev-$arch/ -zxf  $DL/deb/dev-$arch/data.tar.gz
-		
-			cp -R $DL/deb/$arch/usr/lib/*.* $DISTLIB/debian-$arch/
-			cp -R $DL/deb/dev-$arch/usr/lib/*.* $DISTLIB/debian-$arch/
-			
-			rm -rf $DL/deb/$arch
-			rm -rf $DL/deb/dev-$arch
-			
+			cp -R $lib_dir/ $DISTLIB/debian-$arch/
 		else
-			echo No archive file
+			echo No corresponding files
 		fi
 	done
 
