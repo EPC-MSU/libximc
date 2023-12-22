@@ -106,7 +106,7 @@ elif [ "$1" = "build" ] ; then
 elif [ "$1" = "py-binding" ] ; then
 	VER=$(sed 'q' ./version)
 	sed -i -e "s/^Version: X.X.X$/Version: $VER/" wrappers/python/PKG-INFO
-	sed -i -e "s/^version = "X.X.X"$/version = $VER/" wrappers/python/pyproject.toml
+	sed -i -e "s/^version = \"X.X.X\"$/version = $VER/" wrappers/python/pyproject.toml
 
 	# Win32
 	mkdir -p wrappers/python/src/library-files/win32
