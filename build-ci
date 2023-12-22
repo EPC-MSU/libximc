@@ -133,7 +133,8 @@ elif [ "$1" = "py-binding" ] ; then
 	cd wrappers/python
 	echo Building python binding with
 	echo $(python3 --version)
-	if [ ! $(pip3 --version) ] ; then apt-get -y install python3-pip ; fi
+	if [ ! "$(pip3 --version)" ] ; then apt-get -y install python3-pip ; fi
+	if [ ! "$(python3 -m venv --help)" ] ; then apt-get -y install python3-venv ; fi
 	if [ -z "$(pip3 show build)" ] ; then
 		echo Installing build package...
 		pip3 install build
