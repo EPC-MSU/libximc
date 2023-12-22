@@ -127,12 +127,10 @@ makedist()
 	echo Copying driver
 	cp -R driver $DIST/
 
-	echo Copying crossplatform data
-	if [ -d "$DL/crossplatform" ] ; then
-		cp -R $DL/crossplatform $DISTLIB/
-	fi
-	rm -r $DISTLIB/crossplatform/python/*
-	cp $DL/crossplatform/python/dist/* $DISTLIB/crossplatform/python/
+	echo Copying python binding
+	mkdir -p $DIST/crossplatform/wrappers/python
+	cp -R wrappers/python/src/libximc $DIST/crossplatform/wrappers/python/
+	# TODO: add copying of where_did_libximc.py_go.txt
 
 	echo Copying c-profiles
 	if [ -d "$DL/../c-profiles" ] ; then
@@ -148,7 +146,6 @@ makedist()
 	for arch in deb rpm macosx win32 win64 ; do
 		mkdir -p $DISTLIB/$arch
 	done
-
 	cp -R $DL/deb/*.deb $DISTLIB/deb/
 	ls $DL/deb/
 	for arch in amd64 i386 armhf ; do
@@ -299,6 +296,7 @@ makedist()
 
 	tar -C dist -czf dist/ximc-$VER.tar.gz ximc-$VER
 	tar -C dist -czf dist/ximc-$VER-src.tar.gz ximc-$VER-src
+	tar -C dist -cf dist/python-binding-$VER.tar wrappers/python/dist/*
 
 	unset COPYFILE_DISABLE
 }
@@ -502,8 +500,6 @@ build_osx_impl()
 	(cd examples/test_Java && $MAKE) || false
 	cp -a examples/test_Java/test_Java.jar $DL/$DISTNAME/
 	cp -a examples/test_Java/README.txt $DL/$DISTNAME/java-README.txt
-	mkdir -p $DL/crossplatform/wrappers/
-	cp -r wrappers/python $DL/crossplatform/wrappers/
 }
 
 echo XIMC build script

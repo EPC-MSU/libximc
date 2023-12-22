@@ -140,7 +140,7 @@ pipeline {
         sh "./build-ci unpack-stashes"
         sh "./build-ci py-binding"
         sh "./build-ci dist"
-        archiveArtifacts artifacts: "dist/ximc*.tar.gz"
+        archiveArtifacts artifacts: "dist/ximc*.tar.gz", "dist/python-binding-*.tar"
       }
     } // stage
 
