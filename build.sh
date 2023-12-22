@@ -296,7 +296,7 @@ makedist()
 
 	tar -C dist -czf dist/ximc-$VER.tar.gz ximc-$VER
 	tar -C dist -czf dist/ximc-$VER-src.tar.gz ximc-$VER-src
-	tar -C dist -cf dist/python-binding-$VER.tar wrappers/python/dist/*
+	tar -cf dist/python-binding-$VER.tar wrappers/python/dist/*
 
 	unset COPYFILE_DISABLE
 }
