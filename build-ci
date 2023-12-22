@@ -108,31 +108,33 @@ elif [ "$1" = "py-binding" ] ; then
 	sed -i -e "s/^Version: X.X.X$/Version: $VER/" wrappers/python/PKG-INFO
 	sed -i -e "s/^version = \"X.X.X\"$/version = \"$VER\"/" wrappers/python/pyproject.toml
 
+	LIBFILESDIR=wrappers/python/src/libximc/library-files
+
 	# Win32
-	mkdir -p wrappers/python/src/library-files/win32
-	cp ximc/win32/*.dll wrappers/python/src/library-files/win32
-	cp ximc/win32/*.lib wrappers/python/src/library-files/win32
+	mkdir -p $LIBFILESDIR/win32
+	cp ximc/win32/*.dll $LIBFILESDIR/win32
+	cp ximc/win32/*.lib $LIBFILESDIR/win32
 
 	# Win64
-	mkdir -p wrappers/python/src/library-files/win64
-	cp ximc/win64/*.dll wrappers/python/src/library-files/win64
-	cp ximc/win64/*.lib wrappers/python/src/library-files/win64
+	mkdir -p $LIBFILESDIR/win64
+	cp ximc/win64/*.dll $LIBFILESDIR/win64
+	cp ximc/win64/*.lib $LIBFILESDIR/win64
 
 	# Debian-i386
-	mkdir -p wrappers/python/src/library-files/debian-i386
-	cp ximc/debian-i386/* wrappers/python/src/library-files/debian-i386
+	mkdir -p $LIBFILESDIR/debian-i386
+	cp ximc/debian-i386/* $LIBFILESDIR/debian-i386
 
 	# Debian-armhf (it's optional)
 	if [ -d "ximc/debian-armhf" ] ; then
-		mkdir -p wrappers/python/src/library-files/debian-armhf
-		cp ximc/debian-armhf/* wrappers/python/src/library-files/debian-armhf
+		mkdir -p $LIBFILESDIR/debian-armhf
+		cp ximc/debian-armhf/* $LIBFILESDIR/debian-armhf
 	else
 		echo ATTENTION: No ARM *.so was found. Probably the build has no WITH_ARM param.
 	fi
 
 	# Debian-amd64
-	mkdir -p wrappers/python/src/library-files/debian-amd64
-	cp ximc/debian-amd64/* wrappers/python/src/library-files/debian-amd64
+	mkdir -p $LIBFILESDIR/debian-amd64
+	cp ximc/debian-amd64/* $LIBFILESDIR/debian-amd64
 
 	cd wrappers/python
 	echo Building python binding with

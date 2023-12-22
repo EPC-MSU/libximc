@@ -128,8 +128,8 @@ makedist()
 	cp -R driver $DIST/
 
 	echo Copying python binding
-	mkdir -p $DIST/crossplatform/wrappers/python
-	cp -R wrappers/python/src/libximc $DIST/crossplatform/wrappers/python/
+	mkdir -p $DISTLIB/crossplatform/wrappers/python
+	cp -R wrappers/python/src/libximc $DISTLIB/crossplatform/wrappers/python/
 	# TODO: add copying of where_did_libximc.py_go.txt
 
 	echo Copying c-profiles
@@ -296,7 +296,7 @@ makedist()
 
 	tar -C dist -czf dist/ximc-$VER.tar.gz ximc-$VER
 	tar -C dist -czf dist/ximc-$VER-src.tar.gz ximc-$VER-src
-	tar -cf dist/python-binding-$VER.tar wrappers/python/dist/*
+	tar -C wrappers/python/dist/ -cf dist/python-binding-$VER.tar *
 
 	unset COPYFILE_DISABLE
 }
