@@ -138,7 +138,10 @@ elif [ "$1" = "py-binding" ] ; then
 
 	# MacOS
 	mkdir -p $LIBFILESDIR/macosx
-	cp -R ximc/macosx/libximc.framework $LIBFILESDIR/macosx
+	cp -R -P ximc/macosx/libximc.framework $LIBFILESDIR/macosx/
+
+	ls -l ximc/macosx/libximc.framework
+	ls -l $LIBFILESDIR/macosx
 
 	cd wrappers/python
 	# Temporarily move explaning pyximc.py substitution *.txt file out of building dir

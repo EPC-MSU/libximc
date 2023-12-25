@@ -52,8 +52,8 @@ def _load_lib():
     elif os_kind == "darwin":
         ximc_root_path = r"../../../../.."
         method = CDLL
-        paths = [os.path.join("../library-files/macosx/libximc.framework/Versions/7/libximc"),
-                 os.path.join(ximc_root_path, "macosx/libximc.framework/Versions/7/libximc")]
+        paths = [os.path.join("../library-files/macosx/libximc.framework/libximc"),
+                 os.path.join(ximc_root_path, "macosx/libximc.framework/libximc")]
     else:
         raise RuntimeError("unexpected OS")
 
