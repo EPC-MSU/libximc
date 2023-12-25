@@ -130,7 +130,7 @@ makedist()
 	echo Copying python binding
 	mkdir -p $DISTLIB/crossplatform/wrappers/python
 	cp -R wrappers/python/src/libximc $DISTLIB/crossplatform/wrappers/python/
-	# TODO: add copying of where_did_libximc.py_go.txt
+	cp wrappers/python/where-did-pyximc.py-go.txt $DISTLIB/crossplatform/wrappers/python/
 
 	echo Copying c-profiles
 	if [ -d "$DL/../c-profiles" ] ; then

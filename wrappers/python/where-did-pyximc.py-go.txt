@@ -1,0 +1,5 @@
+pyximc.py was substituted by new libximc module. YOU CAN USE IT IN THE OLD MANNER - just type `import libximc as ximc` instead of `import pyximc as ximc`.
+
+Benefits of new libximc module:
+* no need to copy necessary libraries in correct relative locations - all libraries are inside the libximc directory
+* an opportunity to use new convenient OOP-styled API - just use `import libximc.highlevel as ximc` and enjoy

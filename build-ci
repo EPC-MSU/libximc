@@ -137,10 +137,14 @@ elif [ "$1" = "py-binding" ] ; then
 	cp ximc/debian-amd64/* $LIBFILESDIR/debian-amd64
 
 	cd wrappers/python
+	# Temporarily move explaning pyximc.py substitution *.txt file out of building dir
+	mv where-did-pyximc.py-go.txt ..
 	echo Building python binding with
 	echo $(python3 --version)
 	echo $(python3 -m build --version)
 	python3 -m build
+	# Move explaning pyximc.py substitution *.txt file back
+	mv ../where-did-pyximc.py-go.txt .
 	
 	cd -
 else
