@@ -136,9 +136,8 @@ elif [ "$1" = "py-binding" ] ; then
 	mkdir -p $LIBFILESDIR/debian-amd64
 	cp ximc/debian-amd64/* $LIBFILESDIR/debian-amd64
 
-	# MacOS. All soft-links must be replaced with corresponding files to allow [python -m build] building properly.
 	mkdir -p $LIBFILESDIR/macosx
-	cp -R -L ximc/macosx/libximc.framework $LIBFILESDIR/macosx/
+	cp -R ximc/macosx/libximc.framework $LIBFILESDIR/macosx/
 
 	cd wrappers/python
 	# Temporarily move explaning pyximc.py substitution *.txt file out of building dir
@@ -146,7 +145,7 @@ elif [ "$1" = "py-binding" ] ; then
 	echo Building python binding with
 	echo $(python3 --version)
 	echo $(python3 -m build --version)
-	python3 -m build
+	python3 -m build --skip-dependency-check
 	# Move explaning pyximc.py substitution *.txt file back
 	mv ../where-did-pyximc.py-go.txt .
 	

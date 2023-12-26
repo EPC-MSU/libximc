@@ -38,7 +38,7 @@ def _load_lib():
             libs = ("bindy.dll", "xiwrapper.dll", "libximc.dll")
             paths = [os.path.join(cwd, r"..\library-files\win64"), os.path.join(ximc_root_path, "win64")]
     elif os_kind == "linux":
-        ximc_root_path = r"../../../../.."
+        ximc_root_path = "../../../../.."
         method = CDLL
         cpu_kind = machine().lower()
         libs = ("libbindy.so", "libxiwrapper.so", "libximc.so")
@@ -50,10 +50,10 @@ def _load_lib():
             cpu_paths = [os.path.join(cwd, "../library-files/debian-amd64"), os.path.join(ximc_root_path, "debian-amd64")]
         paths = cpu_paths
     elif os_kind == "darwin":
-        ximc_root_path = r"../../../../.."
+        ximc_root_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../../../..")
         method = CDLL
         libs = ("libximc",)
-        paths = [os.path.join("../library-files/macosx/libximc.framework"),
+        paths = [os.path.join(os.path.dirname(os.path.abspath(__file__)), "../library-files/macosx/libximc.framework"),
                  os.path.join(ximc_root_path, "macosx/libximc.framework")]
     else:
         raise RuntimeError("unexpected OS")

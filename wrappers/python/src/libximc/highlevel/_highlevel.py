@@ -9,17 +9,6 @@ Description: This file contains definition of Axis class and general functions s
 from ctypes import cast, byref, POINTER
 from ctypes import c_int, c_uint, c_uint32, c_float, c_double, c_char_p
 
-# Routines to create ctypes handlers for functions to be passed to libximc
-from platform import system
-if system() == "Linux":
-    from ctypes import CFUNCTYPE
-    PLATFORM_DEPENDENT_CFUNC = CFUNCTYPE
-elif system() == "Windows":
-    from ctypes import WINFUNCTYPE
-    PLATFORM_DEPENDENT_CFUNC = WINFUNCTYPE
-else:
-    raise RuntimeError("Unexpected OS")
-
 # ========================================= #
 # Import necessary libximc.lowlevel objects #
 # ========================================= #
