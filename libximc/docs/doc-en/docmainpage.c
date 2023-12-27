@@ -39,8 +39,8 @@
  * \section about_sec About library
  *
  * This document contains all information about libximc library.
- * It utilizes well known virtual COM-port interface, so you can use it on Windows, Linux, MacOS X for intel and Apple Silicone (via Rosetta 2) including 64-bit versions.
- * Multi-platform programing library supports plug/unplug on the fly. <br>
+ * It utilizes well known virtual COM-port interface, so you can use it on Windows, Linux, MacOS X for Intel and Apple Silicon (via Rosetta 2) including 64-bit versions.
+ * Multi-platform programming library supports plug/unplug on the fly. <br>
  * <b>Each device can be controlled only by one program at once. Multiple processes (programs) that control one device simultaneously are not allowed.</b>
  *
  * \subsection sysreq_usage Supported OS and environment requirements:
@@ -57,7 +57,7 @@
  *
  * \page building_sec How to rebuild library
  *
- * \section building_win Buliding on Windows
+ * \section building_win Building on Windows
  *
  * Requirements: 64-bit windows (build script builds both architectures), cygwin (must be installed to a default path).
  *
@@ -91,7 +91,7 @@
  *
  * Grab packages from ./ximc/deb and locally installed binaries from ./dist/local.
  *
- * \section building_osx_generic Buliding on MacOS X
+ * \section building_osx_generic Building on MacOS X
  *
  * To build and package a script invoke a script:
  * \code
@@ -293,28 +293,15 @@
  *
  * \subsection howtouse_python_sec Python
  *
- * Change current directory to the examples/test_Python.
- * For correct usage of the library libximc, the example uses the file wrapper, ximc/crossplatform/wrappers/python/pyximc.py with a description of the structures of the library.
+ * Change current directory to the examples/test_Python/xxxxtest.
+ * NB: For libximc usage, the example uses the wrapper module ximc/crossplatform/wrappers/python/libximc.
  *
- * Before launch:
- *
- * On MacOS X: copy library ximc/macosx/libximc.framework to the current directory.
- *
- * On Linux: you may need to set LD_LIBRARY_PATH 
- * so Python can locate libraries with RPATH. For example, you may need:
+ * To run:
  * \code
- * export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:`pwd`
- * \endcode
- *
- * On Windows before the start nothing needs to be done. All necessary communication and dependencies are registered in the example code.
- * Libraries used: bindy.dll libximc.dll xiwrapper.dll. Located in the folder for the respective versions of Windows.
- *
- * Then run:
- * \code
- * python test_Python.py
+ * python xxxx.py
  * \endcode
  * 
- * In case of the 8Eth1 Ethernet adapter usage it is necessary to set correct IP address of the Ethernet adapter in test_Python.py file before launch (see enum_hints variable).
+ * In case of the 8Eth1 Ethernet adapter usage, it's necessary to set correct IP address of the Ethernet adapter in test_Python.py file before launch (see enum_hints variable).
  *
  * \subsection howtouse_matlab_sec MATLAB
  *
@@ -329,7 +316,7 @@
  * On Linux: install libximc*deb and libximc-dev*dev of target architecture.
  * Then copy ximc/macosx/wrappers/ximcm.h to the directory examples/matlab. Install gcc compatible with Matlab.
  *
- * For XCode and gcc version compability check document 
+ * For XCode and gcc version compatibility check document 
  * https://www.mathworks.com/content/dam/mathworks/mathworks-dot-com/support/sysreq/files/SystemRequirements-Release2014a_SupportedCompilers.pdf or similar.
  *
  * On Windows before the start nothing needs to be done
@@ -360,8 +347,8 @@
  *
  * \section howtouse_pyprofiles Python-profiles
  *
- * Python-profiles this is a set of configuration functions distributed with the libximc library. They enable one to set all controller settings for any of the supported stages with a single function call in a Python program. <br>
- * You may see how to use Python-profiles in the example directory "examples/test_Python/profiletest/testpythonprofile.py".
+ * Python-profiles are sets of configuration functions distributed with the libximc library. They allow to load the controller with settings of one of the supported stages using a single function call in a Python program. <br>
+ * You may see how to use Python-profiles in the example "examples/test_Python/profiletest/testpythonprofile.py".
  *
  * \page userunit_sec Working with user units
  *

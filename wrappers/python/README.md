@@ -4,7 +4,7 @@ This is a python binding for libximc - cross-platform library for [Standa  8SMC5
 
 ![8SMC5-based devices](https://raw.githubusercontent.com/EPC-MSU/libximc/dev-2.14/libximc/docs/8SMC5_based_devices.png)
 
-Libximc manages hardware using interfaces: USB 2.0, RS232 and Ethernet, also uses a common and proven virtual serial port interface, so you can work with motor control modules through this library under almost all operating systems, including Windows, Linux and Mac OS X.
+Libximc manages hardware using interfaces: USB 2.0, RS232 and Ethernet, also uses a common and proven virtual serial port interface, so you can work with motor control modules through this library under Windows and Linux. MacOS X isn't supported yet.
 
 This library also supports virtual devices. So you can make some tests without real hardware.
 
