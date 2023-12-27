@@ -916,7 +916,7 @@ def device_selection_dialog():
             head_port = "xi-com:/dev/tty.s"
         port_name = input_new()
     elif ord(key_press) == 50: #""" Press "2" virtual controller """
-        head_port = "xi-emu://"
+        head_port = "xi-emu:///"
         port_name = os.path.expanduser('~') + os.sep + "virtual_controller.bin"
     elif ord(key_press) == 51: #""" Press "3" network controller """
         print("Enter the device's network address:")
