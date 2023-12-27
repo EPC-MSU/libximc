@@ -66,7 +66,7 @@ else:
         from getch import getch as getch1
 
 try: 
-    from pyximc import *
+    from libximc import *
 except ImportError as err:
     print ("Can't import pyximc module. The most probable reason is that you changed the relative location of the test_Python.py and pyximc.py files. See developers' documentation for details.")
     exit()
