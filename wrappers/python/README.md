@@ -11,7 +11,7 @@ This library also supports virtual devices. So you can make some tests without r
 ## Installation
 
 ```shell
-pip install --index-url https://test.pypi.org/simple/ libximc
+pip install libximc
 ```
 
 ### Minimal example
