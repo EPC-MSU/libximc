@@ -11,8 +11,8 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #define LIBXIMC_RELEASE_FLAG 0
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 2,14,19,100
- PRODUCTVERSION 2,14,19,100
+ FILEVERSION 2,14,20,100
+ PRODUCTVERSION 2,14,20,100
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS (VER_DEBUG|LIBXIMC_RELEASE_FLAG)
@@ -29,12 +29,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "XIMC"
             VALUE "FileDescription", "libximc"
-            VALUE "FileVersion", "2.14.19\0"
+            VALUE "FileVersion", "2.14.20\0"
             VALUE "InternalName", "libximc"
             VALUE "LegalCopyright", "Copyright (C) 2014 XIMC"
             VALUE "OriginalFilename", "ximc.dll"
             VALUE "ProductName", "libximc"
-            VALUE "ProductVersion", "2.14.19\0"
+            VALUE "ProductVersion", "2.14.20\0"
         END
     END
     BLOCK "VarFileInfo"

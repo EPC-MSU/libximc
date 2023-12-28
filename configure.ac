@@ -1,5 +1,5 @@
 AC_PREREQ(2.59)
-AC_INIT([libximc7], [2.14.19])
+AC_INIT([libximc7], [2.14.20])
 
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR(config)

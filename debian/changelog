@@ -1,3 +1,11 @@
+libximc7 (2.14.20-1) unstable; urgency=low
+
+  * Version bump
+  * add new python binding
+  * fix docs
+
+ -- XIMC <info@ximc.ru>  Thu, 28 Dec 2023 11:49:58 +0300
+
 libximc7 (2.14.19-1) unstable; urgency=low
 
   * Version bump

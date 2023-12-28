@@ -1,3 +1,9 @@
+libximc (2.14.20-1)
+  * Released: Thu, 28 Dec 2023 11:49:58 +0300
+  * Version bump
+  * add new python binding
+  * fix docs
+
 libximc (2.14.19-1)
   * Released: Mon, 13 Nov 2023 11:54:15 +0300
   * Version bump
