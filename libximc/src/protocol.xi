@@ -3186,7 +3186,7 @@ command "start_measurements" writer "stms" (4)
 command "measurements" reader "getm" (216)
 fields:
   int32s Speed [25]   /**< \english Current speed in microsteps per second (whole steps are recalculated considering the current step division mode) or encoder counts per second. \endenglish \russian Текущая скорость в микрошагах в секунду (целые шаги пересчитываются с учетом текущего режима деления шага) или отсчетах энкодера в секунду. \endrussian */
-  int32s Error [25]   /**< \english Current error in microsteps per second (whole steps are recalculated considering the current step division mode) or encoder counts per second. \endenglish \russian Текущая скорость в микрошагах в секунду (целые шаги пересчитываются с учетом текущего режима деления шага) или отсчетах энкодера в секунду. \endrussian */
+  int32s Error [25]   /**< \english Current error in microsteps per second (whole steps are recalculated considering the current step division mode) or encoder counts per second. \endenglish \russian Текущая ошибка следования в микрошагах в секунду (целые шаги пересчитываются с учетом текущего режима деления шага) или отсчетах энкодера в секунду. \endrussian */
   int32u Length       /**< \english Length of actual data in buffer. \endenglish \russian Длина фактических данных в буфере. \endrussian */
   reserved 6
 
