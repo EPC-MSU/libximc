@@ -30,7 +30,7 @@ Rus.
 1.	Перейдите в examples/test_Python/profiletest. Для использования библиотеки libximc в примере используется
 	модуль-обёртка /ximc/crossplatform/wrappers/python/libximc.
 2. 	Настройка зависимостей в Linux: 
-	- можно ни чего не устанавливать, если запускать пример с помощью командного файла ./testpythonprofile.sh
+	- можно ничего не устанавливать, если запускать пример с помощью командного файла ./testpythonprofile.sh
 	- возможно, вам потребуется установить LD_LIBRARY_PATH, чтобы Python смог найти библиотеки с помощью RPATH. Для этого воспользуйтесь командой:
 		export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:'pwd'
 3.	Для запуска необходим установленный Python2 или Python3.

@@ -1,6 +1,6 @@
 import libximc.highlevel as ximc
-import os
 import sys
+import os
 
 print("//***************************************************************//")
 print("// This example demonstrates loading a profile for a positioner. //")
@@ -13,8 +13,10 @@ confirm = input("To continue with the example, press y/n and press Enter: ")
 if not (confirm in {"y", "yes", "Y", "Yes"}):
     exit()
 
-# A compilation of the profile file
-exec(compile(open('8MT173-25-MEn1.py').read(), '8MT173-25-MEn1', 'exec'))
+# A compilation of the profile file. 8MT173-25-MEn1.py cannot be imported due to hyphens in its name
+# So we need some crunches
+profile_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "8MT173-25-MEn1.py")
+exec(compile(open(profile_path).read(), "8MT173-25-MEn1", "exec"))
 
 print("Library version: " + ximc.ximc_version())
 
@@ -61,10 +63,9 @@ print("\nOpen device " + axis.uri)
 axis.open_device()  # The connection must be opened manually
 
 
-if set_profile_8MT173_25_MEn1(lib, device_id) == Result.Ok:
-    print("Download profile has been successfully completed.")
-else:
-    print("The profile was loaded with errors.")
+# set_profile_8MT173_25_MEn1 resides in 8MT173-25-MEn1.py
+set_profile_8MT173_25_MEn1(axis)
+
 
 print("\nClosing")
 axis.close_device()
