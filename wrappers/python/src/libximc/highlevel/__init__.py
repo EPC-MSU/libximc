@@ -1,7 +1,6 @@
 # Import Axis class, general functions and loglevel constants
 from libximc.highlevel._highlevel import (Axis,
                                           enumerate_devices,
-                                          probe_device,
                                           reset_locks,
                                           ximc_version)
 # Import flag structures
@@ -84,7 +83,6 @@ __all__ = [
     Axis,
     # General functions
     enumerate_devices,
-    probe_device,
     reset_locks,
     ximc_version,
     # Flag structures
