@@ -530,7 +530,7 @@ flagset BorderFlags:
 BORDER_IS_ENCODER				= 0x01	/**< \english Borders are fixed by predetermined encoder values, if set; borders are placed on limit switches, if not set. \endenglish \russian Если флаг установлен, границы определяются предустановленными точками на шкале позиции. Если флаг сброшен, границы определяются концевыми выключателями. \endrussian */
 BORDER_STOP_LEFT				= 0x02	/**< \english The motor should stop on the left border. \endenglish \russian Если флаг установлен, мотор останавливается при достижении левой границы. \endrussian */
 BORDER_STOP_RIGHT				= 0x04	/**< \english Motor should stop on right border. \endenglish \russian Если флаг установлен, мотор останавливается при достижении правой границы. \endrussian */
-BORDERS_SWAP_MISSET_DETECTION	= 0x08	/**< \english Motor should stop on both borders. Need to save motor then wrong border settings is set\endenglish \russian Если флаг установлен, мотор останавливается при достижении обоих границ. Нужен для предотвращения поломки двигателя при неправильных настройках концевых выключателей \endrussian */
+BORDERS_SWAP_MISSET_DETECTION	= 0x08	/**< \english Motor should stop on both borders. Need to save the motor when wrong border settings is set\endenglish \russian Если флаг установлен, мотор останавливается по достижении любой из границ. Нужен для предотвращения поломки двигателя при неправильных настройках концевых выключателей \endrussian */
 
 /**
 	* \english

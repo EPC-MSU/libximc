@@ -2042,14 +2042,15 @@ class control_settings_t:
         MaxSpeed[i+1]. At the transition between MaxSpeed[i] and MaxSpeed[i+1] the motor just accelerates/decelerates
         as usual.
 
-        :param MaxSpeed: Array of speeds (full step) used with the joystick and the button control. Range: 0..100000.
+        :param MaxSpeed: 10-element array of speeds (full step) used with the joystick and the button control. Range:
+            0..100000.
         :type MaxSpeed: list[int]
-        :param uMaxSpeed: Array of speeds (in microsteps) used with the joystick and the button control. The microstep
-            size and the range of valid values for this field depend on the selected step division mode (see the
-            MicrostepMode field in engine_settings).
+        :param uMaxSpeed: 10-element array of speeds (in microsteps) used with the joystick and the button control. The
+            microstep size and the range of valid values for this field depend on the selected step division mode (see
+            the MicrostepMode field in engine_settings).
         :type uMaxSpeed: list[int]
-        :param Timeout: Timeout[i] is timeout in ms. After that, max_speed[i+1] is applied. It's used with the button
-            control only.
+        :param Timeout: 9-element array. Timeout[i] is timeout in ms. After that, max_speed[i+1] is applied. It's used
+            with the button control only.
         :type Timeout: list[int]
         :param MaxClickTime: Maximum click time (in ms). Until the expiration of this time, the first speed isn't
             applied.

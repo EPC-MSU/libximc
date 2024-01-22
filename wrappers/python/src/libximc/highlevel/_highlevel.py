@@ -165,7 +165,7 @@ class Axis:
         self._is_calibration_set = True
 
     def get_calb(self) -> tuple:
-        """Returns units calibration settings as a dict.
+        """Returns units calibration settings as a tuple: (A, MicrostepMode).
 
         :return: units calibration settings.
         :rtype: tuple
@@ -1805,21 +1805,6 @@ def enumerate_devices(enumerate_flags: flag_enumerations.EnumerateFlags, hints: 
     # Free allocated memory
     _check_result(lib.free_enumerate_devices(device_enumeration))
     return enumeration_list
-
-
-def probe_device(uri: str) -> flag_enumerations.Result:
-    """Check if a device with OS uri uri is XIMC device.
-
-    Be carefully with this call because it sends some data to the device.
-
-    :param uri: a device uri
-    :type uri: str
-    :return: result of any operation
-    :rtype: Result
-    """
-    if not isinstance(uri, str):
-        raise TypeError("uri must be of type str. {} was got.".format(type(uri)))
-    return flag_enumerations.Result(lib.probe_device(uri.encode()))
 
 
 def reset_locks() -> None:

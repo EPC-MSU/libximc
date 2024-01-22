@@ -3,7 +3,7 @@ Eng.
 This example demonstrates loading python profiles into the controller.
 
 
-For run:
+===== RUN =====
 1.	Change the current directory to examples/test_Python/profiletest. For libximc usage, the example uses a wrapper
 	module /ximc/crossplatform/wrappers/python/libximc.
 2. 	Configuring dependencies on Linux:
@@ -15,7 +15,7 @@ For run:
 		python testpythonprofile.py
 
 
-For modify:
+===== MODIFICATION =====
 1.	The example code can be modified in any text editor.
 2.	To use another profile, copy the required profile from the /ximc/python-profiles folder to
 	examples/test_Python/profiletest. Replace the profile name with the required one in the example code.
@@ -26,7 +26,7 @@ Rus.
 Этот пример демонстрирует загрузку профилей для питона в контроллер.
 
  
-Для запуска примера:
+===== ЗАПУСК =====
 1.	Перейдите в examples/test_Python/profiletest. Для использования библиотеки libximc в примере используется
 	модуль-обёртка /ximc/crossplatform/wrappers/python/libximc.
 2. 	Настройка зависимостей в Linux: 
@@ -38,7 +38,7 @@ Rus.
 		python testpythonprofile.py
 
  
-Для модификации примера:
+===== МОДИФИКАЦИЯ =====
 1.	Код примера можно модифицировать в любом текстовом редакторе.
 2.	Для использования другого профиля, скопируйте необходимый профиль из папки /ximc/python-profiles в
 	examples/test_Python/profiletest. В коде примера замените имя профиля на необходимое.
