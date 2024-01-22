@@ -1,3 +1,0 @@
-ifaddr==0.2.0
-keyboard==0.13.5
-getch==1.0
