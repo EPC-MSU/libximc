@@ -429,18 +429,17 @@ class SettingsManager:
                 self.change_user_unit_mode()
             if action == SettingsManager.Action.LOAD_CORRECTION_TABLE:
                 print("Correction table loading...\n"
-                      "You can use a short or full file name.")
-                namefile = input("Enter the file name: ")
-                if type(namefile) is str:
-                    namefile = namefile.encode("utf-8")
-                self.axis.set_correction_table(namefile)
+                      "You can use a relative or absolute file path.")
+                path = input("Enter the path: ")
+                path = path.encode("utf-8")
+                self.axis.set_correction_table(path)
             action = self.get_action()
 
     @interface_repeater
     def get_action(self) -> Action:
         print("Select a group of settings:\n"
               "Q or q keys\t-\treturn to the main menu\n"
-              "M or m keys\t-\movement settings\n"
+              "M or m keys\t-\tmovement settings\n"
               "C or c keys\t-\tcalb motion settings\n"
               "F or f keys\t-\tfeedback settings\n"
               "E or e keys\t-\tedges settings\n"
@@ -488,121 +487,119 @@ class SettingsManager:
     def change_edges_settings(self) -> None:
         """View and configure the limit switch mode."""
         # Get current feedback settings from controller
-        edgst = edges_settings_t()
-        result = lib.get_edges_settings(device_id, byref(edgst))
-        # Print command return status. It will be 0 if all is OK
-        if result == Result.Ok:
-            # Print The current edge settings
-            # BorderFlags
-            Border_Flags = ["BorderFlags", "BORDER_IS_ENCODER", "BORDER_STOP_LEFT", "BORDER_STOP_RIGHT", "BORDERS_SWAP_MISSET_DETECTION"]
-            print("BorderFlags {0:x}".format(edgst.BorderFlags))
-            if (edgst.BorderFlags & BorderFlags.BORDER_IS_ENCODER):
-                print("BORDER_IS_ENCODER 1:The borders are set with coordinates.")
-            else:
-                print("BORDER_IS_ENCODER 0:The position of the borders is set by limit switches.")
+        edges_settings = self.axis.get_edges_settings()
 
-            if (edgst.BorderFlags & BorderFlags.BORDER_STOP_LEFT):
-                print("BORDER_STOP_LEFT 1:The motor stops when it reaches the left border.")
-            else:
-                print("BORDER_STOP_LEFT 0:The motor continues to move when it reaches the left border.")
+        print("BorderFlags: {}".format(edges_settings.BorderFlags))
+        if (edges_settings.BorderFlags & ximc.BorderFlags.BORDER_IS_ENCODER):
+            print("BORDER_IS_ENCODER is set: The borders are fixed by predetermined encoder values.")
+        else:
+            print("BORDER_IS_ENCODER is unset: The borders are placed on limit switches.")
 
-            if (edgst.BorderFlags & BorderFlags.BORDER_STOP_RIGHT):
-                print("BORDER_STOP_RIGHT 1:The motor stops when it reaches the rigth border.")
-            else:
-                print("BORDER_STOP_RIGHT 0:The motor continues to move when it reaches the rigth border.")
+        if (edges_settings.BorderFlags & ximc.BorderFlags.BORDER_STOP_LEFT):
+            print("BORDER_STOP_LEFT is set: The motor stops when it reaches the left border.")
+        else:
+            print("BORDER_STOP_LEFT is unset: The motor continues to move when it reaches the left border.")
 
-            if (edgst.BorderFlags & BorderFlags.BORDERS_SWAP_MISSET_DETECTION):
-                print("BORDERS_SWAP_MISSET_DETECTION 1:Detection of incorrect setting of limit switches is enabled.")
-            else:
-                print("BORDERS_SWAP_MISSET_DETECTION 0:Detection of incorrect setting of limit switches is disabled.")
+        if (edges_settings.BorderFlags & ximc.BorderFlags.BORDER_STOP_RIGHT):
+            print("BORDER_STOP_RIGHT is set: The motor stops when it reaches the right border.")
+        else:
+            print("BORDER_STOP_RIGHT is unset: The motor continues to move when it reaches the right border.")
 
-            # EnderFlags
-            Ender_Flags = ["EnderFlags", "ENDER_SWAP", "ENDER_SW1_ACTIVE_LOW", "ENDER_SW2_ACTIVE_LOW"]
-            print("EnderFlags {0:x}".format(edgst.EnderFlags))
-            if (edgst.EnderFlags & EnderFlags.ENDER_SWAP):
-                print("ENDER_SWAP 1:The first limit switch is located on the right.")
-            else:
-                print("ENDER_SWAP 0:The first limit switch is located on the left.")
+        if (edges_settings.BorderFlags & ximc.BorderFlags.BORDERS_SWAP_MISSET_DETECTION):
+            print("BORDERS_SWAP_MISSET_DETECTION is set: Detection of incorrect setting of limit switches is enabled. "
+                  "The motor will stop on both borders.")
+        else:
+            print("BORDERS_SWAP_MISSET_DETECTION is unset: Detection of incorrect setting of limit switches is "
+                  "disabled.")
 
-            if (edgst.EnderFlags & EnderFlags.ENDER_SW1_ACTIVE_LOW):
-                print("ENDER_SW1_ACTIVE_LOW 1:Low-level SW1 triggering.")
-            else:
-                print("ENDER_SW1_ACTIVE_LOW 0:High-level SW1 triggering.")
+        if (edges_settings.EnderFlags & ximc.EnderFlags.ENDER_SWAP):
+            print("ENDER_SWAP is set: The first limit switch is on the right side.")
+        else:
+            print("ENDER_SWAP is unset: The first limit switch is on the right side.")
 
-            if (edgst.EnderFlags & EnderFlags.ENDER_SW2_ACTIVE_LOW):
-                print("ENDER_SW2_ACTIVE_LOW 1:Low-level SW2 triggering.")
-            else:
-                print("ENDER_SW2_ACTIVE_LOW 0:High-level SW2 triggering.")
+        if (edges_settings.EnderFlags & ximc.EnderFlags.ENDER_SW1_ACTIVE_LOW):
+            print("ENDER_SW1_ACTIVE_LOW is set: Limit switch connected to pin SW1 is triggered by a low level on pin.")
+        else:
+            print("ENDER_SW1_ACTIVE_LOW is unset:Limit switch connected to pin SW1 is triggered by a high level on "
+                  "pin.")
 
-            # The position of the boundaries.
-            print("The positions of the borders")
-            print("Coordinate of the left border:Pos {0}, uPos {1}".format(edgst.LeftBorder, edgst.uLeftBorder))
-            print("Coordinate of the right border:Pos {0}, uPos {1} \n".format(edgst.RightBorder, edgst.uRightBorder))
+        if (edges_settings.EnderFlags & ximc.EnderFlags.ENDER_SW2_ACTIVE_LOW):
+            print("ENDER_SW2_ACTIVE_LOW is set: Limit switch connected to pin SW2 is triggered by a low level on pin.")
+        else:
+            print("ENDER_SW2_ACTIVE_LOW is unset: Limit switch connected to pin SW2 is triggered by a high level on "
+                  "pin.")
 
-            # Enter the values for the flags.
-            print("Enter the values for the flags 0 or 1.")
-            print("Leave the value unchanged any k.")
-            edgst.BorderFlags = input_flags(edgst.BorderFlags, Border_Flags)
-            edgst.EnderFlags = input_flags(edgst.EnderFlags, Ender_Flags)
+        # The position of the boundaries.
+        print("The positions of the borders")
+        print("Coordinate of the left border: Pos {0}, uPos {1}".format(edges_settings.LeftBorder,
+                                                                        edges_settings.uLeftBorder))
+        print("Coordinate of the right border: Pos {0}, uPos {1} \n".format(edges_settings.RightBorder,
+                                                                            edges_settings.uRightBorder))
 
-            # Enter borders.
-            print("To enter the border Y/N ?")
-            key_press = getch()
-            if ord(key_press) == 89 or ord(key_press) == 121:  # Press "Y"
-                print("Enter borders.")
-                try:
-                    edgst.LeftBorder = int(input_new("Enter the left border: "))
-                    edgst.RightBorder = int(input_new("Enter the right border: "))
-                except:
-                    print("Left border {0}, right border {1}".format(edgst.LeftBorder, edgst.RightBorder))
-            result = lib.set_edges_settings(device_id, byref(edgst))
+        # Enter the values for the flags.
+        edges_settings.BorderFlags = self.ask_for_border_flags()
+        edges_settings.EnderFlags = self.ask_for_ender_flags()
+
+        # Enter borders.
+        print("To enter the border Y/N ?")
+        key_press = input("Do you want to set the borders? Y/N")
+        if key_press == "Y" or key_press == "y":
+            try:
+                edges_settings.LeftBorder = interface_repeater(lambda: int(input("Enter the left border: ")))()
+                edges_settings.RightBorder = interface_repeater(lambda: int(input("Enter the right border: ")))()
+            except Exception:
+                print("Left border {0}, right border {1}".format(edges_settings.LeftBorder, edges_settings.RightBorder))
+        self.axis.set_edges_settings()
+
+    def ask_for_border_flags(self) -> None:
+        res = ximc.BorderFlags(0)
+        for flag in ximc.BorderFlags:
+            print("Set {}? Y/N".format(flag.name))
+            key_pressed = input()
+            res |= (flag if key_pressed == "Y" or key_pressed == "y" else res)
+        return res
+
+    def ask_for_ender_flags(self) -> None:
+        res = ximc.EnderFlags(0)
+        for flag in ximc.EnderFlags:
+            print("Set {}? Y/N".format(flag.name))
+            key_pressed = input()
+            res |= (flag if key_pressed == "Y" or key_pressed == "y" else res)
+        return res
 
     def change_microstep_mode(self) -> None:
-        """
-        Setting the microstep mode. Works only for stepper motors"""
-        print("\nMicrostep mode settings.")
-        print("This setting is only available for stepper motors.")
+        """Setting the microstep mode. Works only with stepper motors"""
+        print("\nMicrostep mode settings. This setting is only available for stepper motors.")
         # Get current engine settings from controller
-        result = lib.get_engine_settings(device_id, byref(eng))
-        if result == Result.Ok:
-            # Current MICROSTEP_MODE
-            Microstep_Mode = ["", "MICROSTEP_MODE_FULL", "MICROSTEP_MODE_FRAC_2", "MICROSTEP_MODE_FRAC_4",
-                            "MICROSTEP_MODE_FRAC_8", "MICROSTEP_MODE_FRAC_16", "MICROSTEP_MODE_FRAC_32",
-                            "MICROSTEP_MODE_FRAC_64", "MICROSTEP_MODE_FRAC_128", "MICROSTEP_MODE_FRAC_256"]
-            print("The mode is set to",  Microstep_Mode[eng.MicrostepMode], "\n")
-            # Change MicrostepMode parameter
-            # (use MICROSTEP_MODE_FULL to MICROSTEP_MODE_FRAC_256 - 9 microstep modes)
-            for range_val in range(len(Microstep_Mode)):
-                if range_val > 0:
-                    print("Set mode {0} - press {1}".format(Microstep_Mode[range_val], range_val))
-            try:
-                in_val = int(getch())
-                if in_val > 0 and in_val <=9:
-                    eng.MicrostepMode = in_val
-                    user_unit.MicrostepMode = in_val
-                print("The mode is set to", Microstep_Mode[eng.MicrostepMode])
-            except:
-                print("The mode is set to",  Microstep_Mode[eng.MicrostepMode])
-            result = lib.set_engine_settings(device_id, byref(eng))
-            if result != Result.Ok:
-                print("Error recording microstep mode.")
-            print("")
+        engine_settings = self.axis.get_engine_settings()
+        print("Current mode: {}".format(engine_settings.MicrostepMode.name))
+        engine_settings.MicrostepMode = self.get_microstep_mode()
+        self.axis.set_engine_settings(engine_settings)
+        print("The mode is set to",  engine_settings.MicrostepMode.name)
+
+    @interface_repeater
+    def get_microstep_mode(self) -> ximc.MicrostepMode:
+        print("Select microstep mode:")
+        modes = [mode for mode in ximc.MicrostepMode]
+        for i, mode in enumerate(modes):
+            print("To set mode {0} - enter {1}".format(mode.name, i))
+        choosen_index = int(input())
+        if choosen_index < 0 or choosen_index >= len(modes):
+            raise ValueError("Wrong index!")
+        return modes[choosen_index]
 
     def change_user_unit_mode(self) -> None:
         """User unit mode settings"""
         print("\nUser unit mode settings.")
-        print("User unit coordinate multiplier = {0} \n".format(user_unit.A) )
-        try:
-            fl_val = float(input_new("Set new coordinate multiplier = "))
-            user_unit.A = fl_val
-        except:
-            print("User unit coordinate multiplier = ", user_unit.A )
+        print("Current user unit coordinate multiplier = {0} \n".format(self.axis.get_calb()[0]))
+        engine_settings = self.axis.get_engine_settings()
+        self.axis.set_calb(interface_repeater(lambda: float(input("Set new coordinate multiplier: ")))(),
+                           engine_settings.MicrostepMode)
 
 
 class FeedbackSettings:
     def __init__(self, axis: ximc.Axis):
         self.axis = axis
-        self.feedback_settings = axis.get_feedback_settings()
 
     def start(self):
         pass
@@ -623,56 +620,40 @@ class FeedbackSettings:
             print("Encoder type: FEEDBACK_ENC_TYPE_DIFFERENTIAL")
 
         # Select a new feedback mode
-        print("Select a new feedback mode")
-        print("5 - NONE")
-        print("4 - EMF")
-        print("1 - ENCODER")
-        print("6 - ENCODER_MEDIATED")
-        print("Any other key - cancel")
-        key_press = getch()
-        if ord(key_press) == 49:  # Press "1"
-            print("You need to convert the movement parameters to rpm")
-            print("New feedback mode  ENCODER")
-            feedback_settings.FeedbackType = ximc.FeedbackType.FEEDBACK_ENCODER
-        elif ord(key_press) == 52:  # Press "4"
-            print("You need to convert the movement parameters to step/s")
-            print("New feedback mode  EMF")
-            feedback_settings.FeedbackType = ximc.FeedbackType.FEEDBACK_EMF
-        elif ord(key_press) == 53:  # Press "5"
-            print("You need to convert the movement parameters to step/s")
-            print("New feedback mode  NONE")
-            feedback_settings.FeedbackType = ximc.FeedbackType.FEEDBACK_NONE
-        elif ord(key_press) == 54:  # Press "6"
-            print("CYou need to convert the movement parameters to rpm")
-            print("New feedback mode  ENCODER_MEDIATED")
-            feedback_settings.FeedbackType = ximc.FeedbackType.FEEDBACK_ENCODER_MEDIATED
+        print("NOTE: in case of Encoder or Encoder-Mediated type, controller uses rpm instead of steps/sec.")
+        feedback_settings.FeedbackType = self.ask_for_feedback_type()
+        feedback_settings.FeedbackFlags = self.ask_for_feedback_flag()
+        self.axis.set_feedback_settings(feedback_settings)
 
-        # Invert the reverse
-        print("\nR or r key invert the reverse")
-        print("Any other key - cancel")
-        key_press = getch()
-        if ord(key_press) == 82 or ord(key_press) == 114:  # Press "R"            
-            if feedback_settings.FeedbackFlags & ximc.FeedbackFlags.FEEDBACK_ENC_REVERSE == ximc.FeedbackFlags.FEEDBACK_ENC_REVERSE:
-                print("ENC_NO_REVERSE")
-                feedback_settings.FeedbackFlags = feedback_settings.FeedbackFlags & ~ximc.FeedbackFlags.FEEDBACK_ENC_REVERSE
-            else:
-                print("ENC_REVERSE")
-                feedback_settings.FeedbackFlags = feedback_settings.FeedbackFlags | ximc.FeedbackFlags.FEEDBACK_ENC_REVERSE
+    @interface_repeater
+    def ask_for_feedback_type(self) -> ximc.FeedbackType:
+        types = [t for t in ximc.FeedbackType]
+        print("Select a new feedback type:")
+        for i, t in enumerate(types):
+            print("To set {0} - enter {1}".format(t.name, i))
+        choosen_index = int(input())
+        if choosen_index < 0 or choosen_index >= len(types):
+            raise ValueError("Wrong index!")
+        return types[choosen_index]
 
-        # Select new feedback type
-        print("\nSelect a new feedback type")
-        print("S or s key - SINGLE_ENDED")
-        print("D or d key - DIFFERENTIAL")
-        print("Any other key - cancel")
-        key_press = getch()
-        if ord(key_press) == 68 or ord(key_press) == 100:  # Press "D"
-            feedback_settings.FeedbackFlags = (feedback_settings.FeedbackFlags & 0x0F) | ximc.FeedbackFlags.FEEDBACK_ENC_TYPE_DIFFERENTIAL
-            print("New feedback type DIFFERENTIAL")
-        elif ord(key_press) == 83 or ord(key_press) == 115:  # Press "S"
-            feedback_settings.FeedbackFlags = (feedback_settings.FeedbackFlags & 0x0F) | ximc.FeedbackFlags.FEEDBACK_ENC_TYPE_SINGLE_ENDED
-            print("New feedback type SINGLE_ENDED")
-            axis.set_feedback_settings(feedback_settings)
+    @interface_repeater
+    def ask_for_feedback_flag(self) -> ximc.FeedbackFlags:
+        flags = (ximc.FeedbackFlags.FEEDBACK_ENC_TYPE_AUTO,
+                 ximc.FeedbackFlags.FEEDBACK_ENC_TYPE_DIFFERENTIAL,
+                 ximc.FeedbackFlags.FEEDBACK_ENC_TYPE_SINGLE_ENDED)
 
+        print("Select a new feedback flag:")
+        for i, f in enumerate(flags):
+            print("To set {0} - enter {1}".format(f.name, i))
+        choosen_index = int(input())
+        if choosen_index < 0 or choosen_index >= len(flags):
+            raise ValueError("Wrong index!")
+
+        key = input("Do you want to enable reverse? Y/N")
+        if key == "Y" or key == "y":
+            return flags[choosen_index] | ximc.FeedbackFlags.FEEDBACK_ENC_REVERSE
+        else:
+            return flags[choosen_index]
 
 
 def main():
