@@ -23,9 +23,23 @@ class StrictIntFlag(Flag):
     So, let's inherit from ordinary enum.Flag which uses STRICT boundary. It will be extended by
     an __int__() method allowing us to make direct conversion into ctypes' integers.
     (direct == without .value attribute call).
+
+    ===
+
+    About __ne__ and __eq__.
+
+    Python Enum behaves different comparing to C enums. In particular, direct comparison to integers aren't allowed.
+    That's why MvcmdStatus.MVCMD_UKNWN == 0 will be evaluated as False. But MvcmdStatus.MVCMD_UKNWN.value == 0 will be
+    True. To harness python's Enum and rule them as we want, we need to add __eq__ and __ne__ methods.
     """
     def __int__(self):
         return self.value
+
+    def __eq__(self, value):
+        return self.value == value
+
+    def __ne__(self, value):
+        return self.value != value
 
 
 class Result(IntEnum):
