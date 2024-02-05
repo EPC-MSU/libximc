@@ -1,3 +1,7 @@
+============================================
+The "libximc" project is no longer supported
+============================================
+
 For build and usage instructions please consult documentation
 at libximc/docs/doc-en or libximc/docs/doc-ru. Files are generated during library build. 
 Source files for documentation can be found at libximc/docs/doc-en/docmainpage or libximc/docs/doc-ru/docmainpage.
